@@ -57,6 +57,7 @@ array.add(5) // add new element to array
 ##### functions
 
 ```
+// starts from a-z and can include 0-9
 func functionName(function args) return type or empty {
     ... some statements
     
@@ -88,6 +89,7 @@ var f bool = false
 var r bool = t == f // false
 var r bool = t != f // true
 
+void / null 
 ```
 
 ##### console
@@ -102,8 +104,8 @@ output(text to output)
 #### Simple example - console calculator
 
 ```
-// the function which starts application
-func main(args []string) {
+/* the function which starts application */
+func main(args []string) void {
 		
 		var isWorking bool = true
 		while(isWorking){
