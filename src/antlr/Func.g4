@@ -27,11 +27,9 @@ argInvoc : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc;
 var: 'var' ITEM type '=' (BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc);
 type: ARRAY | STRING | NUM | BOOL;
 arrayInit: '{' arrayInitElems '}' ;
-arrayInitElems
-    :
+arrayInitElems:
     (BOOL_VAL (',' BOOL_VAL)* )
     |
     (STRING_RAW (',' STRING_RAW)* )
     |
-    (NUMBER (',' NUMBER)* )
-    ;
+    (NUMBER (',' NUMBER)* );
