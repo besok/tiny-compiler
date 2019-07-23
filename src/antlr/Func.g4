@@ -11,7 +11,7 @@ BOOL: 'bool';
 NULL: 'null';
 TRUE: 'true';
 FALSE: 'false';
-ITEM : [a-z][a-zA-Z0-9]+ ;
+ITEM : [a-z][a-zA-Z0-9]* ;
 SQ : '[]';
 COMMENT : '/*' .*? '*/' -> skip ;
 ARRAY: SQ (STRING | NUM | BOOL);
@@ -21,13 +21,11 @@ func: 'func' ITEM '(' args ')' ( type | VOID ) '{' '}' ;
 args: ( ITEM type (',' ITEM type)*)? ;
 
 funcInvoc: ITEM '('argsInvoc')' ;
-argsInvoc:( ITEM (',' ITEM)* )?;
+argsInvoc:( argInvoc (',' argInvoc)* )?;
+argInvoc : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc;
 
-var: 'var' ITEM type '=' (BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit);
-
+var: 'var' ITEM type '=' (BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc);
 type: ARRAY | STRING | NUM | BOOL;
-
-
 arrayInit: '{' arrayInitElems '}' ;
 arrayInitElems
     :
