@@ -41,7 +41,7 @@ if(boolean condition ){
 ##### comments
 
 ```
-// comment
+/* comment */
 ```
 
 ##### arrays
@@ -106,7 +106,6 @@ output(text to output)
 ```
 /* the function which starts application */
 func main(args []string) void {
-		
 		var isWorking bool = true
 		while(isWorking){
 			var l num = input("please input a number : ")
@@ -114,6 +113,10 @@ func main(args []string) void {
 			var r num = input("please input a number :")	
 			var res num = operation(op,l,r)
 			output(makeStringResult(res))
+			var continue string = input("do you want to continue?")
+			if(!continue == "y"){
+				isWorking = false
+			}
 		}
 }
 
@@ -121,7 +124,7 @@ func operation(op string, l num, r num) num {
 	
 	var result num = 0
 	
-	if(op == "+"){
+	if(op == "+"){ 
 		result = l + r
 	} else if(op == "-"){
 		result = l - r
@@ -177,7 +180,6 @@ func revert(array []num) []num {
 	}
 	
 	return revertArray
-
 }
 ```
 
