@@ -115,10 +115,9 @@ func main(args []string) void {
 			var res num = operation(op,l,r)
 			output(makeStringResult(res))
 		}
-	return	
 }
 
-func find operation(op string, l num, r num) num {
+func operation(op string, l num, r num) num {
 	
 	var result num = 0
 	
@@ -134,7 +133,7 @@ func find operation(op string, l num, r num) num {
 		result =l % r
 	}else {
 		output("please to ensure you peek correct operator")
-		result = -1
+		result = 0
 	}
 	
 	return result
