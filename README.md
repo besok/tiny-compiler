@@ -117,7 +117,7 @@ func main(args []string) void {
 			var res num = operation(op,l,r)
 			Output(makeStringResult(res))
 			var continue string = Input("do you want to continue?")
-			if(!continue == "y"){
+			if(continue != "y"){
 				isWorking = false
 			}
 		}
