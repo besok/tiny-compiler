@@ -26,17 +26,18 @@ BOOL_SIGN:  '==' | '!=' | '>' | '<';
 
 func: 'func' ITEM '(' args ')' ( type | VOID ) '{' commonBody return?'}' ;
 args: ( ITEM type (',' ITEM type)*)? ;
-return: RETURN (funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
+return: RETURN (arrayElem | funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
 
 funcInvoc: ( SYS_FUNC | ITEM ) '('argsInvoc')' ;
 argsInvoc:( argInvoc (',' argInvoc)* )?;
-argInvoc : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc;
+argInvoc : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc | arrayElem;
 
-updVar: ITEM '=' (expr | funcInvoc | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit  );
+updVar: (ITEM | arrayElem) '=' (expr | funcInvoc | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | arrayElem  );
 newVar: 'var' ITEM type '=' (expr | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc );
 
 type: ARRAY | STRING | NUM | BOOL;
 
+arrayElem: ITEM'['( NUMBER | ITEM | funcInvoc | expr)']';
 arrayInit: arrayInitVal | arrayInitEmp;
 arrayInitEmp: '[' (NUMBER | '..' )']' (NUM | STRING | BOOL) ;
 arrayInitVal: '{' arrayInitElems '}' ;
@@ -52,14 +53,14 @@ expr:
        |
        ('(' (exprOp | expr) NUM_SIGN (exprOp | expr)')')
        ;
-exprOp: funcInvoc | NUMBER | ITEM | STRING_RAW  ;
+exprOp: funcInvoc | NUMBER | ITEM | STRING_RAW  | arrayElem ;
 
 boolExpr:
         ((boolExprOp) BOOL_SIGN (boolExprOp | boolExpr))
         |
         ('(' (boolExprOp | boolExpr) BOOL_SIGN (boolExprOp | boolExpr)')')
         ;
-boolExprOp:  expr | exprOp | BOOL_VAL ;
+boolExprOp:  expr | exprOp | BOOL_VAL | arrayElem ;
 
 
 commonBody: (newVar | updVar | funcInvoc | ifElse | while | for)*;

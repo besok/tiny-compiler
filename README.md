@@ -149,7 +149,7 @@ func makeStringResult(result num) string {
 	var nums []num = revert(numToArray(result))
 	var strNum string = ""
 	
-	for(i =0; i < nums.len; i = i+1){
+	for(i =0; i < Len(nums); i = i+1){
 		strNum = strNum + numToString(num[i])
 	}
 	
