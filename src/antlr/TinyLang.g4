@@ -1,4 +1,4 @@
-grammar Func;
+grammar TinyLang;
 
 WS : [ \t\r\n]+ -> skip ;
 WHILE: 'while';
@@ -24,18 +24,20 @@ ARRAY: SQ (STRING | NUM | BOOL);
 NUM_SIGN: '+' | '-' | '*' | '/' | '%';
 BOOL_SIGN:  '==' | '!=' | '>' | '<';
 
-func: 'func' ITEM '(' args ')' ( type | VOID ) '{' commonBody return?'}' ;
-args: ( ITEM type (',' ITEM type)*)? ;
-return: RETURN (arrayElem | funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
+file: funcInit* EOF;
+
+funcInit: 'func' ITEM '(' args ')' ( varType | VOID ) '{' commonBody returnSt?'}' ;
+args: ( ITEM varType (',' ITEM varType)*)? ;
+returnSt: RETURN (arrayElem | funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
 
 funcInvoc: ( SYS_FUNC | ITEM ) '('argsInvoc')' ;
 argsInvoc:( argInvoc (',' argInvoc)* )?;
 argInvoc : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc | arrayElem;
 
 updVar: (ITEM | arrayElem) '=' (expr | funcInvoc | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | arrayElem  );
-newVar: 'var' ITEM type '=' (expr | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc );
+newVar: 'var' ITEM varType '=' (expr | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc );
 
-type: ARRAY | STRING | NUM | BOOL;
+varType: ARRAY | STRING | NUM | BOOL;
 
 arrayElem: ITEM'['( NUMBER | ITEM | funcInvoc | expr)']';
 arrayInit: arrayInitVal | arrayInitEmp;
@@ -63,15 +65,14 @@ boolExpr:
 boolExprOp:  expr | exprOp | BOOL_VAL | arrayElem ;
 
 
-commonBody: (newVar | updVar | funcInvoc | ifElse | while | for)*;
+commonBody: (newVar | updVar | funcInvoc | ifElse | while | forSt)*;
 
-ifElse: if elseIf* else?;
-if : IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' commonBody?'}' ;
+ifElse: iF elseIf* elsePart?;
+iF : IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' commonBody?'}' ;
 elseIf: ELSE IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{'commonBody? '}';
-else: ELSE '{'commonBody? '}';
+elsePart: ELSE '{'commonBody? '}';
 
 while: WHILE '(' (BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' commonBody? '}';
 
-for: FOR '(' updVar ';' boolExpr ';' updVar ')' '{' commonBody'}';
+forSt: FOR '(' updVar ';' boolExpr ';' updVar ')' '{' commonBody'}';
 
-file: func* EOF;

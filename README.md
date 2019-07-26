@@ -1,7 +1,7 @@
-### Tiny compiler 
+### Tiny compiler for Tiny Language
 
 a compiler for small language based on golang.
-
+Language - tiny language - tl. 
 ---
 
 #### Syntax
