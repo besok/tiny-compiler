@@ -106,7 +106,7 @@ Output(text to output)
 
 #### Simple example - console calculator
 
-```
+```java
 /* the function which starts application */
 func main(args []string) void {
 		var isWorking bool = true
