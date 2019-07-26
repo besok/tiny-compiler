@@ -10,11 +10,13 @@ a compiler for small language based on golang.
 var defines a variable
 ```
 var name type = value
+var name type = funcitonInvocation()
+
 ```
 ##### if / else if / else
 
 ```
-if(boolean condition ){
+if(boolean condition / variable){
     ... some statement
 }else if(boolean condition / variable){
     ... some statement
@@ -48,11 +50,12 @@ if(boolean condition ){
 ```
 var array []string = {"1","2","3","4"}
 var array []num = {1,2,3,4}
-var array []num = new([]num) // create empty array
+var array []num = [10]num // create array with 10 elems
+var array []num = [..]num // create empty array 
     ...
-var arrayLen num = array.len // get array length 
+var arrayLen num = Len(array) // get array length 
     ...
-array.add(5) // add new element to array
+Add(array,5) // add new element to array
 ```
 ##### functions
 
@@ -88,15 +91,15 @@ var t bool = true
 var f bool = false
 var r bool = t == f // false
 var r bool = t != f // true
-
+var r bool = t > f // false
 void / null 
 ```
 
 ##### console
 ```
-var inputString string = input(text before input)
-var inputNum num = input(text before input)
-output(text to output)
+var inputString string = Input(text before input)
+var inputNum num = Input(text before input)
+Output(text to output)
 ```
 
 -------
@@ -108,12 +111,12 @@ output(text to output)
 func main(args []string) void {
 		var isWorking bool = true
 		while(isWorking){
-			var l num = input("please input a number : ")
-			var op string = input("please input an operator like +,-,/,*,% :")
-			var r num = input("please input a number :")	
+			var l num = Input("please input a number : ")
+			var op string = Input("please input an operator like +,-,/,*,% :")
+			var r num = Input("please input a number :")	
 			var res num = operation(op,l,r)
-			output(makeStringResult(res))
-			var continue string = input("do you want to continue?")
+			Output(makeStringResult(res))
+			var continue string = Input("do you want to continue?")
 			if(!continue == "y"){
 				isWorking = false
 			}
@@ -135,7 +138,7 @@ func operation(op string, l num, r num) num {
 	}else if(op == "%"){
 		result =l % r
 	}else {
-		output("please to ensure you peek correct operator")
+		Output("please to ensure you peek correct operator")
 		result = 0
 	}
 	
@@ -163,22 +166,22 @@ func numToString(number num) string {
 }
 
 func numToArray(number num) []num {
-	var arrayOfNum []num = new([]num)
+	var arrayOfNum []num = [..]num
 	var tempElement num = number
 	while(tempelement > 0){
-		arrayOfNum.add(tempElement % 10)
+		var nextEl num = tempElement % 10
+		Add(arrayOfNum, nextEl)
 		tempElement = tempElement / 10
 	}
 	return arrayOfNum
 }
 
 func revert(array []num) []num {
-	var revertArray []num = new([]num)
-	var l num = array.len - 1
-	for(i = 0; i < array.len; i = I+1){
+	var revertArray []num = [..]num
+	var l num = Len(array) - 1
+	for(i = 0; i < Len(array); i = i+1){
 		revertArray[i] = array[l-i]
 	}
-	
 	return revertArray
 }
 ```
