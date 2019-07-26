@@ -6,6 +6,7 @@ RETURN: 'return';
 IF: 'if';
 FOR: 'for';
 ELSE: 'else';
+SYS_FUNC: 'Add' | 'Len' | 'Output' | 'Input' ;
 STRING : 'string';
 VOID : 'void';
 NUM : 'num';
@@ -27,7 +28,7 @@ func: 'func' ITEM '(' args ')' ( type | VOID ) '{' commonBody return?'}' ;
 args: ( ITEM type (',' ITEM type)*)? ;
 return: RETURN (funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
 
-funcInvoc: ITEM '('argsInvoc')' ;
+funcInvoc: ( SYS_FUNC | ITEM ) '('argsInvoc')' ;
 argsInvoc:( argInvoc (',' argInvoc)* )?;
 argInvoc : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc;
 
@@ -36,7 +37,9 @@ newVar: 'var' ITEM type '=' (expr | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arra
 
 type: ARRAY | STRING | NUM | BOOL;
 
-arrayInit: '{' arrayInitElems '}' ;
+arrayInit: arrayInitVal | arrayInitEmp;
+arrayInitEmp: '[' (NUMBER | '..' )']' (NUM | STRING | BOOL) ;
+arrayInitVal: '{' arrayInitElems '}' ;
 arrayInitElems:
     (BOOL_VAL (',' BOOL_VAL)* )
     |
