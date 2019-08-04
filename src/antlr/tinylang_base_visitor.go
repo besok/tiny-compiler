@@ -16,11 +16,11 @@ func (v *BaseTinyLangVisitor) VisitFuncInit(ctx *FuncInitContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitArgs(ctx *ArgsContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitFuncArgs(ctx *FuncArgsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitReturnSt(ctx *ReturnStContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitFuncReturn(ctx *FuncReturnContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -28,23 +28,23 @@ func (v *BaseTinyLangVisitor) VisitFuncInvoc(ctx *FuncInvocContext) interface{} 
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitArgsInvoc(ctx *ArgsInvocContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitFuncArgsInvoc(ctx *FuncArgsInvocContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitArgInvoc(ctx *ArgInvocContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitFuncInvocArgs(ctx *FuncInvocArgsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitUpdVar(ctx *UpdVarContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitUpdVariable(ctx *UpdVariableContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitNewVar(ctx *NewVarContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitNewVariable(ctx *NewVariableContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitVarType(ctx *VarTypeContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitVariableType(ctx *VariableTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -56,11 +56,11 @@ func (v *BaseTinyLangVisitor) VisitArrayInit(ctx *ArrayInitContext) interface{} 
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitArrayInitEmp(ctx *ArrayInitEmpContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitArrayInitEmpty(ctx *ArrayInitEmptyContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitArrayInitVal(ctx *ArrayInitValContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitArrayInitValue(ctx *ArrayInitValueContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -72,7 +72,7 @@ func (v *BaseTinyLangVisitor) VisitExpr(ctx *ExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitExprOp(ctx *ExprOpContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitExprOperand(ctx *ExprOperandContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -80,31 +80,31 @@ func (v *BaseTinyLangVisitor) VisitBoolExpr(ctx *BoolExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitBoolExprOp(ctx *BoolExprOpContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitBoolExprOperand(ctx *BoolExprOperandContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitCommonBody(ctx *CommonBodyContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitStatementBody(ctx *StatementBodyContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitIfElse(ctx *IfElseContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitIfElseSt(ctx *IfElseStContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitIF(ctx *IFContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitIfSt(ctx *IfStContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitElseIf(ctx *ElseIfContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitElseIfSt(ctx *ElseIfStContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitElsePart(ctx *ElsePartContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitElseSt(ctx *ElseStContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseTinyLangVisitor) VisitWhile(ctx *WhileContext) interface{} {
+func (v *BaseTinyLangVisitor) VisitWhileSt(ctx *WhileStContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

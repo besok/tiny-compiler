@@ -14,29 +14,29 @@ type TinyLangVisitor interface {
 	// Visit a parse tree produced by TinyLangParser#funcInit.
 	VisitFuncInit(ctx *FuncInitContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#args.
-	VisitArgs(ctx *ArgsContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#funcArgs.
+	VisitFuncArgs(ctx *FuncArgsContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#returnSt.
-	VisitReturnSt(ctx *ReturnStContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#funcReturn.
+	VisitFuncReturn(ctx *FuncReturnContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#funcInvoc.
 	VisitFuncInvoc(ctx *FuncInvocContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#argsInvoc.
-	VisitArgsInvoc(ctx *ArgsInvocContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#funcArgsInvoc.
+	VisitFuncArgsInvoc(ctx *FuncArgsInvocContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#argInvoc.
-	VisitArgInvoc(ctx *ArgInvocContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#funcInvocArgs.
+	VisitFuncInvocArgs(ctx *FuncInvocArgsContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#updVar.
-	VisitUpdVar(ctx *UpdVarContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#updVariable.
+	VisitUpdVariable(ctx *UpdVariableContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#newVar.
-	VisitNewVar(ctx *NewVarContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#newVariable.
+	VisitNewVariable(ctx *NewVariableContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#varType.
-	VisitVarType(ctx *VarTypeContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#variableType.
+	VisitVariableType(ctx *VariableTypeContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#arrayElem.
 	VisitArrayElem(ctx *ArrayElemContext) interface{}
@@ -44,11 +44,11 @@ type TinyLangVisitor interface {
 	// Visit a parse tree produced by TinyLangParser#arrayInit.
 	VisitArrayInit(ctx *ArrayInitContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#arrayInitEmp.
-	VisitArrayInitEmp(ctx *ArrayInitEmpContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#arrayInitEmpty.
+	VisitArrayInitEmpty(ctx *ArrayInitEmptyContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#arrayInitVal.
-	VisitArrayInitVal(ctx *ArrayInitValContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#arrayInitValue.
+	VisitArrayInitValue(ctx *ArrayInitValueContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#arrayInitElems.
 	VisitArrayInitElems(ctx *ArrayInitElemsContext) interface{}
@@ -56,32 +56,32 @@ type TinyLangVisitor interface {
 	// Visit a parse tree produced by TinyLangParser#expr.
 	VisitExpr(ctx *ExprContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#exprOp.
-	VisitExprOp(ctx *ExprOpContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#exprOperand.
+	VisitExprOperand(ctx *ExprOperandContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#boolExpr.
 	VisitBoolExpr(ctx *BoolExprContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#boolExprOp.
-	VisitBoolExprOp(ctx *BoolExprOpContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#boolExprOperand.
+	VisitBoolExprOperand(ctx *BoolExprOperandContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#commonBody.
-	VisitCommonBody(ctx *CommonBodyContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#statementBody.
+	VisitStatementBody(ctx *StatementBodyContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#ifElse.
-	VisitIfElse(ctx *IfElseContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#ifElseSt.
+	VisitIfElseSt(ctx *IfElseStContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#iF.
-	VisitIF(ctx *IFContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#ifSt.
+	VisitIfSt(ctx *IfStContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#elseIf.
-	VisitElseIf(ctx *ElseIfContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#elseIfSt.
+	VisitElseIfSt(ctx *ElseIfStContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#elsePart.
-	VisitElsePart(ctx *ElsePartContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#elseSt.
+	VisitElseSt(ctx *ElseStContext) interface{}
 
-	// Visit a parse tree produced by TinyLangParser#while.
-	VisitWhile(ctx *WhileContext) interface{}
+	// Visit a parse tree produced by TinyLangParser#whileSt.
+	VisitWhileSt(ctx *WhileStContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#forSt.
 	VisitForSt(ctx *ForStContext) interface{}

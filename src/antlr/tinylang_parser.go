@@ -196,10 +196,11 @@ var symbolicNames = []string{
 }
 
 var ruleNames = []string{
-	"file", "funcInit", "args", "returnSt", "funcInvoc", "argsInvoc", "argInvoc",
-	"updVar", "newVar", "varType", "arrayElem", "arrayInit", "arrayInitEmp",
-	"arrayInitVal", "arrayInitElems", "expr", "exprOp", "boolExpr", "boolExprOp",
-	"commonBody", "ifElse", "iF", "elseIf", "elsePart", "while", "forSt",
+	"file", "funcInit", "funcArgs", "funcReturn", "funcInvoc", "funcArgsInvoc",
+	"funcInvocArgs", "updVariable", "newVariable", "variableType", "arrayElem",
+	"arrayInit", "arrayInitEmpty", "arrayInitValue", "arrayInitElems", "expr",
+	"exprOperand", "boolExpr", "boolExprOperand", "statementBody", "ifElseSt",
+	"ifSt", "elseIfSt", "elseSt", "whileSt", "forSt",
 }
 var decisionToDFA = make([]*antlr.DFA, len(deserializedATN.DecisionToState))
 
@@ -269,32 +270,32 @@ const (
 
 // TinyLangParser rules.
 const (
-	TinyLangParserRULE_file           = 0
-	TinyLangParserRULE_funcInit       = 1
-	TinyLangParserRULE_args           = 2
-	TinyLangParserRULE_returnSt       = 3
-	TinyLangParserRULE_funcInvoc      = 4
-	TinyLangParserRULE_argsInvoc      = 5
-	TinyLangParserRULE_argInvoc       = 6
-	TinyLangParserRULE_updVar         = 7
-	TinyLangParserRULE_newVar         = 8
-	TinyLangParserRULE_varType        = 9
-	TinyLangParserRULE_arrayElem      = 10
-	TinyLangParserRULE_arrayInit      = 11
-	TinyLangParserRULE_arrayInitEmp   = 12
-	TinyLangParserRULE_arrayInitVal   = 13
-	TinyLangParserRULE_arrayInitElems = 14
-	TinyLangParserRULE_expr           = 15
-	TinyLangParserRULE_exprOp         = 16
-	TinyLangParserRULE_boolExpr       = 17
-	TinyLangParserRULE_boolExprOp     = 18
-	TinyLangParserRULE_commonBody     = 19
-	TinyLangParserRULE_ifElse         = 20
-	TinyLangParserRULE_iF             = 21
-	TinyLangParserRULE_elseIf         = 22
-	TinyLangParserRULE_elsePart       = 23
-	TinyLangParserRULE_while          = 24
-	TinyLangParserRULE_forSt          = 25
+	TinyLangParserRULE_file            = 0
+	TinyLangParserRULE_funcInit        = 1
+	TinyLangParserRULE_funcArgs        = 2
+	TinyLangParserRULE_funcReturn      = 3
+	TinyLangParserRULE_funcInvoc       = 4
+	TinyLangParserRULE_funcArgsInvoc   = 5
+	TinyLangParserRULE_funcInvocArgs   = 6
+	TinyLangParserRULE_updVariable     = 7
+	TinyLangParserRULE_newVariable     = 8
+	TinyLangParserRULE_variableType    = 9
+	TinyLangParserRULE_arrayElem       = 10
+	TinyLangParserRULE_arrayInit       = 11
+	TinyLangParserRULE_arrayInitEmpty  = 12
+	TinyLangParserRULE_arrayInitValue  = 13
+	TinyLangParserRULE_arrayInitElems  = 14
+	TinyLangParserRULE_expr            = 15
+	TinyLangParserRULE_exprOperand     = 16
+	TinyLangParserRULE_boolExpr        = 17
+	TinyLangParserRULE_boolExprOperand = 18
+	TinyLangParserRULE_statementBody   = 19
+	TinyLangParserRULE_ifElseSt        = 20
+	TinyLangParserRULE_ifSt            = 21
+	TinyLangParserRULE_elseIfSt        = 22
+	TinyLangParserRULE_elseSt          = 23
+	TinyLangParserRULE_whileSt         = 24
+	TinyLangParserRULE_forSt           = 25
 )
 
 // IFileContext is an interface to support dynamic dispatch.
@@ -478,48 +479,48 @@ func (s *FuncInitContext) ITEM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, 0)
 }
 
-func (s *FuncInitContext) Args() IArgsContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArgsContext)(nil)).Elem(), 0)
+func (s *FuncInitContext) FuncArgs() IFuncArgsContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncArgsContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IArgsContext)
+	return t.(IFuncArgsContext)
 }
 
-func (s *FuncInitContext) CommonBody() ICommonBodyContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICommonBodyContext)(nil)).Elem(), 0)
+func (s *FuncInitContext) StatementBody() IStatementBodyContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IStatementBodyContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(ICommonBodyContext)
+	return t.(IStatementBodyContext)
 }
 
-func (s *FuncInitContext) VarType() IVarTypeContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IVarTypeContext)(nil)).Elem(), 0)
+func (s *FuncInitContext) VariableType() IVariableTypeContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IVariableTypeContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IVarTypeContext)
+	return t.(IVariableTypeContext)
 }
 
 func (s *FuncInitContext) VOID() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserVOID, 0)
 }
 
-func (s *FuncInitContext) ReturnSt() IReturnStContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IReturnStContext)(nil)).Elem(), 0)
+func (s *FuncInitContext) FuncReturn() IFuncReturnContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncReturnContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IReturnStContext)
+	return t.(IFuncReturnContext)
 }
 
 func (s *FuncInitContext) GetRuleContext() antlr.RuleContext {
@@ -588,7 +589,7 @@ func (p *TinyLangParser) FuncInit() (localctx IFuncInitContext) {
 	}
 	{
 		p.SetState(63)
-		p.Args()
+		p.FuncArgs()
 	}
 	{
 		p.SetState(64)
@@ -601,7 +602,7 @@ func (p *TinyLangParser) FuncInit() (localctx IFuncInitContext) {
 	case TinyLangParserSTRING, TinyLangParserNUM, TinyLangParserBOOL, TinyLangParserARRAY:
 		{
 			p.SetState(65)
-			p.VarType()
+			p.VariableType()
 		}
 
 	case TinyLangParserVOID:
@@ -619,7 +620,7 @@ func (p *TinyLangParser) FuncInit() (localctx IFuncInitContext) {
 	}
 	{
 		p.SetState(70)
-		p.CommonBody()
+		p.StatementBody()
 	}
 	p.SetState(72)
 	p.GetErrorHandler().Sync(p)
@@ -628,7 +629,7 @@ func (p *TinyLangParser) FuncInit() (localctx IFuncInitContext) {
 	if _la == TinyLangParserRETURN {
 		{
 			p.SetState(71)
-			p.ReturnSt()
+			p.FuncReturn()
 		}
 
 	}
@@ -640,108 +641,108 @@ func (p *TinyLangParser) FuncInit() (localctx IFuncInitContext) {
 	return localctx
 }
 
-// IArgsContext is an interface to support dynamic dispatch.
-type IArgsContext interface {
+// IFuncArgsContext is an interface to support dynamic dispatch.
+type IFuncArgsContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsArgsContext differentiates from other interfaces.
-	IsArgsContext()
+	// IsFuncArgsContext differentiates from other interfaces.
+	IsFuncArgsContext()
 }
 
-type ArgsContext struct {
+type FuncArgsContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyArgsContext() *ArgsContext {
-	var p = new(ArgsContext)
+func NewEmptyFuncArgsContext() *FuncArgsContext {
+	var p = new(FuncArgsContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_args
+	p.RuleIndex = TinyLangParserRULE_funcArgs
 	return p
 }
 
-func (*ArgsContext) IsArgsContext() {}
+func (*FuncArgsContext) IsFuncArgsContext() {}
 
-func NewArgsContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArgsContext {
-	var p = new(ArgsContext)
+func NewFuncArgsContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FuncArgsContext {
+	var p = new(FuncArgsContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_args
+	p.RuleIndex = TinyLangParserRULE_funcArgs
 
 	return p
 }
 
-func (s *ArgsContext) GetParser() antlr.Parser { return s.parser }
+func (s *FuncArgsContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ArgsContext) AllITEM() []antlr.TerminalNode {
+func (s *FuncArgsContext) AllITEM() []antlr.TerminalNode {
 	return s.GetTokens(TinyLangParserITEM)
 }
 
-func (s *ArgsContext) ITEM(i int) antlr.TerminalNode {
+func (s *FuncArgsContext) ITEM(i int) antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, i)
 }
 
-func (s *ArgsContext) AllVarType() []IVarTypeContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IVarTypeContext)(nil)).Elem())
-	var tst = make([]IVarTypeContext, len(ts))
+func (s *FuncArgsContext) AllVariableType() []IVariableTypeContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IVariableTypeContext)(nil)).Elem())
+	var tst = make([]IVariableTypeContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IVarTypeContext)
+			tst[i] = t.(IVariableTypeContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *ArgsContext) VarType(i int) IVarTypeContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IVarTypeContext)(nil)).Elem(), i)
+func (s *FuncArgsContext) VariableType(i int) IVariableTypeContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IVariableTypeContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IVarTypeContext)
+	return t.(IVariableTypeContext)
 }
 
-func (s *ArgsContext) GetRuleContext() antlr.RuleContext {
+func (s *FuncArgsContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ArgsContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FuncArgsContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ArgsContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FuncArgsContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterArgs(s)
+		listenerT.EnterFuncArgs(s)
 	}
 }
 
-func (s *ArgsContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FuncArgsContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitArgs(s)
+		listenerT.ExitFuncArgs(s)
 	}
 }
 
-func (s *ArgsContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *FuncArgsContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitArgs(s)
+		return t.VisitFuncArgs(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) Args() (localctx IArgsContext) {
-	localctx = NewArgsContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, TinyLangParserRULE_args)
+func (p *TinyLangParser) FuncArgs() (localctx IFuncArgsContext) {
+	localctx = NewFuncArgsContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 4, TinyLangParserRULE_funcArgs)
 	var _la int
 
 	defer func() {
@@ -772,7 +773,7 @@ func (p *TinyLangParser) Args() (localctx IArgsContext) {
 		}
 		{
 			p.SetState(77)
-			p.VarType()
+			p.VariableType()
 		}
 		p.SetState(83)
 		p.GetErrorHandler().Sync(p)
@@ -789,7 +790,7 @@ func (p *TinyLangParser) Args() (localctx IArgsContext) {
 			}
 			{
 				p.SetState(80)
-				p.VarType()
+				p.VariableType()
 			}
 
 			p.SetState(85)
@@ -802,49 +803,49 @@ func (p *TinyLangParser) Args() (localctx IArgsContext) {
 	return localctx
 }
 
-// IReturnStContext is an interface to support dynamic dispatch.
-type IReturnStContext interface {
+// IFuncReturnContext is an interface to support dynamic dispatch.
+type IFuncReturnContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsReturnStContext differentiates from other interfaces.
-	IsReturnStContext()
+	// IsFuncReturnContext differentiates from other interfaces.
+	IsFuncReturnContext()
 }
 
-type ReturnStContext struct {
+type FuncReturnContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyReturnStContext() *ReturnStContext {
-	var p = new(ReturnStContext)
+func NewEmptyFuncReturnContext() *FuncReturnContext {
+	var p = new(FuncReturnContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_returnSt
+	p.RuleIndex = TinyLangParserRULE_funcReturn
 	return p
 }
 
-func (*ReturnStContext) IsReturnStContext() {}
+func (*FuncReturnContext) IsFuncReturnContext() {}
 
-func NewReturnStContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ReturnStContext {
-	var p = new(ReturnStContext)
+func NewFuncReturnContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FuncReturnContext {
+	var p = new(FuncReturnContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_returnSt
+	p.RuleIndex = TinyLangParserRULE_funcReturn
 
 	return p
 }
 
-func (s *ReturnStContext) GetParser() antlr.Parser { return s.parser }
+func (s *FuncReturnContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ReturnStContext) RETURN() antlr.TerminalNode {
+func (s *FuncReturnContext) RETURN() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserRETURN, 0)
 }
 
-func (s *ReturnStContext) ArrayElem() IArrayElemContext {
+func (s *FuncReturnContext) ArrayElem() IArrayElemContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayElemContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -854,7 +855,7 @@ func (s *ReturnStContext) ArrayElem() IArrayElemContext {
 	return t.(IArrayElemContext)
 }
 
-func (s *ReturnStContext) FuncInvoc() IFuncInvocContext {
+func (s *FuncReturnContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -864,23 +865,23 @@ func (s *ReturnStContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *ReturnStContext) ITEM() antlr.TerminalNode {
+func (s *FuncReturnContext) ITEM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, 0)
 }
 
-func (s *ReturnStContext) STRING_RAW() antlr.TerminalNode {
+func (s *FuncReturnContext) STRING_RAW() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserSTRING_RAW, 0)
 }
 
-func (s *ReturnStContext) BOOL_VAL() antlr.TerminalNode {
+func (s *FuncReturnContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *ReturnStContext) NUMBER() antlr.TerminalNode {
+func (s *FuncReturnContext) NUMBER() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUMBER, 0)
 }
 
-func (s *ReturnStContext) Expr() IExprContext {
+func (s *FuncReturnContext) Expr() IExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -890,7 +891,7 @@ func (s *ReturnStContext) Expr() IExprContext {
 	return t.(IExprContext)
 }
 
-func (s *ReturnStContext) BoolExpr() IBoolExprContext {
+func (s *FuncReturnContext) BoolExpr() IBoolExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -900,39 +901,39 @@ func (s *ReturnStContext) BoolExpr() IBoolExprContext {
 	return t.(IBoolExprContext)
 }
 
-func (s *ReturnStContext) GetRuleContext() antlr.RuleContext {
+func (s *FuncReturnContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ReturnStContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FuncReturnContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ReturnStContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FuncReturnContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterReturnSt(s)
+		listenerT.EnterFuncReturn(s)
 	}
 }
 
-func (s *ReturnStContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FuncReturnContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitReturnSt(s)
+		listenerT.ExitFuncReturn(s)
 	}
 }
 
-func (s *ReturnStContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *FuncReturnContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitReturnSt(s)
+		return t.VisitFuncReturn(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ReturnSt() (localctx IReturnStContext) {
-	localctx = NewReturnStContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, TinyLangParserRULE_returnSt)
+func (p *TinyLangParser) FuncReturn() (localctx IFuncReturnContext) {
+	localctx = NewFuncReturnContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 6, TinyLangParserRULE_funcReturn)
 
 	defer func() {
 		p.ExitRule()
@@ -1049,14 +1050,14 @@ func NewFuncInvocContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 
 func (s *FuncInvocContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *FuncInvocContext) ArgsInvoc() IArgsInvocContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArgsInvocContext)(nil)).Elem(), 0)
+func (s *FuncInvocContext) FuncArgsInvoc() IFuncArgsInvocContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncArgsInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IArgsInvocContext)
+	return t.(IFuncArgsInvocContext)
 }
 
 func (s *FuncInvocContext) SYS_FUNC() antlr.TerminalNode {
@@ -1136,7 +1137,7 @@ func (p *TinyLangParser) FuncInvoc() (localctx IFuncInvocContext) {
 	}
 	{
 		p.SetState(101)
-		p.ArgsInvoc()
+		p.FuncArgsInvoc()
 	}
 	{
 		p.SetState(102)
@@ -1146,100 +1147,100 @@ func (p *TinyLangParser) FuncInvoc() (localctx IFuncInvocContext) {
 	return localctx
 }
 
-// IArgsInvocContext is an interface to support dynamic dispatch.
-type IArgsInvocContext interface {
+// IFuncArgsInvocContext is an interface to support dynamic dispatch.
+type IFuncArgsInvocContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsArgsInvocContext differentiates from other interfaces.
-	IsArgsInvocContext()
+	// IsFuncArgsInvocContext differentiates from other interfaces.
+	IsFuncArgsInvocContext()
 }
 
-type ArgsInvocContext struct {
+type FuncArgsInvocContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyArgsInvocContext() *ArgsInvocContext {
-	var p = new(ArgsInvocContext)
+func NewEmptyFuncArgsInvocContext() *FuncArgsInvocContext {
+	var p = new(FuncArgsInvocContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_argsInvoc
+	p.RuleIndex = TinyLangParserRULE_funcArgsInvoc
 	return p
 }
 
-func (*ArgsInvocContext) IsArgsInvocContext() {}
+func (*FuncArgsInvocContext) IsFuncArgsInvocContext() {}
 
-func NewArgsInvocContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArgsInvocContext {
-	var p = new(ArgsInvocContext)
+func NewFuncArgsInvocContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FuncArgsInvocContext {
+	var p = new(FuncArgsInvocContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_argsInvoc
+	p.RuleIndex = TinyLangParserRULE_funcArgsInvoc
 
 	return p
 }
 
-func (s *ArgsInvocContext) GetParser() antlr.Parser { return s.parser }
+func (s *FuncArgsInvocContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ArgsInvocContext) AllArgInvoc() []IArgInvocContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IArgInvocContext)(nil)).Elem())
-	var tst = make([]IArgInvocContext, len(ts))
+func (s *FuncArgsInvocContext) AllFuncInvocArgs() []IFuncInvocArgsContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IFuncInvocArgsContext)(nil)).Elem())
+	var tst = make([]IFuncInvocArgsContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IArgInvocContext)
+			tst[i] = t.(IFuncInvocArgsContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *ArgsInvocContext) ArgInvoc(i int) IArgInvocContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArgInvocContext)(nil)).Elem(), i)
+func (s *FuncArgsInvocContext) FuncInvocArgs(i int) IFuncInvocArgsContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocArgsContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IArgInvocContext)
+	return t.(IFuncInvocArgsContext)
 }
 
-func (s *ArgsInvocContext) GetRuleContext() antlr.RuleContext {
+func (s *FuncArgsInvocContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ArgsInvocContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FuncArgsInvocContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ArgsInvocContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FuncArgsInvocContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterArgsInvoc(s)
+		listenerT.EnterFuncArgsInvoc(s)
 	}
 }
 
-func (s *ArgsInvocContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FuncArgsInvocContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitArgsInvoc(s)
+		listenerT.ExitFuncArgsInvoc(s)
 	}
 }
 
-func (s *ArgsInvocContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *FuncArgsInvocContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitArgsInvoc(s)
+		return t.VisitFuncArgsInvoc(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ArgsInvoc() (localctx IArgsInvocContext) {
-	localctx = NewArgsInvocContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 10, TinyLangParserRULE_argsInvoc)
+func (p *TinyLangParser) FuncArgsInvoc() (localctx IFuncArgsInvocContext) {
+	localctx = NewFuncArgsInvocContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 10, TinyLangParserRULE_funcArgsInvoc)
 	var _la int
 
 	defer func() {
@@ -1266,7 +1267,7 @@ func (p *TinyLangParser) ArgsInvoc() (localctx IArgsInvocContext) {
 	if ((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<TinyLangParserSYS_FUNC)|(1<<TinyLangParserITEM)|(1<<TinyLangParserBOOL_VAL)|(1<<TinyLangParserNUMBER)|(1<<TinyLangParserSTRING_RAW))) != 0 {
 		{
 			p.SetState(104)
-			p.ArgInvoc()
+			p.FuncInvocArgs()
 		}
 		p.SetState(109)
 		p.GetErrorHandler().Sync(p)
@@ -1279,7 +1280,7 @@ func (p *TinyLangParser) ArgsInvoc() (localctx IArgsInvocContext) {
 			}
 			{
 				p.SetState(106)
-				p.ArgInvoc()
+				p.FuncInvocArgs()
 			}
 
 			p.SetState(111)
@@ -1292,61 +1293,61 @@ func (p *TinyLangParser) ArgsInvoc() (localctx IArgsInvocContext) {
 	return localctx
 }
 
-// IArgInvocContext is an interface to support dynamic dispatch.
-type IArgInvocContext interface {
+// IFuncInvocArgsContext is an interface to support dynamic dispatch.
+type IFuncInvocArgsContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsArgInvocContext differentiates from other interfaces.
-	IsArgInvocContext()
+	// IsFuncInvocArgsContext differentiates from other interfaces.
+	IsFuncInvocArgsContext()
 }
 
-type ArgInvocContext struct {
+type FuncInvocArgsContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyArgInvocContext() *ArgInvocContext {
-	var p = new(ArgInvocContext)
+func NewEmptyFuncInvocArgsContext() *FuncInvocArgsContext {
+	var p = new(FuncInvocArgsContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_argInvoc
+	p.RuleIndex = TinyLangParserRULE_funcInvocArgs
 	return p
 }
 
-func (*ArgInvocContext) IsArgInvocContext() {}
+func (*FuncInvocArgsContext) IsFuncInvocArgsContext() {}
 
-func NewArgInvocContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArgInvocContext {
-	var p = new(ArgInvocContext)
+func NewFuncInvocArgsContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FuncInvocArgsContext {
+	var p = new(FuncInvocArgsContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_argInvoc
+	p.RuleIndex = TinyLangParserRULE_funcInvocArgs
 
 	return p
 }
 
-func (s *ArgInvocContext) GetParser() antlr.Parser { return s.parser }
+func (s *FuncInvocArgsContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ArgInvocContext) NUMBER() antlr.TerminalNode {
+func (s *FuncInvocArgsContext) NUMBER() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUMBER, 0)
 }
 
-func (s *ArgInvocContext) STRING_RAW() antlr.TerminalNode {
+func (s *FuncInvocArgsContext) STRING_RAW() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserSTRING_RAW, 0)
 }
 
-func (s *ArgInvocContext) BOOL_VAL() antlr.TerminalNode {
+func (s *FuncInvocArgsContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *ArgInvocContext) ITEM() antlr.TerminalNode {
+func (s *FuncInvocArgsContext) ITEM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, 0)
 }
 
-func (s *ArgInvocContext) FuncInvoc() IFuncInvocContext {
+func (s *FuncInvocArgsContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1356,7 +1357,7 @@ func (s *ArgInvocContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *ArgInvocContext) ArrayElem() IArrayElemContext {
+func (s *FuncInvocArgsContext) ArrayElem() IArrayElemContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayElemContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1366,39 +1367,39 @@ func (s *ArgInvocContext) ArrayElem() IArrayElemContext {
 	return t.(IArrayElemContext)
 }
 
-func (s *ArgInvocContext) GetRuleContext() antlr.RuleContext {
+func (s *FuncInvocArgsContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ArgInvocContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FuncInvocArgsContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ArgInvocContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FuncInvocArgsContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterArgInvoc(s)
+		listenerT.EnterFuncInvocArgs(s)
 	}
 }
 
-func (s *ArgInvocContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FuncInvocArgsContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitArgInvoc(s)
+		listenerT.ExitFuncInvocArgs(s)
 	}
 }
 
-func (s *ArgInvocContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *FuncInvocArgsContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitArgInvoc(s)
+		return t.VisitFuncInvocArgs(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ArgInvoc() (localctx IArgInvocContext) {
-	localctx = NewArgInvocContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, TinyLangParserRULE_argInvoc)
+func (p *TinyLangParser) FuncInvocArgs() (localctx IFuncInvocArgsContext) {
+	localctx = NewFuncInvocArgsContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 12, TinyLangParserRULE_funcInvocArgs)
 
 	defer func() {
 		p.ExitRule()
@@ -1466,53 +1467,53 @@ func (p *TinyLangParser) ArgInvoc() (localctx IArgInvocContext) {
 	return localctx
 }
 
-// IUpdVarContext is an interface to support dynamic dispatch.
-type IUpdVarContext interface {
+// IUpdVariableContext is an interface to support dynamic dispatch.
+type IUpdVariableContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsUpdVarContext differentiates from other interfaces.
-	IsUpdVarContext()
+	// IsUpdVariableContext differentiates from other interfaces.
+	IsUpdVariableContext()
 }
 
-type UpdVarContext struct {
+type UpdVariableContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyUpdVarContext() *UpdVarContext {
-	var p = new(UpdVarContext)
+func NewEmptyUpdVariableContext() *UpdVariableContext {
+	var p = new(UpdVariableContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_updVar
+	p.RuleIndex = TinyLangParserRULE_updVariable
 	return p
 }
 
-func (*UpdVarContext) IsUpdVarContext() {}
+func (*UpdVariableContext) IsUpdVariableContext() {}
 
-func NewUpdVarContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *UpdVarContext {
-	var p = new(UpdVarContext)
+func NewUpdVariableContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *UpdVariableContext {
+	var p = new(UpdVariableContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_updVar
+	p.RuleIndex = TinyLangParserRULE_updVariable
 
 	return p
 }
 
-func (s *UpdVarContext) GetParser() antlr.Parser { return s.parser }
+func (s *UpdVariableContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *UpdVarContext) AllITEM() []antlr.TerminalNode {
+func (s *UpdVariableContext) AllITEM() []antlr.TerminalNode {
 	return s.GetTokens(TinyLangParserITEM)
 }
 
-func (s *UpdVarContext) ITEM(i int) antlr.TerminalNode {
+func (s *UpdVariableContext) ITEM(i int) antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, i)
 }
 
-func (s *UpdVarContext) AllArrayElem() []IArrayElemContext {
+func (s *UpdVariableContext) AllArrayElem() []IArrayElemContext {
 	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IArrayElemContext)(nil)).Elem())
 	var tst = make([]IArrayElemContext, len(ts))
 
@@ -1525,7 +1526,7 @@ func (s *UpdVarContext) AllArrayElem() []IArrayElemContext {
 	return tst
 }
 
-func (s *UpdVarContext) ArrayElem(i int) IArrayElemContext {
+func (s *UpdVariableContext) ArrayElem(i int) IArrayElemContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayElemContext)(nil)).Elem(), i)
 
 	if t == nil {
@@ -1535,7 +1536,7 @@ func (s *UpdVarContext) ArrayElem(i int) IArrayElemContext {
 	return t.(IArrayElemContext)
 }
 
-func (s *UpdVarContext) Expr() IExprContext {
+func (s *UpdVariableContext) Expr() IExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1545,7 +1546,7 @@ func (s *UpdVarContext) Expr() IExprContext {
 	return t.(IExprContext)
 }
 
-func (s *UpdVarContext) FuncInvoc() IFuncInvocContext {
+func (s *UpdVariableContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1555,19 +1556,19 @@ func (s *UpdVarContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *UpdVarContext) BOOL_VAL() antlr.TerminalNode {
+func (s *UpdVariableContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *UpdVarContext) STRING_RAW() antlr.TerminalNode {
+func (s *UpdVariableContext) STRING_RAW() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserSTRING_RAW, 0)
 }
 
-func (s *UpdVarContext) NUMBER() antlr.TerminalNode {
+func (s *UpdVariableContext) NUMBER() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUMBER, 0)
 }
 
-func (s *UpdVarContext) ArrayInit() IArrayInitContext {
+func (s *UpdVariableContext) ArrayInit() IArrayInitContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayInitContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1577,39 +1578,39 @@ func (s *UpdVarContext) ArrayInit() IArrayInitContext {
 	return t.(IArrayInitContext)
 }
 
-func (s *UpdVarContext) GetRuleContext() antlr.RuleContext {
+func (s *UpdVariableContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *UpdVarContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *UpdVariableContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *UpdVarContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *UpdVariableContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterUpdVar(s)
+		listenerT.EnterUpdVariable(s)
 	}
 }
 
-func (s *UpdVarContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *UpdVariableContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitUpdVar(s)
+		listenerT.ExitUpdVariable(s)
 	}
 }
 
-func (s *UpdVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *UpdVariableContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitUpdVar(s)
+		return t.VisitUpdVariable(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) UpdVar() (localctx IUpdVarContext) {
-	localctx = NewUpdVarContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 14, TinyLangParserRULE_updVar)
+func (p *TinyLangParser) UpdVariable() (localctx IUpdVariableContext) {
+	localctx = NewUpdVariableContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 14, TinyLangParserRULE_updVariable)
 
 	defer func() {
 		p.ExitRule()
@@ -1704,63 +1705,63 @@ func (p *TinyLangParser) UpdVar() (localctx IUpdVarContext) {
 	return localctx
 }
 
-// INewVarContext is an interface to support dynamic dispatch.
-type INewVarContext interface {
+// INewVariableContext is an interface to support dynamic dispatch.
+type INewVariableContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsNewVarContext differentiates from other interfaces.
-	IsNewVarContext()
+	// IsNewVariableContext differentiates from other interfaces.
+	IsNewVariableContext()
 }
 
-type NewVarContext struct {
+type NewVariableContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyNewVarContext() *NewVarContext {
-	var p = new(NewVarContext)
+func NewEmptyNewVariableContext() *NewVariableContext {
+	var p = new(NewVariableContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_newVar
+	p.RuleIndex = TinyLangParserRULE_newVariable
 	return p
 }
 
-func (*NewVarContext) IsNewVarContext() {}
+func (*NewVariableContext) IsNewVariableContext() {}
 
-func NewNewVarContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *NewVarContext {
-	var p = new(NewVarContext)
+func NewNewVariableContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *NewVariableContext {
+	var p = new(NewVariableContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_newVar
+	p.RuleIndex = TinyLangParserRULE_newVariable
 
 	return p
 }
 
-func (s *NewVarContext) GetParser() antlr.Parser { return s.parser }
+func (s *NewVariableContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *NewVarContext) AllITEM() []antlr.TerminalNode {
+func (s *NewVariableContext) AllITEM() []antlr.TerminalNode {
 	return s.GetTokens(TinyLangParserITEM)
 }
 
-func (s *NewVarContext) ITEM(i int) antlr.TerminalNode {
+func (s *NewVariableContext) ITEM(i int) antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, i)
 }
 
-func (s *NewVarContext) VarType() IVarTypeContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IVarTypeContext)(nil)).Elem(), 0)
+func (s *NewVariableContext) VariableType() IVariableTypeContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IVariableTypeContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IVarTypeContext)
+	return t.(IVariableTypeContext)
 }
 
-func (s *NewVarContext) Expr() IExprContext {
+func (s *NewVariableContext) Expr() IExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1770,19 +1771,19 @@ func (s *NewVarContext) Expr() IExprContext {
 	return t.(IExprContext)
 }
 
-func (s *NewVarContext) BOOL_VAL() antlr.TerminalNode {
+func (s *NewVariableContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *NewVarContext) STRING_RAW() antlr.TerminalNode {
+func (s *NewVariableContext) STRING_RAW() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserSTRING_RAW, 0)
 }
 
-func (s *NewVarContext) NUMBER() antlr.TerminalNode {
+func (s *NewVariableContext) NUMBER() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUMBER, 0)
 }
 
-func (s *NewVarContext) ArrayInit() IArrayInitContext {
+func (s *NewVariableContext) ArrayInit() IArrayInitContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayInitContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1792,7 +1793,7 @@ func (s *NewVarContext) ArrayInit() IArrayInitContext {
 	return t.(IArrayInitContext)
 }
 
-func (s *NewVarContext) FuncInvoc() IFuncInvocContext {
+func (s *NewVariableContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -1802,39 +1803,39 @@ func (s *NewVarContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *NewVarContext) GetRuleContext() antlr.RuleContext {
+func (s *NewVariableContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *NewVarContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *NewVariableContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *NewVarContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *NewVariableContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterNewVar(s)
+		listenerT.EnterNewVariable(s)
 	}
 }
 
-func (s *NewVarContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *NewVariableContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitNewVar(s)
+		listenerT.ExitNewVariable(s)
 	}
 }
 
-func (s *NewVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *NewVariableContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitNewVar(s)
+		return t.VisitNewVariable(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) NewVar() (localctx INewVarContext) {
-	localctx = NewNewVarContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 16, TinyLangParserRULE_newVar)
+func (p *TinyLangParser) NewVariable() (localctx INewVariableContext) {
+	localctx = NewNewVariableContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 16, TinyLangParserRULE_newVariable)
 
 	defer func() {
 		p.ExitRule()
@@ -1863,7 +1864,7 @@ func (p *TinyLangParser) NewVar() (localctx INewVarContext) {
 	}
 	{
 		p.SetState(139)
-		p.VarType()
+		p.VariableType()
 	}
 	{
 		p.SetState(140)
@@ -1919,93 +1920,93 @@ func (p *TinyLangParser) NewVar() (localctx INewVarContext) {
 	return localctx
 }
 
-// IVarTypeContext is an interface to support dynamic dispatch.
-type IVarTypeContext interface {
+// IVariableTypeContext is an interface to support dynamic dispatch.
+type IVariableTypeContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsVarTypeContext differentiates from other interfaces.
-	IsVarTypeContext()
+	// IsVariableTypeContext differentiates from other interfaces.
+	IsVariableTypeContext()
 }
 
-type VarTypeContext struct {
+type VariableTypeContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyVarTypeContext() *VarTypeContext {
-	var p = new(VarTypeContext)
+func NewEmptyVariableTypeContext() *VariableTypeContext {
+	var p = new(VariableTypeContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_varType
+	p.RuleIndex = TinyLangParserRULE_variableType
 	return p
 }
 
-func (*VarTypeContext) IsVarTypeContext() {}
+func (*VariableTypeContext) IsVariableTypeContext() {}
 
-func NewVarTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *VarTypeContext {
-	var p = new(VarTypeContext)
+func NewVariableTypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *VariableTypeContext {
+	var p = new(VariableTypeContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_varType
+	p.RuleIndex = TinyLangParserRULE_variableType
 
 	return p
 }
 
-func (s *VarTypeContext) GetParser() antlr.Parser { return s.parser }
+func (s *VariableTypeContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *VarTypeContext) ARRAY() antlr.TerminalNode {
+func (s *VariableTypeContext) ARRAY() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserARRAY, 0)
 }
 
-func (s *VarTypeContext) STRING() antlr.TerminalNode {
+func (s *VariableTypeContext) STRING() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserSTRING, 0)
 }
 
-func (s *VarTypeContext) NUM() antlr.TerminalNode {
+func (s *VariableTypeContext) NUM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUM, 0)
 }
 
-func (s *VarTypeContext) BOOL() antlr.TerminalNode {
+func (s *VariableTypeContext) BOOL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL, 0)
 }
 
-func (s *VarTypeContext) GetRuleContext() antlr.RuleContext {
+func (s *VariableTypeContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *VarTypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *VariableTypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *VarTypeContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *VariableTypeContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterVarType(s)
+		listenerT.EnterVariableType(s)
 	}
 }
 
-func (s *VarTypeContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *VariableTypeContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitVarType(s)
+		listenerT.ExitVariableType(s)
 	}
 }
 
-func (s *VarTypeContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *VariableTypeContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitVarType(s)
+		return t.VisitVariableType(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) VarType() (localctx IVarTypeContext) {
-	localctx = NewVarTypeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 18, TinyLangParserRULE_varType)
+func (p *TinyLangParser) VariableType() (localctx IVariableTypeContext) {
+	localctx = NewVariableTypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 18, TinyLangParserRULE_variableType)
 	var _la int
 
 	defer func() {
@@ -2243,24 +2244,24 @@ func NewArrayInitContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 
 func (s *ArrayInitContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ArrayInitContext) ArrayInitVal() IArrayInitValContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayInitValContext)(nil)).Elem(), 0)
+func (s *ArrayInitContext) ArrayInitValue() IArrayInitValueContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayInitValueContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IArrayInitValContext)
+	return t.(IArrayInitValueContext)
 }
 
-func (s *ArrayInitContext) ArrayInitEmp() IArrayInitEmpContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayInitEmpContext)(nil)).Elem(), 0)
+func (s *ArrayInitContext) ArrayInitEmpty() IArrayInitEmptyContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayInitEmptyContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IArrayInitEmpContext)
+	return t.(IArrayInitEmptyContext)
 }
 
 func (s *ArrayInitContext) GetRuleContext() antlr.RuleContext {
@@ -2321,14 +2322,14 @@ func (p *TinyLangParser) ArrayInit() (localctx IArrayInitContext) {
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(162)
-			p.ArrayInitVal()
+			p.ArrayInitValue()
 		}
 
 	case TinyLangParserT__8:
 		p.EnterOuterAlt(localctx, 2)
 		{
 			p.SetState(163)
-			p.ArrayInitEmp()
+			p.ArrayInitEmpty()
 		}
 
 	default:
@@ -2338,93 +2339,93 @@ func (p *TinyLangParser) ArrayInit() (localctx IArrayInitContext) {
 	return localctx
 }
 
-// IArrayInitEmpContext is an interface to support dynamic dispatch.
-type IArrayInitEmpContext interface {
+// IArrayInitEmptyContext is an interface to support dynamic dispatch.
+type IArrayInitEmptyContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsArrayInitEmpContext differentiates from other interfaces.
-	IsArrayInitEmpContext()
+	// IsArrayInitEmptyContext differentiates from other interfaces.
+	IsArrayInitEmptyContext()
 }
 
-type ArrayInitEmpContext struct {
+type ArrayInitEmptyContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyArrayInitEmpContext() *ArrayInitEmpContext {
-	var p = new(ArrayInitEmpContext)
+func NewEmptyArrayInitEmptyContext() *ArrayInitEmptyContext {
+	var p = new(ArrayInitEmptyContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_arrayInitEmp
+	p.RuleIndex = TinyLangParserRULE_arrayInitEmpty
 	return p
 }
 
-func (*ArrayInitEmpContext) IsArrayInitEmpContext() {}
+func (*ArrayInitEmptyContext) IsArrayInitEmptyContext() {}
 
-func NewArrayInitEmpContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArrayInitEmpContext {
-	var p = new(ArrayInitEmpContext)
+func NewArrayInitEmptyContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArrayInitEmptyContext {
+	var p = new(ArrayInitEmptyContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_arrayInitEmp
+	p.RuleIndex = TinyLangParserRULE_arrayInitEmpty
 
 	return p
 }
 
-func (s *ArrayInitEmpContext) GetParser() antlr.Parser { return s.parser }
+func (s *ArrayInitEmptyContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ArrayInitEmpContext) NUMBER() antlr.TerminalNode {
+func (s *ArrayInitEmptyContext) NUMBER() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUMBER, 0)
 }
 
-func (s *ArrayInitEmpContext) NUM() antlr.TerminalNode {
+func (s *ArrayInitEmptyContext) NUM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUM, 0)
 }
 
-func (s *ArrayInitEmpContext) STRING() antlr.TerminalNode {
+func (s *ArrayInitEmptyContext) STRING() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserSTRING, 0)
 }
 
-func (s *ArrayInitEmpContext) BOOL() antlr.TerminalNode {
+func (s *ArrayInitEmptyContext) BOOL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL, 0)
 }
 
-func (s *ArrayInitEmpContext) GetRuleContext() antlr.RuleContext {
+func (s *ArrayInitEmptyContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ArrayInitEmpContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ArrayInitEmptyContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ArrayInitEmpContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ArrayInitEmptyContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterArrayInitEmp(s)
+		listenerT.EnterArrayInitEmpty(s)
 	}
 }
 
-func (s *ArrayInitEmpContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ArrayInitEmptyContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitArrayInitEmp(s)
+		listenerT.ExitArrayInitEmpty(s)
 	}
 }
 
-func (s *ArrayInitEmpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *ArrayInitEmptyContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitArrayInitEmp(s)
+		return t.VisitArrayInitEmpty(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ArrayInitEmp() (localctx IArrayInitEmpContext) {
-	localctx = NewArrayInitEmpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 24, TinyLangParserRULE_arrayInitEmp)
+func (p *TinyLangParser) ArrayInitEmpty() (localctx IArrayInitEmptyContext) {
+	localctx = NewArrayInitEmptyContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 24, TinyLangParserRULE_arrayInitEmpty)
 	var _la int
 
 	defer func() {
@@ -2478,45 +2479,45 @@ func (p *TinyLangParser) ArrayInitEmp() (localctx IArrayInitEmpContext) {
 	return localctx
 }
 
-// IArrayInitValContext is an interface to support dynamic dispatch.
-type IArrayInitValContext interface {
+// IArrayInitValueContext is an interface to support dynamic dispatch.
+type IArrayInitValueContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsArrayInitValContext differentiates from other interfaces.
-	IsArrayInitValContext()
+	// IsArrayInitValueContext differentiates from other interfaces.
+	IsArrayInitValueContext()
 }
 
-type ArrayInitValContext struct {
+type ArrayInitValueContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyArrayInitValContext() *ArrayInitValContext {
-	var p = new(ArrayInitValContext)
+func NewEmptyArrayInitValueContext() *ArrayInitValueContext {
+	var p = new(ArrayInitValueContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_arrayInitVal
+	p.RuleIndex = TinyLangParserRULE_arrayInitValue
 	return p
 }
 
-func (*ArrayInitValContext) IsArrayInitValContext() {}
+func (*ArrayInitValueContext) IsArrayInitValueContext() {}
 
-func NewArrayInitValContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArrayInitValContext {
-	var p = new(ArrayInitValContext)
+func NewArrayInitValueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ArrayInitValueContext {
+	var p = new(ArrayInitValueContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_arrayInitVal
+	p.RuleIndex = TinyLangParserRULE_arrayInitValue
 
 	return p
 }
 
-func (s *ArrayInitValContext) GetParser() antlr.Parser { return s.parser }
+func (s *ArrayInitValueContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ArrayInitValContext) ArrayInitElems() IArrayInitElemsContext {
+func (s *ArrayInitValueContext) ArrayInitElems() IArrayInitElemsContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayInitElemsContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -2526,39 +2527,39 @@ func (s *ArrayInitValContext) ArrayInitElems() IArrayInitElemsContext {
 	return t.(IArrayInitElemsContext)
 }
 
-func (s *ArrayInitValContext) GetRuleContext() antlr.RuleContext {
+func (s *ArrayInitValueContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ArrayInitValContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ArrayInitValueContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ArrayInitValContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ArrayInitValueContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterArrayInitVal(s)
+		listenerT.EnterArrayInitValue(s)
 	}
 }
 
-func (s *ArrayInitValContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ArrayInitValueContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitArrayInitVal(s)
+		listenerT.ExitArrayInitValue(s)
 	}
 }
 
-func (s *ArrayInitValContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *ArrayInitValueContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitArrayInitVal(s)
+		return t.VisitArrayInitValue(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ArrayInitVal() (localctx IArrayInitValContext) {
-	localctx = NewArrayInitValContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 26, TinyLangParserRULE_arrayInitVal)
+func (p *TinyLangParser) ArrayInitValue() (localctx IArrayInitValueContext) {
+	localctx = NewArrayInitValueContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 26, TinyLangParserRULE_arrayInitValue)
 
 	defer func() {
 		p.ExitRule()
@@ -2834,27 +2835,27 @@ func (s *ExprContext) NUM_SIGN() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUM_SIGN, 0)
 }
 
-func (s *ExprContext) AllExprOp() []IExprOpContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IExprOpContext)(nil)).Elem())
-	var tst = make([]IExprOpContext, len(ts))
+func (s *ExprContext) AllExprOperand() []IExprOperandContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IExprOperandContext)(nil)).Elem())
+	var tst = make([]IExprOperandContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IExprOpContext)
+			tst[i] = t.(IExprOperandContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *ExprContext) ExprOp(i int) IExprOpContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprOpContext)(nil)).Elem(), i)
+func (s *ExprContext) ExprOperand(i int) IExprOperandContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprOperandContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IExprOpContext)
+	return t.(IExprOperandContext)
 }
 
 func (s *ExprContext) AllExpr() []IExprContext {
@@ -2938,7 +2939,7 @@ func (p *TinyLangParser) Expr() (localctx IExprContext) {
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(201)
-			p.ExprOp()
+			p.ExprOperand()
 		}
 
 		{
@@ -2951,7 +2952,7 @@ func (p *TinyLangParser) Expr() (localctx IExprContext) {
 		case 1:
 			{
 				p.SetState(203)
-				p.ExprOp()
+				p.ExprOperand()
 			}
 
 		case 2:
@@ -2974,7 +2975,7 @@ func (p *TinyLangParser) Expr() (localctx IExprContext) {
 		case 1:
 			{
 				p.SetState(208)
-				p.ExprOp()
+				p.ExprOperand()
 			}
 
 		case 2:
@@ -2994,7 +2995,7 @@ func (p *TinyLangParser) Expr() (localctx IExprContext) {
 		case 1:
 			{
 				p.SetState(213)
-				p.ExprOp()
+				p.ExprOperand()
 			}
 
 		case 2:
@@ -3016,45 +3017,45 @@ func (p *TinyLangParser) Expr() (localctx IExprContext) {
 	return localctx
 }
 
-// IExprOpContext is an interface to support dynamic dispatch.
-type IExprOpContext interface {
+// IExprOperandContext is an interface to support dynamic dispatch.
+type IExprOperandContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsExprOpContext differentiates from other interfaces.
-	IsExprOpContext()
+	// IsExprOperandContext differentiates from other interfaces.
+	IsExprOperandContext()
 }
 
-type ExprOpContext struct {
+type ExprOperandContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyExprOpContext() *ExprOpContext {
-	var p = new(ExprOpContext)
+func NewEmptyExprOperandContext() *ExprOperandContext {
+	var p = new(ExprOperandContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_exprOp
+	p.RuleIndex = TinyLangParserRULE_exprOperand
 	return p
 }
 
-func (*ExprOpContext) IsExprOpContext() {}
+func (*ExprOperandContext) IsExprOperandContext() {}
 
-func NewExprOpContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ExprOpContext {
-	var p = new(ExprOpContext)
+func NewExprOperandContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ExprOperandContext {
+	var p = new(ExprOperandContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_exprOp
+	p.RuleIndex = TinyLangParserRULE_exprOperand
 
 	return p
 }
 
-func (s *ExprOpContext) GetParser() antlr.Parser { return s.parser }
+func (s *ExprOperandContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ExprOpContext) FuncInvoc() IFuncInvocContext {
+func (s *ExprOperandContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -3064,19 +3065,19 @@ func (s *ExprOpContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *ExprOpContext) NUMBER() antlr.TerminalNode {
+func (s *ExprOperandContext) NUMBER() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserNUMBER, 0)
 }
 
-func (s *ExprOpContext) ITEM() antlr.TerminalNode {
+func (s *ExprOperandContext) ITEM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, 0)
 }
 
-func (s *ExprOpContext) STRING_RAW() antlr.TerminalNode {
+func (s *ExprOperandContext) STRING_RAW() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserSTRING_RAW, 0)
 }
 
-func (s *ExprOpContext) ArrayElem() IArrayElemContext {
+func (s *ExprOperandContext) ArrayElem() IArrayElemContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayElemContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -3086,39 +3087,39 @@ func (s *ExprOpContext) ArrayElem() IArrayElemContext {
 	return t.(IArrayElemContext)
 }
 
-func (s *ExprOpContext) GetRuleContext() antlr.RuleContext {
+func (s *ExprOperandContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ExprOpContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ExprOperandContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ExprOpContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ExprOperandContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterExprOp(s)
+		listenerT.EnterExprOperand(s)
 	}
 }
 
-func (s *ExprOpContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ExprOperandContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitExprOp(s)
+		listenerT.ExitExprOperand(s)
 	}
 }
 
-func (s *ExprOpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *ExprOperandContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitExprOp(s)
+		return t.VisitExprOperand(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ExprOp() (localctx IExprOpContext) {
-	localctx = NewExprOpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 32, TinyLangParserRULE_exprOp)
+func (p *TinyLangParser) ExprOperand() (localctx IExprOperandContext) {
+	localctx = NewExprOperandContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 32, TinyLangParserRULE_exprOperand)
 
 	defer func() {
 		p.ExitRule()
@@ -3221,27 +3222,27 @@ func (s *BoolExprContext) BOOL_SIGN() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_SIGN, 0)
 }
 
-func (s *BoolExprContext) AllBoolExprOp() []IBoolExprOpContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IBoolExprOpContext)(nil)).Elem())
-	var tst = make([]IBoolExprOpContext, len(ts))
+func (s *BoolExprContext) AllBoolExprOperand() []IBoolExprOperandContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IBoolExprOperandContext)(nil)).Elem())
+	var tst = make([]IBoolExprOperandContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IBoolExprOpContext)
+			tst[i] = t.(IBoolExprOperandContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *BoolExprContext) BoolExprOp(i int) IBoolExprOpContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExprOpContext)(nil)).Elem(), i)
+func (s *BoolExprContext) BoolExprOperand(i int) IBoolExprOperandContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExprOperandContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IBoolExprOpContext)
+	return t.(IBoolExprOperandContext)
 }
 
 func (s *BoolExprContext) AllBoolExpr() []IBoolExprContext {
@@ -3324,7 +3325,7 @@ func (p *TinyLangParser) BoolExpr() (localctx IBoolExprContext) {
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(228)
-			p.BoolExprOp()
+			p.BoolExprOperand()
 		}
 
 		{
@@ -3337,7 +3338,7 @@ func (p *TinyLangParser) BoolExpr() (localctx IBoolExprContext) {
 		case 1:
 			{
 				p.SetState(230)
-				p.BoolExprOp()
+				p.BoolExprOperand()
 			}
 
 		case 2:
@@ -3360,7 +3361,7 @@ func (p *TinyLangParser) BoolExpr() (localctx IBoolExprContext) {
 		case 1:
 			{
 				p.SetState(235)
-				p.BoolExprOp()
+				p.BoolExprOperand()
 			}
 
 		case 2:
@@ -3380,7 +3381,7 @@ func (p *TinyLangParser) BoolExpr() (localctx IBoolExprContext) {
 		case 1:
 			{
 				p.SetState(240)
-				p.BoolExprOp()
+				p.BoolExprOperand()
 			}
 
 		case 2:
@@ -3400,45 +3401,45 @@ func (p *TinyLangParser) BoolExpr() (localctx IBoolExprContext) {
 	return localctx
 }
 
-// IBoolExprOpContext is an interface to support dynamic dispatch.
-type IBoolExprOpContext interface {
+// IBoolExprOperandContext is an interface to support dynamic dispatch.
+type IBoolExprOperandContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsBoolExprOpContext differentiates from other interfaces.
-	IsBoolExprOpContext()
+	// IsBoolExprOperandContext differentiates from other interfaces.
+	IsBoolExprOperandContext()
 }
 
-type BoolExprOpContext struct {
+type BoolExprOperandContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyBoolExprOpContext() *BoolExprOpContext {
-	var p = new(BoolExprOpContext)
+func NewEmptyBoolExprOperandContext() *BoolExprOperandContext {
+	var p = new(BoolExprOperandContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_boolExprOp
+	p.RuleIndex = TinyLangParserRULE_boolExprOperand
 	return p
 }
 
-func (*BoolExprOpContext) IsBoolExprOpContext() {}
+func (*BoolExprOperandContext) IsBoolExprOperandContext() {}
 
-func NewBoolExprOpContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *BoolExprOpContext {
-	var p = new(BoolExprOpContext)
+func NewBoolExprOperandContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *BoolExprOperandContext {
+	var p = new(BoolExprOperandContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_boolExprOp
+	p.RuleIndex = TinyLangParserRULE_boolExprOperand
 
 	return p
 }
 
-func (s *BoolExprOpContext) GetParser() antlr.Parser { return s.parser }
+func (s *BoolExprOperandContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *BoolExprOpContext) Expr() IExprContext {
+func (s *BoolExprOperandContext) Expr() IExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -3448,21 +3449,21 @@ func (s *BoolExprOpContext) Expr() IExprContext {
 	return t.(IExprContext)
 }
 
-func (s *BoolExprOpContext) ExprOp() IExprOpContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprOpContext)(nil)).Elem(), 0)
+func (s *BoolExprOperandContext) ExprOperand() IExprOperandContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprOperandContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IExprOpContext)
+	return t.(IExprOperandContext)
 }
 
-func (s *BoolExprOpContext) BOOL_VAL() antlr.TerminalNode {
+func (s *BoolExprOperandContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *BoolExprOpContext) ArrayElem() IArrayElemContext {
+func (s *BoolExprOperandContext) ArrayElem() IArrayElemContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IArrayElemContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -3472,39 +3473,39 @@ func (s *BoolExprOpContext) ArrayElem() IArrayElemContext {
 	return t.(IArrayElemContext)
 }
 
-func (s *BoolExprOpContext) GetRuleContext() antlr.RuleContext {
+func (s *BoolExprOperandContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *BoolExprOpContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *BoolExprOperandContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *BoolExprOpContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *BoolExprOperandContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterBoolExprOp(s)
+		listenerT.EnterBoolExprOperand(s)
 	}
 }
 
-func (s *BoolExprOpContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *BoolExprOperandContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitBoolExprOp(s)
+		listenerT.ExitBoolExprOperand(s)
 	}
 }
 
-func (s *BoolExprOpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *BoolExprOperandContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitBoolExprOp(s)
+		return t.VisitBoolExprOperand(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) BoolExprOp() (localctx IBoolExprOpContext) {
-	localctx = NewBoolExprOpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 36, TinyLangParserRULE_boolExprOp)
+func (p *TinyLangParser) BoolExprOperand() (localctx IBoolExprOperandContext) {
+	localctx = NewBoolExprOperandContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 36, TinyLangParserRULE_boolExprOperand)
 
 	defer func() {
 		p.ExitRule()
@@ -3536,7 +3537,7 @@ func (p *TinyLangParser) BoolExprOp() (localctx IBoolExprOpContext) {
 		p.EnterOuterAlt(localctx, 2)
 		{
 			p.SetState(249)
-			p.ExprOp()
+			p.ExprOperand()
 		}
 
 	case 3:
@@ -3558,91 +3559,91 @@ func (p *TinyLangParser) BoolExprOp() (localctx IBoolExprOpContext) {
 	return localctx
 }
 
-// ICommonBodyContext is an interface to support dynamic dispatch.
-type ICommonBodyContext interface {
+// IStatementBodyContext is an interface to support dynamic dispatch.
+type IStatementBodyContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsCommonBodyContext differentiates from other interfaces.
-	IsCommonBodyContext()
+	// IsStatementBodyContext differentiates from other interfaces.
+	IsStatementBodyContext()
 }
 
-type CommonBodyContext struct {
+type StatementBodyContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyCommonBodyContext() *CommonBodyContext {
-	var p = new(CommonBodyContext)
+func NewEmptyStatementBodyContext() *StatementBodyContext {
+	var p = new(StatementBodyContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_commonBody
+	p.RuleIndex = TinyLangParserRULE_statementBody
 	return p
 }
 
-func (*CommonBodyContext) IsCommonBodyContext() {}
+func (*StatementBodyContext) IsStatementBodyContext() {}
 
-func NewCommonBodyContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CommonBodyContext {
-	var p = new(CommonBodyContext)
+func NewStatementBodyContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *StatementBodyContext {
+	var p = new(StatementBodyContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_commonBody
+	p.RuleIndex = TinyLangParserRULE_statementBody
 
 	return p
 }
 
-func (s *CommonBodyContext) GetParser() antlr.Parser { return s.parser }
+func (s *StatementBodyContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *CommonBodyContext) AllNewVar() []INewVarContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*INewVarContext)(nil)).Elem())
-	var tst = make([]INewVarContext, len(ts))
+func (s *StatementBodyContext) AllNewVariable() []INewVariableContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*INewVariableContext)(nil)).Elem())
+	var tst = make([]INewVariableContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(INewVarContext)
+			tst[i] = t.(INewVariableContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *CommonBodyContext) NewVar(i int) INewVarContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*INewVarContext)(nil)).Elem(), i)
+func (s *StatementBodyContext) NewVariable(i int) INewVariableContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*INewVariableContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(INewVarContext)
+	return t.(INewVariableContext)
 }
 
-func (s *CommonBodyContext) AllUpdVar() []IUpdVarContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IUpdVarContext)(nil)).Elem())
-	var tst = make([]IUpdVarContext, len(ts))
+func (s *StatementBodyContext) AllUpdVariable() []IUpdVariableContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IUpdVariableContext)(nil)).Elem())
+	var tst = make([]IUpdVariableContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IUpdVarContext)
+			tst[i] = t.(IUpdVariableContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *CommonBodyContext) UpdVar(i int) IUpdVarContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IUpdVarContext)(nil)).Elem(), i)
+func (s *StatementBodyContext) UpdVariable(i int) IUpdVariableContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IUpdVariableContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IUpdVarContext)
+	return t.(IUpdVariableContext)
 }
 
-func (s *CommonBodyContext) AllFuncInvoc() []IFuncInvocContext {
+func (s *StatementBodyContext) AllFuncInvoc() []IFuncInvocContext {
 	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem())
 	var tst = make([]IFuncInvocContext, len(ts))
 
@@ -3655,7 +3656,7 @@ func (s *CommonBodyContext) AllFuncInvoc() []IFuncInvocContext {
 	return tst
 }
 
-func (s *CommonBodyContext) FuncInvoc(i int) IFuncInvocContext {
+func (s *StatementBodyContext) FuncInvoc(i int) IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), i)
 
 	if t == nil {
@@ -3665,53 +3666,53 @@ func (s *CommonBodyContext) FuncInvoc(i int) IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *CommonBodyContext) AllIfElse() []IIfElseContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IIfElseContext)(nil)).Elem())
-	var tst = make([]IIfElseContext, len(ts))
+func (s *StatementBodyContext) AllIfElseSt() []IIfElseStContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IIfElseStContext)(nil)).Elem())
+	var tst = make([]IIfElseStContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IIfElseContext)
+			tst[i] = t.(IIfElseStContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *CommonBodyContext) IfElse(i int) IIfElseContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IIfElseContext)(nil)).Elem(), i)
+func (s *StatementBodyContext) IfElseSt(i int) IIfElseStContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IIfElseStContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IIfElseContext)
+	return t.(IIfElseStContext)
 }
 
-func (s *CommonBodyContext) AllWhile() []IWhileContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IWhileContext)(nil)).Elem())
-	var tst = make([]IWhileContext, len(ts))
+func (s *StatementBodyContext) AllWhileSt() []IWhileStContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IWhileStContext)(nil)).Elem())
+	var tst = make([]IWhileStContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IWhileContext)
+			tst[i] = t.(IWhileStContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *CommonBodyContext) While(i int) IWhileContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IWhileContext)(nil)).Elem(), i)
+func (s *StatementBodyContext) WhileSt(i int) IWhileStContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IWhileStContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IWhileContext)
+	return t.(IWhileStContext)
 }
 
-func (s *CommonBodyContext) AllForSt() []IForStContext {
+func (s *StatementBodyContext) AllForSt() []IForStContext {
 	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IForStContext)(nil)).Elem())
 	var tst = make([]IForStContext, len(ts))
 
@@ -3724,7 +3725,7 @@ func (s *CommonBodyContext) AllForSt() []IForStContext {
 	return tst
 }
 
-func (s *CommonBodyContext) ForSt(i int) IForStContext {
+func (s *StatementBodyContext) ForSt(i int) IForStContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IForStContext)(nil)).Elem(), i)
 
 	if t == nil {
@@ -3734,39 +3735,39 @@ func (s *CommonBodyContext) ForSt(i int) IForStContext {
 	return t.(IForStContext)
 }
 
-func (s *CommonBodyContext) GetRuleContext() antlr.RuleContext {
+func (s *StatementBodyContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *CommonBodyContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *StatementBodyContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *CommonBodyContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *StatementBodyContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterCommonBody(s)
+		listenerT.EnterStatementBody(s)
 	}
 }
 
-func (s *CommonBodyContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *StatementBodyContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitCommonBody(s)
+		listenerT.ExitStatementBody(s)
 	}
 }
 
-func (s *CommonBodyContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *StatementBodyContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitCommonBody(s)
+		return t.VisitStatementBody(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) CommonBody() (localctx ICommonBodyContext) {
-	localctx = NewCommonBodyContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 38, TinyLangParserRULE_commonBody)
+func (p *TinyLangParser) StatementBody() (localctx IStatementBodyContext) {
+	localctx = NewStatementBodyContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 38, TinyLangParserRULE_statementBody)
 	var _la int
 
 	defer func() {
@@ -3797,13 +3798,13 @@ func (p *TinyLangParser) CommonBody() (localctx ICommonBodyContext) {
 		case 1:
 			{
 				p.SetState(254)
-				p.NewVar()
+				p.NewVariable()
 			}
 
 		case 2:
 			{
 				p.SetState(255)
-				p.UpdVar()
+				p.UpdVariable()
 			}
 
 		case 3:
@@ -3815,13 +3816,13 @@ func (p *TinyLangParser) CommonBody() (localctx ICommonBodyContext) {
 		case 4:
 			{
 				p.SetState(257)
-				p.IfElse()
+				p.IfElseSt()
 			}
 
 		case 5:
 			{
 				p.SetState(258)
-				p.While()
+				p.WhileSt()
 			}
 
 		case 6:
@@ -3840,120 +3841,120 @@ func (p *TinyLangParser) CommonBody() (localctx ICommonBodyContext) {
 	return localctx
 }
 
-// IIfElseContext is an interface to support dynamic dispatch.
-type IIfElseContext interface {
+// IIfElseStContext is an interface to support dynamic dispatch.
+type IIfElseStContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsIfElseContext differentiates from other interfaces.
-	IsIfElseContext()
+	// IsIfElseStContext differentiates from other interfaces.
+	IsIfElseStContext()
 }
 
-type IfElseContext struct {
+type IfElseStContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyIfElseContext() *IfElseContext {
-	var p = new(IfElseContext)
+func NewEmptyIfElseStContext() *IfElseStContext {
+	var p = new(IfElseStContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_ifElse
+	p.RuleIndex = TinyLangParserRULE_ifElseSt
 	return p
 }
 
-func (*IfElseContext) IsIfElseContext() {}
+func (*IfElseStContext) IsIfElseStContext() {}
 
-func NewIfElseContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *IfElseContext {
-	var p = new(IfElseContext)
+func NewIfElseStContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *IfElseStContext {
+	var p = new(IfElseStContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_ifElse
+	p.RuleIndex = TinyLangParserRULE_ifElseSt
 
 	return p
 }
 
-func (s *IfElseContext) GetParser() antlr.Parser { return s.parser }
+func (s *IfElseStContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *IfElseContext) IF() IIFContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IIFContext)(nil)).Elem(), 0)
+func (s *IfElseStContext) IfSt() IIfStContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IIfStContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IIFContext)
+	return t.(IIfStContext)
 }
 
-func (s *IfElseContext) AllElseIf() []IElseIfContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IElseIfContext)(nil)).Elem())
-	var tst = make([]IElseIfContext, len(ts))
+func (s *IfElseStContext) AllElseIfSt() []IElseIfStContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IElseIfStContext)(nil)).Elem())
+	var tst = make([]IElseIfStContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IElseIfContext)
+			tst[i] = t.(IElseIfStContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *IfElseContext) ElseIf(i int) IElseIfContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IElseIfContext)(nil)).Elem(), i)
+func (s *IfElseStContext) ElseIfSt(i int) IElseIfStContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IElseIfStContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IElseIfContext)
+	return t.(IElseIfStContext)
 }
 
-func (s *IfElseContext) ElsePart() IElsePartContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IElsePartContext)(nil)).Elem(), 0)
+func (s *IfElseStContext) ElseSt() IElseStContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IElseStContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IElsePartContext)
+	return t.(IElseStContext)
 }
 
-func (s *IfElseContext) GetRuleContext() antlr.RuleContext {
+func (s *IfElseStContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *IfElseContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *IfElseStContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *IfElseContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *IfElseStContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterIfElse(s)
+		listenerT.EnterIfElseSt(s)
 	}
 }
 
-func (s *IfElseContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *IfElseStContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitIfElse(s)
+		listenerT.ExitIfElseSt(s)
 	}
 }
 
-func (s *IfElseContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *IfElseStContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitIfElse(s)
+		return t.VisitIfElseSt(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) IfElse() (localctx IIfElseContext) {
-	localctx = NewIfElseContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 40, TinyLangParserRULE_ifElse)
+func (p *TinyLangParser) IfElseSt() (localctx IIfElseStContext) {
+	localctx = NewIfElseStContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 40, TinyLangParserRULE_ifElseSt)
 	var _la int
 
 	defer func() {
@@ -3977,7 +3978,7 @@ func (p *TinyLangParser) IfElse() (localctx IIfElseContext) {
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(265)
-		p.IF()
+		p.IfSt()
 	}
 	p.SetState(269)
 	p.GetErrorHandler().Sync(p)
@@ -3987,7 +3988,7 @@ func (p *TinyLangParser) IfElse() (localctx IIfElseContext) {
 		if _alt == 1 {
 			{
 				p.SetState(266)
-				p.ElseIf()
+				p.ElseIfSt()
 			}
 
 		}
@@ -4002,7 +4003,7 @@ func (p *TinyLangParser) IfElse() (localctx IIfElseContext) {
 	if _la == TinyLangParserELSE {
 		{
 			p.SetState(272)
-			p.ElsePart()
+			p.ElseSt()
 		}
 
 	}
@@ -4010,53 +4011,53 @@ func (p *TinyLangParser) IfElse() (localctx IIfElseContext) {
 	return localctx
 }
 
-// IIFContext is an interface to support dynamic dispatch.
-type IIFContext interface {
+// IIfStContext is an interface to support dynamic dispatch.
+type IIfStContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsIFContext differentiates from other interfaces.
-	IsIFContext()
+	// IsIfStContext differentiates from other interfaces.
+	IsIfStContext()
 }
 
-type IFContext struct {
+type IfStContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyIFContext() *IFContext {
-	var p = new(IFContext)
+func NewEmptyIfStContext() *IfStContext {
+	var p = new(IfStContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_iF
+	p.RuleIndex = TinyLangParserRULE_ifSt
 	return p
 }
 
-func (*IFContext) IsIFContext() {}
+func (*IfStContext) IsIfStContext() {}
 
-func NewIFContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *IFContext {
-	var p = new(IFContext)
+func NewIfStContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *IfStContext {
+	var p = new(IfStContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_iF
+	p.RuleIndex = TinyLangParserRULE_ifSt
 
 	return p
 }
 
-func (s *IFContext) GetParser() antlr.Parser { return s.parser }
+func (s *IfStContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *IFContext) IF() antlr.TerminalNode {
+func (s *IfStContext) IF() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserIF, 0)
 }
 
-func (s *IFContext) BOOL_VAL() antlr.TerminalNode {
+func (s *IfStContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *IFContext) BoolExpr() IBoolExprContext {
+func (s *IfStContext) BoolExpr() IBoolExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -4066,11 +4067,11 @@ func (s *IFContext) BoolExpr() IBoolExprContext {
 	return t.(IBoolExprContext)
 }
 
-func (s *IFContext) ITEM() antlr.TerminalNode {
+func (s *IfStContext) ITEM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, 0)
 }
 
-func (s *IFContext) FuncInvoc() IFuncInvocContext {
+func (s *IfStContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -4080,49 +4081,49 @@ func (s *IFContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *IFContext) CommonBody() ICommonBodyContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICommonBodyContext)(nil)).Elem(), 0)
+func (s *IfStContext) StatementBody() IStatementBodyContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IStatementBodyContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(ICommonBodyContext)
+	return t.(IStatementBodyContext)
 }
 
-func (s *IFContext) GetRuleContext() antlr.RuleContext {
+func (s *IfStContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *IFContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *IfStContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *IFContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *IfStContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterIF(s)
+		listenerT.EnterIfSt(s)
 	}
 }
 
-func (s *IFContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *IfStContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitIF(s)
+		listenerT.ExitIfSt(s)
 	}
 }
 
-func (s *IFContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *IfStContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitIF(s)
+		return t.VisitIfSt(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) IF() (localctx IIFContext) {
-	localctx = NewIFContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 42, TinyLangParserRULE_iF)
+func (p *TinyLangParser) IfSt() (localctx IIfStContext) {
+	localctx = NewIfStContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 42, TinyLangParserRULE_ifSt)
 
 	defer func() {
 		p.ExitRule()
@@ -4191,7 +4192,7 @@ func (p *TinyLangParser) IF() (localctx IIFContext) {
 	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 33, p.GetParserRuleContext()) == 1 {
 		{
 			p.SetState(285)
-			p.CommonBody()
+			p.StatementBody()
 		}
 
 	}
@@ -4203,57 +4204,57 @@ func (p *TinyLangParser) IF() (localctx IIFContext) {
 	return localctx
 }
 
-// IElseIfContext is an interface to support dynamic dispatch.
-type IElseIfContext interface {
+// IElseIfStContext is an interface to support dynamic dispatch.
+type IElseIfStContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsElseIfContext differentiates from other interfaces.
-	IsElseIfContext()
+	// IsElseIfStContext differentiates from other interfaces.
+	IsElseIfStContext()
 }
 
-type ElseIfContext struct {
+type ElseIfStContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyElseIfContext() *ElseIfContext {
-	var p = new(ElseIfContext)
+func NewEmptyElseIfStContext() *ElseIfStContext {
+	var p = new(ElseIfStContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_elseIf
+	p.RuleIndex = TinyLangParserRULE_elseIfSt
 	return p
 }
 
-func (*ElseIfContext) IsElseIfContext() {}
+func (*ElseIfStContext) IsElseIfStContext() {}
 
-func NewElseIfContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ElseIfContext {
-	var p = new(ElseIfContext)
+func NewElseIfStContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ElseIfStContext {
+	var p = new(ElseIfStContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_elseIf
+	p.RuleIndex = TinyLangParserRULE_elseIfSt
 
 	return p
 }
 
-func (s *ElseIfContext) GetParser() antlr.Parser { return s.parser }
+func (s *ElseIfStContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ElseIfContext) ELSE() antlr.TerminalNode {
+func (s *ElseIfStContext) ELSE() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserELSE, 0)
 }
 
-func (s *ElseIfContext) IF() antlr.TerminalNode {
+func (s *ElseIfStContext) IF() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserIF, 0)
 }
 
-func (s *ElseIfContext) BOOL_VAL() antlr.TerminalNode {
+func (s *ElseIfStContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *ElseIfContext) BoolExpr() IBoolExprContext {
+func (s *ElseIfStContext) BoolExpr() IBoolExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -4263,11 +4264,11 @@ func (s *ElseIfContext) BoolExpr() IBoolExprContext {
 	return t.(IBoolExprContext)
 }
 
-func (s *ElseIfContext) ITEM() antlr.TerminalNode {
+func (s *ElseIfStContext) ITEM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, 0)
 }
 
-func (s *ElseIfContext) FuncInvoc() IFuncInvocContext {
+func (s *ElseIfStContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -4277,49 +4278,49 @@ func (s *ElseIfContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *ElseIfContext) CommonBody() ICommonBodyContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICommonBodyContext)(nil)).Elem(), 0)
+func (s *ElseIfStContext) StatementBody() IStatementBodyContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IStatementBodyContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(ICommonBodyContext)
+	return t.(IStatementBodyContext)
 }
 
-func (s *ElseIfContext) GetRuleContext() antlr.RuleContext {
+func (s *ElseIfStContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ElseIfContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ElseIfStContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ElseIfContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ElseIfStContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterElseIf(s)
+		listenerT.EnterElseIfSt(s)
 	}
 }
 
-func (s *ElseIfContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ElseIfStContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitElseIf(s)
+		listenerT.ExitElseIfSt(s)
 	}
 }
 
-func (s *ElseIfContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *ElseIfStContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitElseIf(s)
+		return t.VisitElseIfSt(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ElseIf() (localctx IElseIfContext) {
-	localctx = NewElseIfContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 44, TinyLangParserRULE_elseIf)
+func (p *TinyLangParser) ElseIfSt() (localctx IElseIfStContext) {
+	localctx = NewElseIfStContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 44, TinyLangParserRULE_elseIfSt)
 
 	defer func() {
 		p.ExitRule()
@@ -4392,7 +4393,7 @@ func (p *TinyLangParser) ElseIf() (localctx IElseIfContext) {
 	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 35, p.GetParserRuleContext()) == 1 {
 		{
 			p.SetState(301)
-			p.CommonBody()
+			p.StatementBody()
 		}
 
 	}
@@ -4404,91 +4405,91 @@ func (p *TinyLangParser) ElseIf() (localctx IElseIfContext) {
 	return localctx
 }
 
-// IElsePartContext is an interface to support dynamic dispatch.
-type IElsePartContext interface {
+// IElseStContext is an interface to support dynamic dispatch.
+type IElseStContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsElsePartContext differentiates from other interfaces.
-	IsElsePartContext()
+	// IsElseStContext differentiates from other interfaces.
+	IsElseStContext()
 }
 
-type ElsePartContext struct {
+type ElseStContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyElsePartContext() *ElsePartContext {
-	var p = new(ElsePartContext)
+func NewEmptyElseStContext() *ElseStContext {
+	var p = new(ElseStContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_elsePart
+	p.RuleIndex = TinyLangParserRULE_elseSt
 	return p
 }
 
-func (*ElsePartContext) IsElsePartContext() {}
+func (*ElseStContext) IsElseStContext() {}
 
-func NewElsePartContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ElsePartContext {
-	var p = new(ElsePartContext)
+func NewElseStContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ElseStContext {
+	var p = new(ElseStContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_elsePart
+	p.RuleIndex = TinyLangParserRULE_elseSt
 
 	return p
 }
 
-func (s *ElsePartContext) GetParser() antlr.Parser { return s.parser }
+func (s *ElseStContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ElsePartContext) ELSE() antlr.TerminalNode {
+func (s *ElseStContext) ELSE() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserELSE, 0)
 }
 
-func (s *ElsePartContext) CommonBody() ICommonBodyContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICommonBodyContext)(nil)).Elem(), 0)
+func (s *ElseStContext) StatementBody() IStatementBodyContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IStatementBodyContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(ICommonBodyContext)
+	return t.(IStatementBodyContext)
 }
 
-func (s *ElsePartContext) GetRuleContext() antlr.RuleContext {
+func (s *ElseStContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ElsePartContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ElseStContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ElsePartContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ElseStContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterElsePart(s)
+		listenerT.EnterElseSt(s)
 	}
 }
 
-func (s *ElsePartContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ElseStContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitElsePart(s)
+		listenerT.ExitElseSt(s)
 	}
 }
 
-func (s *ElsePartContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *ElseStContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitElsePart(s)
+		return t.VisitElseSt(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) ElsePart() (localctx IElsePartContext) {
-	localctx = NewElsePartContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 46, TinyLangParserRULE_elsePart)
+func (p *TinyLangParser) ElseSt() (localctx IElseStContext) {
+	localctx = NewElseStContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 46, TinyLangParserRULE_elseSt)
 
 	defer func() {
 		p.ExitRule()
@@ -4521,7 +4522,7 @@ func (p *TinyLangParser) ElsePart() (localctx IElsePartContext) {
 	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 36, p.GetParserRuleContext()) == 1 {
 		{
 			p.SetState(308)
-			p.CommonBody()
+			p.StatementBody()
 		}
 
 	}
@@ -4533,53 +4534,53 @@ func (p *TinyLangParser) ElsePart() (localctx IElsePartContext) {
 	return localctx
 }
 
-// IWhileContext is an interface to support dynamic dispatch.
-type IWhileContext interface {
+// IWhileStContext is an interface to support dynamic dispatch.
+type IWhileStContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsWhileContext differentiates from other interfaces.
-	IsWhileContext()
+	// IsWhileStContext differentiates from other interfaces.
+	IsWhileStContext()
 }
 
-type WhileContext struct {
+type WhileStContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyWhileContext() *WhileContext {
-	var p = new(WhileContext)
+func NewEmptyWhileStContext() *WhileStContext {
+	var p = new(WhileStContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TinyLangParserRULE_while
+	p.RuleIndex = TinyLangParserRULE_whileSt
 	return p
 }
 
-func (*WhileContext) IsWhileContext() {}
+func (*WhileStContext) IsWhileStContext() {}
 
-func NewWhileContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *WhileContext {
-	var p = new(WhileContext)
+func NewWhileStContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *WhileStContext {
+	var p = new(WhileStContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = TinyLangParserRULE_while
+	p.RuleIndex = TinyLangParserRULE_whileSt
 
 	return p
 }
 
-func (s *WhileContext) GetParser() antlr.Parser { return s.parser }
+func (s *WhileStContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *WhileContext) WHILE() antlr.TerminalNode {
+func (s *WhileStContext) WHILE() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserWHILE, 0)
 }
 
-func (s *WhileContext) BOOL_VAL() antlr.TerminalNode {
+func (s *WhileStContext) BOOL_VAL() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserBOOL_VAL, 0)
 }
 
-func (s *WhileContext) BoolExpr() IBoolExprContext {
+func (s *WhileStContext) BoolExpr() IBoolExprContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IBoolExprContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -4589,11 +4590,11 @@ func (s *WhileContext) BoolExpr() IBoolExprContext {
 	return t.(IBoolExprContext)
 }
 
-func (s *WhileContext) ITEM() antlr.TerminalNode {
+func (s *WhileStContext) ITEM() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserITEM, 0)
 }
 
-func (s *WhileContext) FuncInvoc() IFuncInvocContext {
+func (s *WhileStContext) FuncInvoc() IFuncInvocContext {
 	var t = s.GetTypedRuleContext(reflect.TypeOf((*IFuncInvocContext)(nil)).Elem(), 0)
 
 	if t == nil {
@@ -4603,49 +4604,49 @@ func (s *WhileContext) FuncInvoc() IFuncInvocContext {
 	return t.(IFuncInvocContext)
 }
 
-func (s *WhileContext) CommonBody() ICommonBodyContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICommonBodyContext)(nil)).Elem(), 0)
+func (s *WhileStContext) StatementBody() IStatementBodyContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IStatementBodyContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(ICommonBodyContext)
+	return t.(IStatementBodyContext)
 }
 
-func (s *WhileContext) GetRuleContext() antlr.RuleContext {
+func (s *WhileStContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *WhileContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *WhileStContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *WhileContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *WhileStContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.EnterWhile(s)
+		listenerT.EnterWhileSt(s)
 	}
 }
 
-func (s *WhileContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *WhileStContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TinyLangListener); ok {
-		listenerT.ExitWhile(s)
+		listenerT.ExitWhileSt(s)
 	}
 }
 
-func (s *WhileContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *WhileStContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case TinyLangVisitor:
-		return t.VisitWhile(s)
+		return t.VisitWhileSt(s)
 
 	default:
 		return t.VisitChildren(s)
 	}
 }
 
-func (p *TinyLangParser) While() (localctx IWhileContext) {
-	localctx = NewWhileContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 48, TinyLangParserRULE_while)
+func (p *TinyLangParser) WhileSt() (localctx IWhileStContext) {
+	localctx = NewWhileStContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 48, TinyLangParserRULE_whileSt)
 
 	defer func() {
 		p.ExitRule()
@@ -4714,7 +4715,7 @@ func (p *TinyLangParser) While() (localctx IWhileContext) {
 	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 38, p.GetParserRuleContext()) == 1 {
 		{
 			p.SetState(323)
-			p.CommonBody()
+			p.StatementBody()
 		}
 
 	}
@@ -4768,27 +4769,27 @@ func (s *ForStContext) FOR() antlr.TerminalNode {
 	return s.GetToken(TinyLangParserFOR, 0)
 }
 
-func (s *ForStContext) AllUpdVar() []IUpdVarContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IUpdVarContext)(nil)).Elem())
-	var tst = make([]IUpdVarContext, len(ts))
+func (s *ForStContext) AllUpdVariable() []IUpdVariableContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IUpdVariableContext)(nil)).Elem())
+	var tst = make([]IUpdVariableContext, len(ts))
 
 	for i, t := range ts {
 		if t != nil {
-			tst[i] = t.(IUpdVarContext)
+			tst[i] = t.(IUpdVariableContext)
 		}
 	}
 
 	return tst
 }
 
-func (s *ForStContext) UpdVar(i int) IUpdVarContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IUpdVarContext)(nil)).Elem(), i)
+func (s *ForStContext) UpdVariable(i int) IUpdVariableContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IUpdVariableContext)(nil)).Elem(), i)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(IUpdVarContext)
+	return t.(IUpdVariableContext)
 }
 
 func (s *ForStContext) BoolExpr() IBoolExprContext {
@@ -4801,14 +4802,14 @@ func (s *ForStContext) BoolExpr() IBoolExprContext {
 	return t.(IBoolExprContext)
 }
 
-func (s *ForStContext) CommonBody() ICommonBodyContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICommonBodyContext)(nil)).Elem(), 0)
+func (s *ForStContext) StatementBody() IStatementBodyContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IStatementBodyContext)(nil)).Elem(), 0)
 
 	if t == nil {
 		return nil
 	}
 
-	return t.(ICommonBodyContext)
+	return t.(IStatementBodyContext)
 }
 
 func (s *ForStContext) GetRuleContext() antlr.RuleContext {
@@ -4872,7 +4873,7 @@ func (p *TinyLangParser) ForSt() (localctx IForStContext) {
 	}
 	{
 		p.SetState(330)
-		p.UpdVar()
+		p.UpdVariable()
 	}
 	{
 		p.SetState(331)
@@ -4888,7 +4889,7 @@ func (p *TinyLangParser) ForSt() (localctx IForStContext) {
 	}
 	{
 		p.SetState(334)
-		p.UpdVar()
+		p.UpdVariable()
 	}
 	{
 		p.SetState(335)
@@ -4900,7 +4901,7 @@ func (p *TinyLangParser) ForSt() (localctx IForStContext) {
 	}
 	{
 		p.SetState(337)
-		p.CommonBody()
+		p.StatementBody()
 	}
 	{
 		p.SetState(338)

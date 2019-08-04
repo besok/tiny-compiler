@@ -77,29 +77,29 @@ BOOL_SIGN
 rule names:
 file
 funcInit
-args
-returnSt
+funcArgs
+funcReturn
 funcInvoc
-argsInvoc
-argInvoc
-updVar
-newVar
-varType
+funcArgsInvoc
+funcInvocArgs
+updVariable
+newVariable
+variableType
 arrayElem
 arrayInit
-arrayInitEmp
-arrayInitVal
+arrayInitEmpty
+arrayInitValue
 arrayInitElems
 expr
-exprOp
+exprOperand
 boolExpr
-boolExprOp
-commonBody
-ifElse
-iF
-elseIf
-elsePart
-while
+boolExprOperand
+statementBody
+ifElseSt
+ifSt
+elseIfSt
+elseSt
+whileSt
 forSt
 
 

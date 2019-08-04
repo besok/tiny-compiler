@@ -14,29 +14,29 @@ type TinyLangListener interface {
 	// EnterFuncInit is called when entering the funcInit production.
 	EnterFuncInit(c *FuncInitContext)
 
-	// EnterArgs is called when entering the args production.
-	EnterArgs(c *ArgsContext)
+	// EnterFuncArgs is called when entering the funcArgs production.
+	EnterFuncArgs(c *FuncArgsContext)
 
-	// EnterReturnSt is called when entering the returnSt production.
-	EnterReturnSt(c *ReturnStContext)
+	// EnterFuncReturn is called when entering the funcReturn production.
+	EnterFuncReturn(c *FuncReturnContext)
 
 	// EnterFuncInvoc is called when entering the funcInvoc production.
 	EnterFuncInvoc(c *FuncInvocContext)
 
-	// EnterArgsInvoc is called when entering the argsInvoc production.
-	EnterArgsInvoc(c *ArgsInvocContext)
+	// EnterFuncArgsInvoc is called when entering the funcArgsInvoc production.
+	EnterFuncArgsInvoc(c *FuncArgsInvocContext)
 
-	// EnterArgInvoc is called when entering the argInvoc production.
-	EnterArgInvoc(c *ArgInvocContext)
+	// EnterFuncInvocArgs is called when entering the funcInvocArgs production.
+	EnterFuncInvocArgs(c *FuncInvocArgsContext)
 
-	// EnterUpdVar is called when entering the updVar production.
-	EnterUpdVar(c *UpdVarContext)
+	// EnterUpdVariable is called when entering the updVariable production.
+	EnterUpdVariable(c *UpdVariableContext)
 
-	// EnterNewVar is called when entering the newVar production.
-	EnterNewVar(c *NewVarContext)
+	// EnterNewVariable is called when entering the newVariable production.
+	EnterNewVariable(c *NewVariableContext)
 
-	// EnterVarType is called when entering the varType production.
-	EnterVarType(c *VarTypeContext)
+	// EnterVariableType is called when entering the variableType production.
+	EnterVariableType(c *VariableTypeContext)
 
 	// EnterArrayElem is called when entering the arrayElem production.
 	EnterArrayElem(c *ArrayElemContext)
@@ -44,11 +44,11 @@ type TinyLangListener interface {
 	// EnterArrayInit is called when entering the arrayInit production.
 	EnterArrayInit(c *ArrayInitContext)
 
-	// EnterArrayInitEmp is called when entering the arrayInitEmp production.
-	EnterArrayInitEmp(c *ArrayInitEmpContext)
+	// EnterArrayInitEmpty is called when entering the arrayInitEmpty production.
+	EnterArrayInitEmpty(c *ArrayInitEmptyContext)
 
-	// EnterArrayInitVal is called when entering the arrayInitVal production.
-	EnterArrayInitVal(c *ArrayInitValContext)
+	// EnterArrayInitValue is called when entering the arrayInitValue production.
+	EnterArrayInitValue(c *ArrayInitValueContext)
 
 	// EnterArrayInitElems is called when entering the arrayInitElems production.
 	EnterArrayInitElems(c *ArrayInitElemsContext)
@@ -56,32 +56,32 @@ type TinyLangListener interface {
 	// EnterExpr is called when entering the expr production.
 	EnterExpr(c *ExprContext)
 
-	// EnterExprOp is called when entering the exprOp production.
-	EnterExprOp(c *ExprOpContext)
+	// EnterExprOperand is called when entering the exprOperand production.
+	EnterExprOperand(c *ExprOperandContext)
 
 	// EnterBoolExpr is called when entering the boolExpr production.
 	EnterBoolExpr(c *BoolExprContext)
 
-	// EnterBoolExprOp is called when entering the boolExprOp production.
-	EnterBoolExprOp(c *BoolExprOpContext)
+	// EnterBoolExprOperand is called when entering the boolExprOperand production.
+	EnterBoolExprOperand(c *BoolExprOperandContext)
 
-	// EnterCommonBody is called when entering the commonBody production.
-	EnterCommonBody(c *CommonBodyContext)
+	// EnterStatementBody is called when entering the statementBody production.
+	EnterStatementBody(c *StatementBodyContext)
 
-	// EnterIfElse is called when entering the ifElse production.
-	EnterIfElse(c *IfElseContext)
+	// EnterIfElseSt is called when entering the ifElseSt production.
+	EnterIfElseSt(c *IfElseStContext)
 
-	// EnterIF is called when entering the iF production.
-	EnterIF(c *IFContext)
+	// EnterIfSt is called when entering the ifSt production.
+	EnterIfSt(c *IfStContext)
 
-	// EnterElseIf is called when entering the elseIf production.
-	EnterElseIf(c *ElseIfContext)
+	// EnterElseIfSt is called when entering the elseIfSt production.
+	EnterElseIfSt(c *ElseIfStContext)
 
-	// EnterElsePart is called when entering the elsePart production.
-	EnterElsePart(c *ElsePartContext)
+	// EnterElseSt is called when entering the elseSt production.
+	EnterElseSt(c *ElseStContext)
 
-	// EnterWhile is called when entering the while production.
-	EnterWhile(c *WhileContext)
+	// EnterWhileSt is called when entering the whileSt production.
+	EnterWhileSt(c *WhileStContext)
 
 	// EnterForSt is called when entering the forSt production.
 	EnterForSt(c *ForStContext)
@@ -92,29 +92,29 @@ type TinyLangListener interface {
 	// ExitFuncInit is called when exiting the funcInit production.
 	ExitFuncInit(c *FuncInitContext)
 
-	// ExitArgs is called when exiting the args production.
-	ExitArgs(c *ArgsContext)
+	// ExitFuncArgs is called when exiting the funcArgs production.
+	ExitFuncArgs(c *FuncArgsContext)
 
-	// ExitReturnSt is called when exiting the returnSt production.
-	ExitReturnSt(c *ReturnStContext)
+	// ExitFuncReturn is called when exiting the funcReturn production.
+	ExitFuncReturn(c *FuncReturnContext)
 
 	// ExitFuncInvoc is called when exiting the funcInvoc production.
 	ExitFuncInvoc(c *FuncInvocContext)
 
-	// ExitArgsInvoc is called when exiting the argsInvoc production.
-	ExitArgsInvoc(c *ArgsInvocContext)
+	// ExitFuncArgsInvoc is called when exiting the funcArgsInvoc production.
+	ExitFuncArgsInvoc(c *FuncArgsInvocContext)
 
-	// ExitArgInvoc is called when exiting the argInvoc production.
-	ExitArgInvoc(c *ArgInvocContext)
+	// ExitFuncInvocArgs is called when exiting the funcInvocArgs production.
+	ExitFuncInvocArgs(c *FuncInvocArgsContext)
 
-	// ExitUpdVar is called when exiting the updVar production.
-	ExitUpdVar(c *UpdVarContext)
+	// ExitUpdVariable is called when exiting the updVariable production.
+	ExitUpdVariable(c *UpdVariableContext)
 
-	// ExitNewVar is called when exiting the newVar production.
-	ExitNewVar(c *NewVarContext)
+	// ExitNewVariable is called when exiting the newVariable production.
+	ExitNewVariable(c *NewVariableContext)
 
-	// ExitVarType is called when exiting the varType production.
-	ExitVarType(c *VarTypeContext)
+	// ExitVariableType is called when exiting the variableType production.
+	ExitVariableType(c *VariableTypeContext)
 
 	// ExitArrayElem is called when exiting the arrayElem production.
 	ExitArrayElem(c *ArrayElemContext)
@@ -122,11 +122,11 @@ type TinyLangListener interface {
 	// ExitArrayInit is called when exiting the arrayInit production.
 	ExitArrayInit(c *ArrayInitContext)
 
-	// ExitArrayInitEmp is called when exiting the arrayInitEmp production.
-	ExitArrayInitEmp(c *ArrayInitEmpContext)
+	// ExitArrayInitEmpty is called when exiting the arrayInitEmpty production.
+	ExitArrayInitEmpty(c *ArrayInitEmptyContext)
 
-	// ExitArrayInitVal is called when exiting the arrayInitVal production.
-	ExitArrayInitVal(c *ArrayInitValContext)
+	// ExitArrayInitValue is called when exiting the arrayInitValue production.
+	ExitArrayInitValue(c *ArrayInitValueContext)
 
 	// ExitArrayInitElems is called when exiting the arrayInitElems production.
 	ExitArrayInitElems(c *ArrayInitElemsContext)
@@ -134,32 +134,32 @@ type TinyLangListener interface {
 	// ExitExpr is called when exiting the expr production.
 	ExitExpr(c *ExprContext)
 
-	// ExitExprOp is called when exiting the exprOp production.
-	ExitExprOp(c *ExprOpContext)
+	// ExitExprOperand is called when exiting the exprOperand production.
+	ExitExprOperand(c *ExprOperandContext)
 
 	// ExitBoolExpr is called when exiting the boolExpr production.
 	ExitBoolExpr(c *BoolExprContext)
 
-	// ExitBoolExprOp is called when exiting the boolExprOp production.
-	ExitBoolExprOp(c *BoolExprOpContext)
+	// ExitBoolExprOperand is called when exiting the boolExprOperand production.
+	ExitBoolExprOperand(c *BoolExprOperandContext)
 
-	// ExitCommonBody is called when exiting the commonBody production.
-	ExitCommonBody(c *CommonBodyContext)
+	// ExitStatementBody is called when exiting the statementBody production.
+	ExitStatementBody(c *StatementBodyContext)
 
-	// ExitIfElse is called when exiting the ifElse production.
-	ExitIfElse(c *IfElseContext)
+	// ExitIfElseSt is called when exiting the ifElseSt production.
+	ExitIfElseSt(c *IfElseStContext)
 
-	// ExitIF is called when exiting the iF production.
-	ExitIF(c *IFContext)
+	// ExitIfSt is called when exiting the ifSt production.
+	ExitIfSt(c *IfStContext)
 
-	// ExitElseIf is called when exiting the elseIf production.
-	ExitElseIf(c *ElseIfContext)
+	// ExitElseIfSt is called when exiting the elseIfSt production.
+	ExitElseIfSt(c *ElseIfStContext)
 
-	// ExitElsePart is called when exiting the elsePart production.
-	ExitElsePart(c *ElsePartContext)
+	// ExitElseSt is called when exiting the elseSt production.
+	ExitElseSt(c *ElseStContext)
 
-	// ExitWhile is called when exiting the while production.
-	ExitWhile(c *WhileContext)
+	// ExitWhileSt is called when exiting the whileSt production.
+	ExitWhileSt(c *WhileStContext)
 
 	// ExitForSt is called when exiting the forSt production.
 	ExitForSt(c *ForStContext)

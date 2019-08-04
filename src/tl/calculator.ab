@@ -41,7 +41,7 @@ func makeStringResult(result num) string {
 	var strNum string = ""
 
 	for(i =0; i < Len(nums); i = i+1){
-		strNum = strNum + numToString(num[i])
+		strNum = strNum + numToString(nums[i])
 	}
 
 	if(strNum == ""){

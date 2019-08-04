@@ -33,17 +33,17 @@ func (s *BaseTinyLangListener) EnterFuncInit(ctx *FuncInitContext) {}
 // ExitFuncInit is called when production funcInit is exited.
 func (s *BaseTinyLangListener) ExitFuncInit(ctx *FuncInitContext) {}
 
-// EnterArgs is called when production args is entered.
-func (s *BaseTinyLangListener) EnterArgs(ctx *ArgsContext) {}
+// EnterFuncArgs is called when production funcArgs is entered.
+func (s *BaseTinyLangListener) EnterFuncArgs(ctx *FuncArgsContext) {}
 
-// ExitArgs is called when production args is exited.
-func (s *BaseTinyLangListener) ExitArgs(ctx *ArgsContext) {}
+// ExitFuncArgs is called when production funcArgs is exited.
+func (s *BaseTinyLangListener) ExitFuncArgs(ctx *FuncArgsContext) {}
 
-// EnterReturnSt is called when production returnSt is entered.
-func (s *BaseTinyLangListener) EnterReturnSt(ctx *ReturnStContext) {}
+// EnterFuncReturn is called when production funcReturn is entered.
+func (s *BaseTinyLangListener) EnterFuncReturn(ctx *FuncReturnContext) {}
 
-// ExitReturnSt is called when production returnSt is exited.
-func (s *BaseTinyLangListener) ExitReturnSt(ctx *ReturnStContext) {}
+// ExitFuncReturn is called when production funcReturn is exited.
+func (s *BaseTinyLangListener) ExitFuncReturn(ctx *FuncReturnContext) {}
 
 // EnterFuncInvoc is called when production funcInvoc is entered.
 func (s *BaseTinyLangListener) EnterFuncInvoc(ctx *FuncInvocContext) {}
@@ -51,35 +51,35 @@ func (s *BaseTinyLangListener) EnterFuncInvoc(ctx *FuncInvocContext) {}
 // ExitFuncInvoc is called when production funcInvoc is exited.
 func (s *BaseTinyLangListener) ExitFuncInvoc(ctx *FuncInvocContext) {}
 
-// EnterArgsInvoc is called when production argsInvoc is entered.
-func (s *BaseTinyLangListener) EnterArgsInvoc(ctx *ArgsInvocContext) {}
+// EnterFuncArgsInvoc is called when production funcArgsInvoc is entered.
+func (s *BaseTinyLangListener) EnterFuncArgsInvoc(ctx *FuncArgsInvocContext) {}
 
-// ExitArgsInvoc is called when production argsInvoc is exited.
-func (s *BaseTinyLangListener) ExitArgsInvoc(ctx *ArgsInvocContext) {}
+// ExitFuncArgsInvoc is called when production funcArgsInvoc is exited.
+func (s *BaseTinyLangListener) ExitFuncArgsInvoc(ctx *FuncArgsInvocContext) {}
 
-// EnterArgInvoc is called when production argInvoc is entered.
-func (s *BaseTinyLangListener) EnterArgInvoc(ctx *ArgInvocContext) {}
+// EnterFuncInvocArgs is called when production funcInvocArgs is entered.
+func (s *BaseTinyLangListener) EnterFuncInvocArgs(ctx *FuncInvocArgsContext) {}
 
-// ExitArgInvoc is called when production argInvoc is exited.
-func (s *BaseTinyLangListener) ExitArgInvoc(ctx *ArgInvocContext) {}
+// ExitFuncInvocArgs is called when production funcInvocArgs is exited.
+func (s *BaseTinyLangListener) ExitFuncInvocArgs(ctx *FuncInvocArgsContext) {}
 
-// EnterUpdVar is called when production updVar is entered.
-func (s *BaseTinyLangListener) EnterUpdVar(ctx *UpdVarContext) {}
+// EnterUpdVariable is called when production updVariable is entered.
+func (s *BaseTinyLangListener) EnterUpdVariable(ctx *UpdVariableContext) {}
 
-// ExitUpdVar is called when production updVar is exited.
-func (s *BaseTinyLangListener) ExitUpdVar(ctx *UpdVarContext) {}
+// ExitUpdVariable is called when production updVariable is exited.
+func (s *BaseTinyLangListener) ExitUpdVariable(ctx *UpdVariableContext) {}
 
-// EnterNewVar is called when production newVar is entered.
-func (s *BaseTinyLangListener) EnterNewVar(ctx *NewVarContext) {}
+// EnterNewVariable is called when production newVariable is entered.
+func (s *BaseTinyLangListener) EnterNewVariable(ctx *NewVariableContext) {}
 
-// ExitNewVar is called when production newVar is exited.
-func (s *BaseTinyLangListener) ExitNewVar(ctx *NewVarContext) {}
+// ExitNewVariable is called when production newVariable is exited.
+func (s *BaseTinyLangListener) ExitNewVariable(ctx *NewVariableContext) {}
 
-// EnterVarType is called when production varType is entered.
-func (s *BaseTinyLangListener) EnterVarType(ctx *VarTypeContext) {}
+// EnterVariableType is called when production variableType is entered.
+func (s *BaseTinyLangListener) EnterVariableType(ctx *VariableTypeContext) {}
 
-// ExitVarType is called when production varType is exited.
-func (s *BaseTinyLangListener) ExitVarType(ctx *VarTypeContext) {}
+// ExitVariableType is called when production variableType is exited.
+func (s *BaseTinyLangListener) ExitVariableType(ctx *VariableTypeContext) {}
 
 // EnterArrayElem is called when production arrayElem is entered.
 func (s *BaseTinyLangListener) EnterArrayElem(ctx *ArrayElemContext) {}
@@ -93,17 +93,17 @@ func (s *BaseTinyLangListener) EnterArrayInit(ctx *ArrayInitContext) {}
 // ExitArrayInit is called when production arrayInit is exited.
 func (s *BaseTinyLangListener) ExitArrayInit(ctx *ArrayInitContext) {}
 
-// EnterArrayInitEmp is called when production arrayInitEmp is entered.
-func (s *BaseTinyLangListener) EnterArrayInitEmp(ctx *ArrayInitEmpContext) {}
+// EnterArrayInitEmpty is called when production arrayInitEmpty is entered.
+func (s *BaseTinyLangListener) EnterArrayInitEmpty(ctx *ArrayInitEmptyContext) {}
 
-// ExitArrayInitEmp is called when production arrayInitEmp is exited.
-func (s *BaseTinyLangListener) ExitArrayInitEmp(ctx *ArrayInitEmpContext) {}
+// ExitArrayInitEmpty is called when production arrayInitEmpty is exited.
+func (s *BaseTinyLangListener) ExitArrayInitEmpty(ctx *ArrayInitEmptyContext) {}
 
-// EnterArrayInitVal is called when production arrayInitVal is entered.
-func (s *BaseTinyLangListener) EnterArrayInitVal(ctx *ArrayInitValContext) {}
+// EnterArrayInitValue is called when production arrayInitValue is entered.
+func (s *BaseTinyLangListener) EnterArrayInitValue(ctx *ArrayInitValueContext) {}
 
-// ExitArrayInitVal is called when production arrayInitVal is exited.
-func (s *BaseTinyLangListener) ExitArrayInitVal(ctx *ArrayInitValContext) {}
+// ExitArrayInitValue is called when production arrayInitValue is exited.
+func (s *BaseTinyLangListener) ExitArrayInitValue(ctx *ArrayInitValueContext) {}
 
 // EnterArrayInitElems is called when production arrayInitElems is entered.
 func (s *BaseTinyLangListener) EnterArrayInitElems(ctx *ArrayInitElemsContext) {}
@@ -117,11 +117,11 @@ func (s *BaseTinyLangListener) EnterExpr(ctx *ExprContext) {}
 // ExitExpr is called when production expr is exited.
 func (s *BaseTinyLangListener) ExitExpr(ctx *ExprContext) {}
 
-// EnterExprOp is called when production exprOp is entered.
-func (s *BaseTinyLangListener) EnterExprOp(ctx *ExprOpContext) {}
+// EnterExprOperand is called when production exprOperand is entered.
+func (s *BaseTinyLangListener) EnterExprOperand(ctx *ExprOperandContext) {}
 
-// ExitExprOp is called when production exprOp is exited.
-func (s *BaseTinyLangListener) ExitExprOp(ctx *ExprOpContext) {}
+// ExitExprOperand is called when production exprOperand is exited.
+func (s *BaseTinyLangListener) ExitExprOperand(ctx *ExprOperandContext) {}
 
 // EnterBoolExpr is called when production boolExpr is entered.
 func (s *BaseTinyLangListener) EnterBoolExpr(ctx *BoolExprContext) {}
@@ -129,47 +129,47 @@ func (s *BaseTinyLangListener) EnterBoolExpr(ctx *BoolExprContext) {}
 // ExitBoolExpr is called when production boolExpr is exited.
 func (s *BaseTinyLangListener) ExitBoolExpr(ctx *BoolExprContext) {}
 
-// EnterBoolExprOp is called when production boolExprOp is entered.
-func (s *BaseTinyLangListener) EnterBoolExprOp(ctx *BoolExprOpContext) {}
+// EnterBoolExprOperand is called when production boolExprOperand is entered.
+func (s *BaseTinyLangListener) EnterBoolExprOperand(ctx *BoolExprOperandContext) {}
 
-// ExitBoolExprOp is called when production boolExprOp is exited.
-func (s *BaseTinyLangListener) ExitBoolExprOp(ctx *BoolExprOpContext) {}
+// ExitBoolExprOperand is called when production boolExprOperand is exited.
+func (s *BaseTinyLangListener) ExitBoolExprOperand(ctx *BoolExprOperandContext) {}
 
-// EnterCommonBody is called when production commonBody is entered.
-func (s *BaseTinyLangListener) EnterCommonBody(ctx *CommonBodyContext) {}
+// EnterStatementBody is called when production statementBody is entered.
+func (s *BaseTinyLangListener) EnterStatementBody(ctx *StatementBodyContext) {}
 
-// ExitCommonBody is called when production commonBody is exited.
-func (s *BaseTinyLangListener) ExitCommonBody(ctx *CommonBodyContext) {}
+// ExitStatementBody is called when production statementBody is exited.
+func (s *BaseTinyLangListener) ExitStatementBody(ctx *StatementBodyContext) {}
 
-// EnterIfElse is called when production ifElse is entered.
-func (s *BaseTinyLangListener) EnterIfElse(ctx *IfElseContext) {}
+// EnterIfElseSt is called when production ifElseSt is entered.
+func (s *BaseTinyLangListener) EnterIfElseSt(ctx *IfElseStContext) {}
 
-// ExitIfElse is called when production ifElse is exited.
-func (s *BaseTinyLangListener) ExitIfElse(ctx *IfElseContext) {}
+// ExitIfElseSt is called when production ifElseSt is exited.
+func (s *BaseTinyLangListener) ExitIfElseSt(ctx *IfElseStContext) {}
 
-// EnterIF is called when production iF is entered.
-func (s *BaseTinyLangListener) EnterIF(ctx *IFContext) {}
+// EnterIfSt is called when production ifSt is entered.
+func (s *BaseTinyLangListener) EnterIfSt(ctx *IfStContext) {}
 
-// ExitIF is called when production iF is exited.
-func (s *BaseTinyLangListener) ExitIF(ctx *IFContext) {}
+// ExitIfSt is called when production ifSt is exited.
+func (s *BaseTinyLangListener) ExitIfSt(ctx *IfStContext) {}
 
-// EnterElseIf is called when production elseIf is entered.
-func (s *BaseTinyLangListener) EnterElseIf(ctx *ElseIfContext) {}
+// EnterElseIfSt is called when production elseIfSt is entered.
+func (s *BaseTinyLangListener) EnterElseIfSt(ctx *ElseIfStContext) {}
 
-// ExitElseIf is called when production elseIf is exited.
-func (s *BaseTinyLangListener) ExitElseIf(ctx *ElseIfContext) {}
+// ExitElseIfSt is called when production elseIfSt is exited.
+func (s *BaseTinyLangListener) ExitElseIfSt(ctx *ElseIfStContext) {}
 
-// EnterElsePart is called when production elsePart is entered.
-func (s *BaseTinyLangListener) EnterElsePart(ctx *ElsePartContext) {}
+// EnterElseSt is called when production elseSt is entered.
+func (s *BaseTinyLangListener) EnterElseSt(ctx *ElseStContext) {}
 
-// ExitElsePart is called when production elsePart is exited.
-func (s *BaseTinyLangListener) ExitElsePart(ctx *ElsePartContext) {}
+// ExitElseSt is called when production elseSt is exited.
+func (s *BaseTinyLangListener) ExitElseSt(ctx *ElseStContext) {}
 
-// EnterWhile is called when production while is entered.
-func (s *BaseTinyLangListener) EnterWhile(ctx *WhileContext) {}
+// EnterWhileSt is called when production whileSt is entered.
+func (s *BaseTinyLangListener) EnterWhileSt(ctx *WhileStContext) {}
 
-// ExitWhile is called when production while is exited.
-func (s *BaseTinyLangListener) ExitWhile(ctx *WhileContext) {}
+// ExitWhileSt is called when production whileSt is exited.
+func (s *BaseTinyLangListener) ExitWhileSt(ctx *WhileStContext) {}
 
 // EnterForSt is called when production forSt is entered.
 func (s *BaseTinyLangListener) EnterForSt(ctx *ForStContext) {}

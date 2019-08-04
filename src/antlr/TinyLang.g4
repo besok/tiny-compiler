@@ -26,23 +26,23 @@ BOOL_SIGN:  '==' | '!=' | '>' | '<';
 
 file: funcInit* EOF;
 
-funcInit: 'func' ITEM '(' args ')' ( varType | VOID ) '{' commonBody returnSt?'}' ;
-args: ( ITEM varType (',' ITEM varType)*)? ;
-returnSt: RETURN (arrayElem | funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
+funcInit: 'func' ITEM '(' funcArgs ')' ( variableType | VOID ) '{' statementBody funcReturn?'}' ;
+funcArgs: ( ITEM variableType (',' ITEM variableType)*)? ;
+funcReturn: RETURN (arrayElem | funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
 
-funcInvoc: ( SYS_FUNC | ITEM ) '('argsInvoc')' ;
-argsInvoc:( argInvoc (',' argInvoc)* )?;
-argInvoc : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc | arrayElem;
+funcInvoc: ( SYS_FUNC | ITEM ) '('funcArgsInvoc')' ;
+funcArgsInvoc:( funcInvocArgs (',' funcInvocArgs)* )?;
+funcInvocArgs : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc | arrayElem;
 
-updVar: (ITEM | arrayElem) '=' (expr | funcInvoc | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | arrayElem  );
-newVar: 'var' ITEM varType '=' (expr | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc );
+updVariable: (ITEM | arrayElem) '=' (expr | funcInvoc | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | arrayElem  );
+newVariable: 'var' ITEM variableType '=' (expr | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc );
 
-varType: ARRAY | STRING | NUM | BOOL;
+variableType: ARRAY | STRING | NUM | BOOL;
 
 arrayElem: ITEM'['( NUMBER | ITEM | funcInvoc | expr)']';
-arrayInit: arrayInitVal | arrayInitEmp;
-arrayInitEmp: '[' (NUMBER | '..' )']' (NUM | STRING | BOOL) ;
-arrayInitVal: '{' arrayInitElems '}' ;
+arrayInit: arrayInitValue | arrayInitEmpty;
+arrayInitEmpty: '[' (NUMBER | '..' )']' (NUM | STRING | BOOL) ;
+arrayInitValue: '{' arrayInitElems '}' ;
 arrayInitElems:
     (BOOL_VAL (',' BOOL_VAL)* )
     |
@@ -51,28 +51,28 @@ arrayInitElems:
     (NUMBER (',' NUMBER)* );
 
 expr:
-       ((exprOp) NUM_SIGN (exprOp | expr))
+       ((exprOperand) NUM_SIGN (exprOperand | expr))
        |
-       ('(' (exprOp | expr) NUM_SIGN (exprOp | expr)')')
+       ('(' (exprOperand | expr) NUM_SIGN (exprOperand | expr)')')
        ;
-exprOp: funcInvoc | NUMBER | ITEM | STRING_RAW  | arrayElem ;
+exprOperand: funcInvoc | NUMBER | ITEM | STRING_RAW  | arrayElem ;
 
 boolExpr:
-        ((boolExprOp) BOOL_SIGN (boolExprOp | boolExpr))
+        ((boolExprOperand) BOOL_SIGN (boolExprOperand | boolExpr))
         |
-        ('(' (boolExprOp | boolExpr) BOOL_SIGN (boolExprOp | boolExpr)')')
+        ('(' (boolExprOperand | boolExpr) BOOL_SIGN (boolExprOperand | boolExpr)')')
         ;
-boolExprOp:  expr | exprOp | BOOL_VAL | arrayElem ;
+boolExprOperand:  expr | exprOperand | BOOL_VAL | arrayElem ;
 
 
-commonBody: (newVar | updVar | funcInvoc | ifElse | while | forSt)*;
+statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt)*;
 
-ifElse: iF elseIf* elsePart?;
-iF : IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' commonBody?'}' ;
-elseIf: ELSE IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{'commonBody? '}';
-elsePart: ELSE '{'commonBody? '}';
+ifElseSt: ifSt elseIfSt* elseSt?;
+ifSt : IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;
+elseIfSt: ELSE IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{'statementBody? '}';
+elseSt: ELSE '{'statementBody? '}';
 
-while: WHILE '(' (BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' commonBody? '}';
+whileSt: WHILE '(' (BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' statementBody? '}';
 
-forSt: FOR '(' updVar ';' boolExpr ';' updVar ')' '{' commonBody'}';
+forSt: FOR '(' updVariable ';' boolExpr ';' updVariable ')' '{' statementBody'}';
 
