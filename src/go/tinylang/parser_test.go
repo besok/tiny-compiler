@@ -9,7 +9,7 @@ import (
 
 func Test_EnterEveryRule(t *testing.T){
 
-	inp,_ := antlr.NewFileStream(	`C:\projects\tiny-compiler\src\tl\calculator.tl`)
+	inp,_ := antlr.NewFileStream(	`C:\projects\tiny-compiler\src\ab\calculator.ab`)
 	lexer := parser.NewTinyLangLexer(inp)
 	p := parser.NewTinyLangParser(antlr.NewCommonTokenStream(lexer, 0))
 
