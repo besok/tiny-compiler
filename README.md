@@ -1,7 +1,21 @@
 ### Tiny compiler for Tiny Language
 
-a compiler for small language based on golang.
-Language - almost basic : ab 
+The base idea is to show how the compiler works in simple words.
+So, this is planned to be a small simple compiler including all basic common steps and simple optimizations.
+
+```
+source file -> intermidiate representation[bytecode] -> executable file
+```
+
+Language name : Almost basic - AB, file extension: ab
+
+#### Stages
+- source file *.ab
+- parsing by antlr
+- create register-based IR by golang 
+- save IR to file
+- execute this file 
+
 ---
 
 #### Syntax
@@ -73,26 +87,18 @@ func functionName(function args) return type or empty {
 ```
 // numbers(int)
 var el1 num = 10
-var el2 num = el + el
-var el3 num = el - el
-var el4 num = el * el
-var el5 num = el / el
-var el6 num = el % el
+var el2 num = el + el - el * el / el % el
 
 // strings
-var s1 string = "string1"
-var s2 string = "string2"
-var s3 string = s1+s2
-var b1 bool = s1 == s2
-var b2 bool = s1 != s2
+var s1 string = "s1" 
+var s2 string = "s2"
+var s3 string = s1 + s2 
+var b1 bool = s1 == s2 , s1 != s2
 
 // logical
-var t bool = true
-var f bool = false
-var r bool = t == f // false
-var r bool = t != f // true
-var r bool = t > f // false
-void / null 
+var t bool = true , false
+var r bool = t == f  , t != f
+
 ```
 
 ##### console
@@ -103,6 +109,14 @@ Output(text to output)
 ```
 
 -------
+
+#### Simple example - hello world
+```go
+func main(args []string) void {
+	Output("Hello world!")
+}
+``` 
+
 
 #### Simple example - console calculator
 
