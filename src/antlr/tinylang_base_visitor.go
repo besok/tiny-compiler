@@ -80,6 +80,10 @@ func (v *BaseTinyLangVisitor) VisitBoolExpr(ctx *BoolExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseTinyLangVisitor) VisitBoolExprSingle(ctx *BoolExprSingleContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseTinyLangVisitor) VisitBoolExprOperand(ctx *BoolExprOperandContext) interface{} {
 	return v.VisitChildren(ctx)
 }

@@ -129,6 +129,12 @@ func (s *BaseTinyLangListener) EnterBoolExpr(ctx *BoolExprContext) {}
 // ExitBoolExpr is called when production boolExpr is exited.
 func (s *BaseTinyLangListener) ExitBoolExpr(ctx *BoolExprContext) {}
 
+// EnterBoolExprSingle is called when production boolExprSingle is entered.
+func (s *BaseTinyLangListener) EnterBoolExprSingle(ctx *BoolExprSingleContext) {}
+
+// ExitBoolExprSingle is called when production boolExprSingle is exited.
+func (s *BaseTinyLangListener) ExitBoolExprSingle(ctx *BoolExprSingleContext) {}
+
 // EnterBoolExprOperand is called when production boolExprOperand is entered.
 func (s *BaseTinyLangListener) EnterBoolExprOperand(ctx *BoolExprOperandContext) {}
 

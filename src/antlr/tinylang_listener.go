@@ -62,6 +62,9 @@ type TinyLangListener interface {
 	// EnterBoolExpr is called when entering the boolExpr production.
 	EnterBoolExpr(c *BoolExprContext)
 
+	// EnterBoolExprSingle is called when entering the boolExprSingle production.
+	EnterBoolExprSingle(c *BoolExprSingleContext)
+
 	// EnterBoolExprOperand is called when entering the boolExprOperand production.
 	EnterBoolExprOperand(c *BoolExprOperandContext)
 
@@ -139,6 +142,9 @@ type TinyLangListener interface {
 
 	// ExitBoolExpr is called when exiting the boolExpr production.
 	ExitBoolExpr(c *BoolExprContext)
+
+	// ExitBoolExprSingle is called when exiting the boolExprSingle production.
+	ExitBoolExprSingle(c *BoolExprSingleContext)
 
 	// ExitBoolExprOperand is called when exiting the boolExprOperand production.
 	ExitBoolExprOperand(c *BoolExprOperandContext)

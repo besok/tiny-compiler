@@ -62,6 +62,9 @@ type TinyLangVisitor interface {
 	// Visit a parse tree produced by TinyLangParser#boolExpr.
 	VisitBoolExpr(ctx *BoolExprContext) interface{}
 
+	// Visit a parse tree produced by TinyLangParser#boolExprSingle.
+	VisitBoolExprSingle(ctx *BoolExprSingleContext) interface{}
+
 	// Visit a parse tree produced by TinyLangParser#boolExprOperand.
 	VisitBoolExprOperand(ctx *BoolExprOperandContext) interface{}
 
