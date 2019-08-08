@@ -31,7 +31,7 @@ func Parse(path string) error {
 	p.BuildParseTrees = true
 	file := p.File()
 
-	antlr.ParseTreeWalkerDefault.Walk(NewPrintListener(), file)
+	antlr.ParseTreeWalkerDefault.Walk(NewListener(), file)
 
 	return nil
 }
