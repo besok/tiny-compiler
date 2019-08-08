@@ -3,6 +3,8 @@ grammar TinyLang;
 WS : [ \t\r\n]+ -> skip ;
 WHILE: 'while';
 RETURN: 'return';
+BREAK:'break';
+CONTINUE: 'continue';
 IF: 'if';
 FOR: 'for';
 ELSE: 'else';
@@ -57,7 +59,9 @@ expr:
        ;
 exprOperand: funcInvoc | NUMBER | ITEM | STRING_RAW  | arrayElem ;
 
-boolExpr:
+boolExpr: boolExprSingle (('&&' | '||') boolExprSingle)*;
+
+boolExprSingle:
         ((boolExprOperand) BOOL_SIGN (boolExprOperand | boolExpr))
         |
         ('(' (boolExprOperand | boolExpr) BOOL_SIGN (boolExprOperand | boolExpr)')')
