@@ -1,37 +1,45 @@
 package parsing
 
-import (
-	"github.com/antlr/antlr4/runtime/Go/antlr"
-	parser "tiny-compiler/src/antlr"
-)
+var ctx = make([]Ctx, 0)
 
-type App struct {
-	functions []FuncDefinition
+func Push(c Ctx) {
+	ctx = append(ctx, c)
+}
+func Pop() (*Ctx, bool) {
+	l := len(ctx)
+	if l == 0 {
+		return nil, false
+	}
+	ret := ctx[l-1]
+	ctx = ctx[:l-1]
+	return &ret, true
+}
+type VarCtx struct {
+	V Var
+	S CtxState
 }
 
-type FuncDefinition struct {
-	line int
-	name string
+func (v VarCtx) getState() CtxState {
+	return v.S
 }
 
-var app = App{functions: make([]FuncDefinition, 0)}
-
-func addFunc(f FuncDefinition) error {
-	app.functions = append(app.functions, f)
-	return nil
+func (v VarCtx) setState(st CtxState) {
 }
 
-func Parse(path string) error {
-
-	inp, _ := antlr.NewFileStream(path)
-	lexer := parser.NewTinyLangLexer(inp)
-	p := parser.NewTinyLangParser(antlr.NewCommonTokenStream(lexer, 0))
-
-	p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
-	p.BuildParseTrees = true
-	file := p.File()
-
-	antlr.ParseTreeWalkerDefault.Walk(NewListener(), file)
-
-	return nil
+func (v VarCtx) PutItem(ctx Ctx) {
 }
+
+func (v VarCtx) Close() {
+}
+
+type Var struct {
+	Name string
+	Type Type
+}
+
+
+type Type struct {
+	IsArray bool
+	T       string
+}
+

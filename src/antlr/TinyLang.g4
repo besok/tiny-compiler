@@ -28,9 +28,11 @@ BOOL_SIGN:  '==' | '!=' | '>' | '<';
 
 file: funcInit* EOF;
 
-funcInit: 'func' ITEM '(' funcArgs ')' ( variableType | VOID ) '{' statementBody funcReturn?'}' ;
-funcArgs: ( ITEM variableType (',' ITEM variableType)*)? ;
+funcInit: 'func' ITEM '(' funcArgs ')' funcReturnType '{' statementBody funcReturn?'}' ;
+funcArg: ITEM variableType ;
+funcArgs: ( funcArg (',' funcArg)*)? ;
 funcReturn: RETURN (arrayElem | funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
+funcReturnType: variableType | VOID;
 
 funcInvoc: ( SYS_FUNC | ITEM ) '('funcArgsInvoc')' ;
 funcArgsInvoc:( funcInvocArgs (',' funcInvocArgs)* )?;
@@ -69,7 +71,8 @@ boolExprSingle:
 boolExprOperand:  expr | exprOperand | BOOL_VAL | arrayElem ;
 
 
-statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt)*;
+
+statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt | BREAK | CONTINUE)*;
 
 ifElseSt: ifSt elseIfSt* elseSt?;
 ifSt : IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;

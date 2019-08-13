@@ -16,11 +16,19 @@ func (v *BaseTinyLangVisitor) VisitFuncInit(ctx *FuncInitContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseTinyLangVisitor) VisitFuncArg(ctx *FuncArgContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseTinyLangVisitor) VisitFuncArgs(ctx *FuncArgsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
 func (v *BaseTinyLangVisitor) VisitFuncReturn(ctx *FuncReturnContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTinyLangVisitor) VisitFuncReturnType(ctx *FuncReturnTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

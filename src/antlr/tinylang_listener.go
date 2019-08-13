@@ -14,11 +14,17 @@ type TinyLangListener interface {
 	// EnterFuncInit is called when entering the funcInit production.
 	EnterFuncInit(c *FuncInitContext)
 
+	// EnterFuncArg is called when entering the funcArg production.
+	EnterFuncArg(c *FuncArgContext)
+
 	// EnterFuncArgs is called when entering the funcArgs production.
 	EnterFuncArgs(c *FuncArgsContext)
 
 	// EnterFuncReturn is called when entering the funcReturn production.
 	EnterFuncReturn(c *FuncReturnContext)
+
+	// EnterFuncReturnType is called when entering the funcReturnType production.
+	EnterFuncReturnType(c *FuncReturnTypeContext)
 
 	// EnterFuncInvoc is called when entering the funcInvoc production.
 	EnterFuncInvoc(c *FuncInvocContext)
@@ -95,11 +101,17 @@ type TinyLangListener interface {
 	// ExitFuncInit is called when exiting the funcInit production.
 	ExitFuncInit(c *FuncInitContext)
 
+	// ExitFuncArg is called when exiting the funcArg production.
+	ExitFuncArg(c *FuncArgContext)
+
 	// ExitFuncArgs is called when exiting the funcArgs production.
 	ExitFuncArgs(c *FuncArgsContext)
 
 	// ExitFuncReturn is called when exiting the funcReturn production.
 	ExitFuncReturn(c *FuncReturnContext)
+
+	// ExitFuncReturnType is called when exiting the funcReturnType production.
+	ExitFuncReturnType(c *FuncReturnTypeContext)
 
 	// ExitFuncInvoc is called when exiting the funcInvoc production.
 	ExitFuncInvoc(c *FuncInvocContext)

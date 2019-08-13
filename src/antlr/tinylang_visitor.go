@@ -14,11 +14,17 @@ type TinyLangVisitor interface {
 	// Visit a parse tree produced by TinyLangParser#funcInit.
 	VisitFuncInit(ctx *FuncInitContext) interface{}
 
+	// Visit a parse tree produced by TinyLangParser#funcArg.
+	VisitFuncArg(ctx *FuncArgContext) interface{}
+
 	// Visit a parse tree produced by TinyLangParser#funcArgs.
 	VisitFuncArgs(ctx *FuncArgsContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#funcReturn.
 	VisitFuncReturn(ctx *FuncReturnContext) interface{}
+
+	// Visit a parse tree produced by TinyLangParser#funcReturnType.
+	VisitFuncReturnType(ctx *FuncReturnTypeContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#funcInvoc.
 	VisitFuncInvoc(ctx *FuncInvocContext) interface{}

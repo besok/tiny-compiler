@@ -33,6 +33,12 @@ func (s *BaseTinyLangListener) EnterFuncInit(ctx *FuncInitContext) {}
 // ExitFuncInit is called when production funcInit is exited.
 func (s *BaseTinyLangListener) ExitFuncInit(ctx *FuncInitContext) {}
 
+// EnterFuncArg is called when production funcArg is entered.
+func (s *BaseTinyLangListener) EnterFuncArg(ctx *FuncArgContext) {}
+
+// ExitFuncArg is called when production funcArg is exited.
+func (s *BaseTinyLangListener) ExitFuncArg(ctx *FuncArgContext) {}
+
 // EnterFuncArgs is called when production funcArgs is entered.
 func (s *BaseTinyLangListener) EnterFuncArgs(ctx *FuncArgsContext) {}
 
@@ -44,6 +50,12 @@ func (s *BaseTinyLangListener) EnterFuncReturn(ctx *FuncReturnContext) {}
 
 // ExitFuncReturn is called when production funcReturn is exited.
 func (s *BaseTinyLangListener) ExitFuncReturn(ctx *FuncReturnContext) {}
+
+// EnterFuncReturnType is called when production funcReturnType is entered.
+func (s *BaseTinyLangListener) EnterFuncReturnType(ctx *FuncReturnTypeContext) {}
+
+// ExitFuncReturnType is called when production funcReturnType is exited.
+func (s *BaseTinyLangListener) ExitFuncReturnType(ctx *FuncReturnTypeContext) {}
 
 // EnterFuncInvoc is called when production funcInvoc is entered.
 func (s *BaseTinyLangListener) EnterFuncInvoc(ctx *FuncInvocContext) {}
