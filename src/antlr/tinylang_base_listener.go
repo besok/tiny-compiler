@@ -87,6 +87,12 @@ func (s *BaseTinyLangListener) EnterNewVariable(ctx *NewVariableContext) {}
 // ExitNewVariable is called when production newVariable is exited.
 func (s *BaseTinyLangListener) ExitNewVariable(ctx *NewVariableContext) {}
 
+// EnterVal is called when production val is entered.
+func (s *BaseTinyLangListener) EnterVal(ctx *ValContext) {}
+
+// ExitVal is called when production val is exited.
+func (s *BaseTinyLangListener) ExitVal(ctx *ValContext) {}
+
 // EnterVariableType is called when production variableType is entered.
 func (s *BaseTinyLangListener) EnterVariableType(ctx *VariableTypeContext) {}
 

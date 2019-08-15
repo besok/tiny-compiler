@@ -52,6 +52,10 @@ func (v *BaseTinyLangVisitor) VisitNewVariable(ctx *NewVariableContext) interfac
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseTinyLangVisitor) VisitVal(ctx *ValContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseTinyLangVisitor) VisitVariableType(ctx *VariableTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }

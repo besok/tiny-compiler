@@ -41,6 +41,9 @@ type TinyLangVisitor interface {
 	// Visit a parse tree produced by TinyLangParser#newVariable.
 	VisitNewVariable(ctx *NewVariableContext) interface{}
 
+	// Visit a parse tree produced by TinyLangParser#val.
+	VisitVal(ctx *ValContext) interface{}
+
 	// Visit a parse tree produced by TinyLangParser#variableType.
 	VisitVariableType(ctx *VariableTypeContext) interface{}
 

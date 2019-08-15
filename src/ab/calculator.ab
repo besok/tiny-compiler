@@ -7,8 +7,8 @@ func main(args []string) void {
 			var r num = Input("please input a number :")
 			var res num = operation(op,l,r)
 			Output(makeStringResult(res))
-			var continue string = Input("do you want to continue?")
-			if(continue != "y"){
+			var cont string = Input("do you want to continue?")
+			if(cont != "y"){
 				isWorking = false
 			}
 		}

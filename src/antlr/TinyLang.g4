@@ -31,15 +31,17 @@ file: funcInit* EOF;
 funcInit: 'func' ITEM '(' funcArgs ')' funcReturnType '{' statementBody funcReturn?'}' ;
 funcArg: ITEM variableType ;
 funcArgs: ( funcArg (',' funcArg)*)? ;
-funcReturn: RETURN (arrayElem | funcInvoc | ITEM | STRING_RAW | BOOL_VAL | NUMBER | expr | boolExpr) ;
+funcReturn: RETURN (arrayElem | funcInvoc | val | expr | boolExpr) ;
 funcReturnType: variableType | VOID;
 
 funcInvoc: ( SYS_FUNC | ITEM ) '('funcArgsInvoc')' ;
 funcArgsInvoc:( funcInvocArgs (',' funcInvocArgs)* )?;
-funcInvocArgs : NUMBER | STRING_RAW | BOOL_VAL | ITEM | funcInvoc | arrayElem;
+funcInvocArgs : val | funcInvoc | arrayElem; // <-
 
-updVariable: (ITEM | arrayElem) '=' (expr | funcInvoc | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | arrayElem  );
-newVariable: 'var' ITEM variableType '=' (expr | BOOL_VAL | STRING_RAW | NUMBER | ITEM | arrayInit | funcInvoc );
+updVariable: (ITEM | arrayElem) '=' (expr | funcInvoc | val | arrayInit | arrayElem  );
+newVariable: 'var' ITEM variableType '=' (expr | val | arrayInit | funcInvoc );
+
+val: BOOL_VAL | STRING_RAW | NUMBER | ITEM ;
 
 variableType: ARRAY | STRING | NUM | BOOL;
 
@@ -70,10 +72,7 @@ boolExprSingle:
         ;
 boolExprOperand:  expr | exprOperand | BOOL_VAL | arrayElem ;
 
-
-
 statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt | BREAK | CONTINUE)*;
-
 ifElseSt: ifSt elseIfSt* elseSt?;
 ifSt : IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;
 elseIfSt: ELSE IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{'statementBody? '}';

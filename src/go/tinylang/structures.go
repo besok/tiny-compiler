@@ -14,32 +14,35 @@ func Pop() (*Ctx, bool) {
 	ctx = ctx[:l-1]
 	return &ret, true
 }
-type VarCtx struct {
-	V Var
-	S CtxState
+
+type CtxState string
+
+var (
+	Start  CtxState = "start"
+	Middle CtxState = "middle"
+	Next   CtxState = "next"
+	End    CtxState = "end"
+)
+
+var script = Script{functions: make([]FuncDefinition, 0)}
+
+func AddFunc(f *FuncDefinition) {
+	script.functions = append(script.functions, *f)
 }
 
-func (v VarCtx) getState() CtxState {
-	return v.S
+type Ctx interface {
+	getState() CtxState
+	setState(st CtxState)
+	PutItem(ctx Ctx)
+	Close()
+	get() interface{}
 }
 
-func (v VarCtx) setState(st CtxState) {
-}
-
-func (v VarCtx) PutItem(ctx Ctx) {
-}
-
-func (v VarCtx) Close() {
-}
-
-type Var struct {
-	Name string
-	Type Type
-}
-
-
-type Type struct {
-	IsArray bool
-	T       string
+func Release(c Ctx){
+	ctx, ok := Pop()
+	if ok {
+		(*ctx).PutItem(c)
+		Push(*ctx)
+	}
 }
 

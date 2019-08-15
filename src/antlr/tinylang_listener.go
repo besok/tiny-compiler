@@ -41,6 +41,9 @@ type TinyLangListener interface {
 	// EnterNewVariable is called when entering the newVariable production.
 	EnterNewVariable(c *NewVariableContext)
 
+	// EnterVal is called when entering the val production.
+	EnterVal(c *ValContext)
+
 	// EnterVariableType is called when entering the variableType production.
 	EnterVariableType(c *VariableTypeContext)
 
@@ -127,6 +130,9 @@ type TinyLangListener interface {
 
 	// ExitNewVariable is called when exiting the newVariable production.
 	ExitNewVariable(c *NewVariableContext)
+
+	// ExitVal is called when exiting the val production.
+	ExitVal(c *ValContext)
 
 	// ExitVariableType is called when exiting the variableType production.
 	ExitVariableType(c *VariableTypeContext)
