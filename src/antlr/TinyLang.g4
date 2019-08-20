@@ -75,8 +75,8 @@ boolExprOperand:  expr | exprOperand | TRUE | FALSE | arrayElem ;
 breakOrContinue: BREAK | CONTINUE;
 statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt | breakOrContinue)*;
 ifElseSt: ifSt elseIfSt* elseSt?;
-ifSt : IF '('(TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;
-elseIfSt: ELSE IF '('(TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{'statementBody? '}';
+ifSt :  IF '('(TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;
+elseIfSt: ELSE ifSt;
 elseSt: ELSE '{'statementBody? '}';
 
 whileSt: WHILE '(' (TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{' statementBody? '}';

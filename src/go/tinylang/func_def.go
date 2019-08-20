@@ -500,11 +500,11 @@ func (w *WhileStCtx) get() interface{} {
 }
 
 type ForSt struct {
-	Line int
+	Line    int
 	InitVar UpdVar
-	UpdVar UpdVar
-	Cond BoolExpr
-	Body StatementBody
+	UpdVar  UpdVar
+	Cond    BoolExpr
+	Body    StatementBody
 }
 
 type ForStCtx struct {
@@ -541,4 +541,99 @@ func (f *ForStCtx) Close() {
 
 func (f *ForStCtx) get() interface{} {
 	return f.F
+}
+
+type IfSt struct {
+	Cond interface{}
+	Body StatementBody
+}
+type IfStCtx struct {
+	V IfSt
+	S CtxState
+}
+
+func (i *IfStCtx) getState() CtxState {
+	return i.S
+}
+
+func (i *IfStCtx) setState(st CtxState) {
+	i.S = st
+}
+
+func (i *IfStCtx) PutItem(ctx Ctx) {
+	switch i.S {
+	case Start:
+		i.V.Cond = ctx.get()
+	case End:
+		i.V.Body = ctx.get().(StatementBody)
+	}
+	(*i).setState(End)
+}
+
+func (i *IfStCtx) Close() {
+}
+
+func (i *IfStCtx) get() interface{} {
+	return i.V
+}
+
+type ElseSt struct {
+	Body StatementBody
+}
+
+func (e *ElseSt) getState() CtxState {
+	return Start
+}
+
+func (e *ElseSt) setState(st CtxState) {
+}
+
+func (e *ElseSt) PutItem(ctx Ctx) {
+	e.Body = ctx.get().(StatementBody)
+}
+
+func (e *ElseSt) Close() {
+}
+
+func (e *ElseSt) get() interface{} {
+	return *e
+}
+
+type IfElseIfSt struct {
+	Line   int ``
+	If     IfSt
+	ElseIf []IfSt
+	Else   ElseSt
+}
+type IfElseIfStCtx struct {
+	S CtxState
+	V IfElseIfSt
+}
+
+func (e *IfElseIfStCtx) getState() CtxState {
+	return e.S
+}
+
+func (e *IfElseIfStCtx) setState(st CtxState) {
+	e.S = st
+}
+
+func (e *IfElseIfStCtx) PutItem(ctx Ctx) {
+	switch e.S {
+	case Start:
+		e.V.If = ctx.get().(IfSt)
+		e.setState(Middle)
+	case Middle:
+		e.V.ElseIf = append(e.V.ElseIf, ctx.get().(IfSt))
+	case End:
+		e.V.Else = ctx.get().(ElseSt)
+
+	}
+}
+
+func (e *IfElseIfStCtx) Close() {
+}
+
+func (e *IfElseIfStCtx) get() interface{} {
+	return e.V
 }

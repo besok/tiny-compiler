@@ -34,7 +34,7 @@ func NewListener() *CommonTinyListener {
 //func (l *CommonTinyListener) VisitTerminal(node antlr.TerminalNode) {
 //	panic("implement me")
 //}
-//
+
 //func (l *CommonTinyListener) VisitErrorNode(node antlr.ErrorNode) {
 //	panic("implement me")
 //}
@@ -64,7 +64,6 @@ func (l *CommonTinyListener) EnterFuncInit(c *parser.FuncInitContext) {
 //func (l *CommonTinyListener) EnterFuncArgs(c *parser.FuncArgsContext) {
 //}
 
-//
 func (l *CommonTinyListener) EnterFuncReturn(c *parser.FuncReturnContext) {
 	p, _ := Pop()
 	(*p).setState(End)
@@ -86,11 +85,9 @@ func (l *CommonTinyListener) EnterFuncInvoc(c *parser.FuncInvocContext) {
 
 }
 
-//
 //func (l *CommonTinyListener) EnterFuncArgsInvoc(c *parser.FuncArgsInvocContext) {
 //	panic("implement me")
 //}
-//
 //func (l *CommonTinyListener) EnterFuncInvocArgs(c *parser.FuncInvocArgsContext) {
 //	panic("implement me")
 //}
@@ -147,7 +144,6 @@ func (l *CommonTinyListener) EnterVal(c *parser.ValContext) {
 	Release(v)
 }
 
-//
 //func (l *CommonTinyListener) EnterVariableType(c *parser.VariableTypeContext) {
 //	panic("implement me")
 //}
@@ -331,23 +327,41 @@ func (l *CommonTinyListener) EnterStatementBody(c *parser.StatementBodyContext) 
 	Push(&bodyCtx)
 }
 
-//
-//func (l *CommonTinyListener) EnterIfElseSt(c *parser.IfElseStContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterIfSt(c *parser.IfStContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterElseIfSt(c *parser.ElseIfStContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterElseSt(c *parser.ElseStContext) {
-//	panic("implement me")
-//}
-//
+
+func (l *CommonTinyListener) EnterIfElseSt(c *parser.IfElseStContext) {
+	stCtx := IfElseIfStCtx{S: Start, V: IfElseIfSt{Line:c.GetStart().GetLine(), ElseIf: make([]IfSt, 0)}}
+	Push(&stCtx)
+}
+
+func (l *CommonTinyListener) EnterIfSt(c *parser.IfStContext) {
+	ctx := IfStCtx{S: Start}
+	if it := c.ITEM(); it != nil {
+		ctx.V.Cond= it.GetText()
+		ctx.S = End
+	}
+	if it := c.FALSE(); it != nil {
+		ctx.V.Cond= it.GetText()
+		ctx.S = End
+	}
+	if it := c.TRUE(); it != nil {
+		ctx.V.Cond= it.GetText()
+		ctx.S = End
+	}
+	Push(&ctx)
+}
+
+func (l *CommonTinyListener) EnterElseIfSt(c *parser.ElseIfStContext) {
+
+}
+
+func (l *CommonTinyListener) EnterElseSt(c *parser.ElseStContext) {
+	prev, _ := Pop()
+	(*prev).setState(End)
+	Push(*prev)
+	e := ElseSt{}
+	Push(&e)
+}
+
 func (l *CommonTinyListener) EnterWhileSt(c *parser.WhileStContext) {
 	wCtx := WhileStCtx{S: Start,W:WhileSt{Line:c.GetStart().GetLine()}}
 
@@ -514,23 +528,25 @@ func (l *CommonTinyListener) ExitStatementBody(c *parser.StatementBodyContext) {
 	Release(*ct)
 }
 
-//
-//func (l *CommonTinyListener) ExitIfElseSt(c *parser.IfElseStContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitIfSt(c *parser.IfStContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitElseIfSt(c *parser.ElseIfStContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitElseSt(c *parser.ElseStContext) {
-//	panic("implement me")
-//}
-//
+
+func (l *CommonTinyListener) ExitIfElseSt(c *parser.IfElseStContext) {
+	ctx, _ := Pop()
+	Release(*ctx)
+}
+
+func (l *CommonTinyListener) ExitIfSt(c *parser.IfStContext) {
+	ctx, _ := Pop()
+	Release(*ctx)
+}
+func (l *CommonTinyListener) ExitElseIfSt(c *parser.ElseIfStContext) {
+	//ctx, _ := Pop()
+	//Release(*ctx)
+}
+func (l *CommonTinyListener) ExitElseSt(c *parser.ElseStContext) {
+	ctx, _ := Pop()
+	Release(*ctx)
+}
+
 func (l *CommonTinyListener) ExitWhileSt(c *parser.WhileStContext) {
 	p, _ := Pop()
 	Release(*p)
