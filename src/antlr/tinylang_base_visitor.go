@@ -92,11 +92,19 @@ func (v *BaseTinyLangVisitor) VisitBoolExpr(ctx *BoolExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseTinyLangVisitor) VisitBoolExprSingleExtra(ctx *BoolExprSingleExtraContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseTinyLangVisitor) VisitBoolExprSingle(ctx *BoolExprSingleContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
 func (v *BaseTinyLangVisitor) VisitBoolExprOperand(ctx *BoolExprOperandContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseTinyLangVisitor) VisitBreakOrContinue(ctx *BreakOrContinueContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

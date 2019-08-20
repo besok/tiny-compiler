@@ -147,6 +147,12 @@ func (s *BaseTinyLangListener) EnterBoolExpr(ctx *BoolExprContext) {}
 // ExitBoolExpr is called when production boolExpr is exited.
 func (s *BaseTinyLangListener) ExitBoolExpr(ctx *BoolExprContext) {}
 
+// EnterBoolExprSingleExtra is called when production boolExprSingleExtra is entered.
+func (s *BaseTinyLangListener) EnterBoolExprSingleExtra(ctx *BoolExprSingleExtraContext) {}
+
+// ExitBoolExprSingleExtra is called when production boolExprSingleExtra is exited.
+func (s *BaseTinyLangListener) ExitBoolExprSingleExtra(ctx *BoolExprSingleExtraContext) {}
+
 // EnterBoolExprSingle is called when production boolExprSingle is entered.
 func (s *BaseTinyLangListener) EnterBoolExprSingle(ctx *BoolExprSingleContext) {}
 
@@ -158,6 +164,12 @@ func (s *BaseTinyLangListener) EnterBoolExprOperand(ctx *BoolExprOperandContext)
 
 // ExitBoolExprOperand is called when production boolExprOperand is exited.
 func (s *BaseTinyLangListener) ExitBoolExprOperand(ctx *BoolExprOperandContext) {}
+
+// EnterBreakOrContinue is called when production breakOrContinue is entered.
+func (s *BaseTinyLangListener) EnterBreakOrContinue(ctx *BreakOrContinueContext) {}
+
+// ExitBreakOrContinue is called when production breakOrContinue is exited.
+func (s *BaseTinyLangListener) ExitBreakOrContinue(ctx *BreakOrContinueContext) {}
 
 // EnterStatementBody is called when production statementBody is entered.
 func (s *BaseTinyLangListener) EnterStatementBody(ctx *StatementBodyContext) {}

@@ -71,11 +71,17 @@ type TinyLangVisitor interface {
 	// Visit a parse tree produced by TinyLangParser#boolExpr.
 	VisitBoolExpr(ctx *BoolExprContext) interface{}
 
+	// Visit a parse tree produced by TinyLangParser#boolExprSingleExtra.
+	VisitBoolExprSingleExtra(ctx *BoolExprSingleExtraContext) interface{}
+
 	// Visit a parse tree produced by TinyLangParser#boolExprSingle.
 	VisitBoolExprSingle(ctx *BoolExprSingleContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#boolExprOperand.
 	VisitBoolExprOperand(ctx *BoolExprOperandContext) interface{}
+
+	// Visit a parse tree produced by TinyLangParser#breakOrContinue.
+	VisitBreakOrContinue(ctx *BreakOrContinueContext) interface{}
 
 	// Visit a parse tree produced by TinyLangParser#statementBody.
 	VisitStatementBody(ctx *StatementBodyContext) interface{}

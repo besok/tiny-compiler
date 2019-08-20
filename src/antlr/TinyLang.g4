@@ -14,17 +14,18 @@ VOID : 'void';
 NUM : 'num';
 BOOL: 'bool';
 NULL: 'null';
-ITEM : [a-z][a-zA-Z0-9]* ;
+NUMBER: [0-9]+;
 TRUE: 'true';
 FALSE: 'false';
 BOOL_VAL: TRUE | FALSE;
-NUMBER: [0-9]+;
 STRING_RAW: '"' ( '\\"' | . )*? '"' ;
+ITEM : [a-z][a-zA-Z0-9]* ;
 SQ : '[]';
 COMMENT : '/*' .*? '*/' -> skip ;
 ARRAY: SQ (STRING | NUM | BOOL);
 NUM_SIGN: '+' | '-' | '*' | '/' | '%';
 BOOL_SIGN:  '==' | '!=' | '>' | '<';
+BOOL_PL:  '&&' | '||';
 
 file: funcInit* EOF;
 
@@ -41,7 +42,7 @@ funcInvocArgs : val | funcInvoc | arrayElem; // <-
 updVariable: (ITEM | arrayElem) '=' (expr | funcInvoc | val | arrayInit | arrayElem  );
 newVariable: 'var' ITEM variableType '=' (expr | val | arrayInit | funcInvoc );
 
-val: BOOL_VAL | STRING_RAW | NUMBER | ITEM ;
+val: TRUE | FALSE | STRING_RAW | NUMBER | ITEM ;
 
 variableType: ARRAY | STRING | NUM | BOOL;
 
@@ -63,22 +64,22 @@ expr:
        ;
 exprOperand: funcInvoc | NUMBER | ITEM | STRING_RAW  | arrayElem ;
 
-boolExpr: boolExprSingle (('&&' | '||') boolExprSingle)*;
-
+boolExpr: boolExprSingle (boolExprSingleExtra)*;
+boolExprSingleExtra: BOOL_PL boolExprSingle;
 boolExprSingle:
         ((boolExprOperand) BOOL_SIGN (boolExprOperand | boolExpr))
         |
         ('(' (boolExprOperand | boolExpr) BOOL_SIGN (boolExprOperand | boolExpr)')')
         ;
-boolExprOperand:  expr | exprOperand | BOOL_VAL | arrayElem ;
-
-statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt | BREAK | CONTINUE)*;
+boolExprOperand:  expr | exprOperand | TRUE | FALSE | arrayElem ;
+breakOrContinue: BREAK | CONTINUE;
+statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt | breakOrContinue)*;
 ifElseSt: ifSt elseIfSt* elseSt?;
-ifSt : IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;
-elseIfSt: ELSE IF '('(BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{'statementBody? '}';
+ifSt : IF '('(TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;
+elseIfSt: ELSE IF '('(TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{'statementBody? '}';
 elseSt: ELSE '{'statementBody? '}';
 
-whileSt: WHILE '(' (BOOL_VAL | boolExpr | ITEM | funcInvoc )')' '{' statementBody? '}';
+whileSt: WHILE '(' (TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{' statementBody? '}';
 
 forSt: FOR '(' updVariable ';' boolExpr ';' updVariable ')' '{' statementBody'}';
 

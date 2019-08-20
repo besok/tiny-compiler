@@ -65,15 +65,19 @@ func (l *CommonTinyListener) EnterFuncInit(c *parser.FuncInitContext) {
 //}
 
 //
-//func (l *CommonTinyListener) EnterFuncReturn(c *parser.FuncReturnContext) {
-//	panic("implement me")
-//}
-//
+func (l *CommonTinyListener) EnterFuncReturn(c *parser.FuncReturnContext) {
+	p, _ := Pop()
+	(*p).setState(End)
+	Push(*p)
+
+}
+
+
 func (l *CommonTinyListener) EnterFuncInvoc(c *parser.FuncInvocContext) {
 	name := ""
-	if sf := c.SYS_FUNC(); sf != nil{
+	if sf := c.SYS_FUNC(); sf != nil {
 		name = sf.GetText()
-	}else{
+	} else {
 		name = c.ITEM().GetText()
 	}
 
@@ -81,6 +85,7 @@ func (l *CommonTinyListener) EnterFuncInvoc(c *parser.FuncInvocContext) {
 	Push(&ct)
 
 }
+
 //
 //func (l *CommonTinyListener) EnterFuncArgsInvoc(c *parser.FuncArgsInvocContext) {
 //	panic("implement me")
@@ -89,11 +94,25 @@ func (l *CommonTinyListener) EnterFuncInvoc(c *parser.FuncInvocContext) {
 //func (l *CommonTinyListener) EnterFuncInvocArgs(c *parser.FuncInvocArgsContext) {
 //	panic("implement me")
 //}
-//
-//func (l *CommonTinyListener) EnterUpdVariable(c *parser.UpdVariableContext) {
-//	panic("implement me")
-//}
-//
+func (l *CommonTinyListener) EnterUpdVariable(c *parser.UpdVariableContext) {
+	v := UpdVarCtx{V: UpdVar{Line: c.GetStart().GetLine()}, S: Start}
+	item := c.ITEM()
+	if item != nil {
+		v.V.Left = struct {
+			IsArrEl bool
+			ArrElem ArrayElem
+		}{IsArrEl: false, ArrElem: ArrayElem{Name: item.GetText()}}
+		v.S = End
+	} else {
+		v.V.Left = struct {
+			IsArrEl bool
+			ArrElem ArrayElem
+		}{IsArrEl: true}
+		v.S = End
+	}
+	Push(&v)
+}
+
 func (l *CommonTinyListener) EnterNewVariable(c *parser.NewVariableContext) {
 	line := c.GetStart().GetLine()
 	name := c.ITEM().GetText()
@@ -104,14 +123,16 @@ func (l *CommonTinyListener) EnterNewVariable(c *parser.NewVariableContext) {
 	}
 	t := Type{IsArray: isArr, T: tp}
 	newV := &NewVariable{Line: line, Name: name, Type: t}
-	nVCxt := NewVariableCtx{S: Start, V: newV}
-	Push(nVCxt)
+	Push(newV)
 }
 func (l *CommonTinyListener) EnterVal(c *parser.ValContext) {
 	v := Val{}
-	if bl := c.BOOL_VAL(); bl != nil {
+	if bl := c.TRUE(); bl != nil {
 		v.T = "b"
-		v.V = bl.GetText()
+		v.V = "true"
+	} else if bl := c.FALSE(); bl != nil {
+		v.T = "b"
+		v.V = "false"
 	} else if raw := c.STRING_RAW(); raw != nil {
 		v.T = "s"
 		v.V = raw.GetText()
@@ -135,20 +156,21 @@ func (l *CommonTinyListener) EnterArrayElem(c *parser.ArrayElemContext) {
 	name := c.ITEM(0).GetText()
 	elem := ArrayElem{Name: name, HasPos: false}
 
-	if nm := c.NUMBER(); nm !=nil{
+	if nm := c.NUMBER(); nm != nil {
 		number, _ := strconv.Atoi(nm.GetText())
 		elem.HasPos = true
 		elem.Pos = number
 	}
 
-	if nextItem := c.ITEM(1);nextItem != nil {
+	if nextItem := c.ITEM(1); nextItem != nil {
 		elem.HasPos = false
-		elem.Calc= nextItem.GetText()
+		elem.Calc = nextItem.GetText()
 	}
 
-	Push(elem)
+	Push(&elem)
 
 }
+
 //
 //func (l *CommonTinyListener) EnterArrayInit(c *parser.ArrayInitContext) {
 //	panic("implement me")
@@ -228,9 +250,9 @@ func (l *CommonTinyListener) EnterArrayInitElems(c *parser.ArrayInitElemsContext
 		for i := 0; i < ln; i++ {
 			text := c.NUMBER(i).GetText()
 			f, _ := strconv.Atoi(text)
-			intVals = append(intVals , f)
+			intVals = append(intVals, f)
 		}
-		arrInit = ArrayInit{T: Type{T: "num"}, Cap: ln, Val: intVals }
+		arrInit = ArrayInit{T: Type{T: "num"}, Cap: ln, Val: intVals}
 	}
 	if len(sAll) > 0 {
 		ln := len(sAll)
@@ -247,29 +269,68 @@ func (l *CommonTinyListener) EnterArrayInitElems(c *parser.ArrayInitElemsContext
 }
 
 //
-//func (l *CommonTinyListener) EnterExpr(c *parser.ExprContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterExprOperand(c *parser.ExprOperandContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterBoolExpr(c *parser.BoolExprContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterBoolExprSingle(c *parser.BoolExprSingleContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterBoolExprOperand(c *parser.BoolExprOperandContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) EnterStatementBody(c *parser.StatementBodyContext) {
-//	panic("implement me")
-//}
+func (l *CommonTinyListener) EnterExpr(c *parser.ExprContext) {
+	sg := c.NUM_SIGN().GetText()
+	e := ExprCtx{S: Start, E: Expr{Line: c.GetStart().GetLine(), Sign: sg}}
+	Push(&e)
+}
+func (l *CommonTinyListener) EnterBoolExpr(c *parser.BoolExprContext) {
+	ctx := BoolExpr{Line: c.GetStart().GetLine(), BoolExpr: make([]BoolExprSingleExtra, 0)}
+	Push(&ctx)
+}
+func (l *CommonTinyListener) EnterBreakOrContinue(c *parser.BreakOrContinueContext) {
+	pop, _ := Pop()
+	if br := c.BREAK(); br != nil {
+		(*pop).PutItem(BreakOrContinue{IsBreak:true})
+	}else{
+		(*pop).PutItem(BreakOrContinue{IsBreak:false})
+	}
+	Push(*pop)
+}
+
+func (l *CommonTinyListener) EnterExprOperand(c *parser.ExprOperandContext) {
+	op := ExprOperand{}
+	if i := c.NUMBER(); i != nil {
+		op.T = "n"
+		op.V = i.GetText()
+	} else if i := c.STRING_RAW(); i != nil {
+		op.T = "s"
+		op.V = i.GetText()
+	} else if i := c.ITEM(); i != nil {
+		op.T = "i"
+		op.V = i.GetText()
+	}
+	Push(&op)
+}
+
+func (l *CommonTinyListener) EnterBoolExprSingle(c *parser.BoolExprSingleContext) {
+	bexpS := BoolExprSingleCtx{S: Start, V: BoolExprSingle{Sign: c.BOOL_SIGN().GetText()}}
+	Push(&bexpS)
+}
+func (l *CommonTinyListener) EnterBoolExprSingleExtra(c *parser.BoolExprSingleExtraContext) {
+	pl := c.BOOL_PL().GetText()
+	bexpS := BoolExprSingleExtra{Op: pl}
+	Push(&bexpS)
+}
+func (l *CommonTinyListener) EnterBoolExprOperand(c *parser.BoolExprOperandContext) {
+	op := BoolExprOperand{}
+	if tr := c.TRUE(); tr != nil {
+		op.IsPrim = true
+		op.V = true
+	}
+	if fl := c.FALSE(); fl != nil {
+		op.IsPrim = true
+		op.V = false
+	}
+	op.IsPrim = false
+	Push(&op)
+}
+
+func (l *CommonTinyListener) EnterStatementBody(c *parser.StatementBodyContext) {
+	bodyCtx := StatementBody{V: make([]interface{}, 0)}
+	Push(&bodyCtx)
+}
+
 //
 //func (l *CommonTinyListener) EnterIfElseSt(c *parser.IfElseStContext) {
 //	panic("implement me")
@@ -287,14 +348,29 @@ func (l *CommonTinyListener) EnterArrayInitElems(c *parser.ArrayInitElemsContext
 //	panic("implement me")
 //}
 //
-//func (l *CommonTinyListener) EnterWhileSt(c *parser.WhileStContext) {
-//	panic("implement me")
-//}
+func (l *CommonTinyListener) EnterWhileSt(c *parser.WhileStContext) {
+	wCtx := WhileStCtx{S: Start,W:WhileSt{Line:c.GetStart().GetLine()}}
+
+	if it := c.ITEM(); it != nil {
+		wCtx.W.BoolExpr = it.GetText()
+		wCtx.S = End
+	}
+	if it := c.FALSE(); it != nil {
+		wCtx.W.BoolExpr = it.GetText()
+		wCtx.S = End
+	}
+	if it := c.TRUE(); it != nil {
+		wCtx.W.BoolExpr = it.GetText()
+		wCtx.S = End
+	}
+	Push(&wCtx)
+}
 //
-//func (l *CommonTinyListener) EnterForSt(c *parser.ForStContext) {
-//	panic("implement me")
-//}
-//
+func (l *CommonTinyListener) EnterForSt(c *parser.ForStContext) {
+	stCtx := ForStCtx{F: ForSt{Line: c.GetStart().GetLine()}, S: Start}
+	Push(&stCtx)
+}
+
 //func (l *CommonTinyListener) ExitFile(c *parser.FileContext) {
 //	panic("implement me")
 //}
@@ -350,13 +426,14 @@ func (l *CommonTinyListener) ExitFuncReturnType(c *parser.FuncReturnTypeContext)
 
 //
 func (l *CommonTinyListener) ExitFuncReturn(c *parser.FuncReturnContext) {
-}
 
+}
 
 func (l *CommonTinyListener) ExitFuncInvoc(c *parser.FuncInvocContext) {
 	fInv, _ := Pop()
 	Release(*fInv)
 }
+
 //
 //func (l *CommonTinyListener) ExitFuncArgsInvoc(c *parser.FuncArgsInvocContext) {
 //	panic("implement me")
@@ -366,9 +443,11 @@ func (l *CommonTinyListener) ExitFuncInvoc(c *parser.FuncInvocContext) {
 //	panic("implement me")
 //}.
 //
-//func (l *CommonTinyListener) ExitUpdVariable(c *parser.UpdVariableContext) {
-//	panic("implement me")
-//}
+func (l *CommonTinyListener) ExitUpdVariable(c *parser.UpdVariableContext) {
+	ctx, _ := Pop()
+	Release(*ctx)
+}
+
 //
 func (l *CommonTinyListener) ExitNewVariable(c *parser.NewVariableContext) {
 	ctx, _ := Pop()
@@ -384,6 +463,7 @@ func (l *CommonTinyListener) ExitArrayElem(c *parser.ArrayElemContext) {
 	ctx, _ := Pop()
 	Release(*ctx)
 }
+
 //
 //func (l *CommonTinyListener) ExitArrayInit(c *parser.ArrayInitContext) {
 //	panic("implement me")
@@ -401,29 +481,39 @@ func (l *CommonTinyListener) ExitArrayElem(c *parser.ArrayElemContext) {
 //	panic("implement me")
 //}
 //
-//func (l *CommonTinyListener) ExitExpr(c *parser.ExprContext) {
-//	panic("implement me")
-//}
+func (l *CommonTinyListener) ExitExpr(c *parser.ExprContext) {
+	ctx, _ := Pop()
+	Release(*ctx)
+}
+func (l *CommonTinyListener) ExitBoolExpr(c *parser.BoolExprContext) {
+	ctx, _ := Pop()
+	Release(*ctx)
+}
+
 //
-//func (l *CommonTinyListener) ExitExprOperand(c *parser.ExprOperandContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitBoolExpr(c *parser.BoolExprContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitBoolExprSingle(c *parser.BoolExprSingleContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitBoolExprOperand(c *parser.BoolExprOperandContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitStatementBody(c *parser.StatementBodyContext) {
-//	panic("implement me")
-//}
+func (l *CommonTinyListener) ExitExprOperand(c *parser.ExprOperandContext) {
+	ctx, _ := Pop()
+	Release(*ctx)
+}
+
+func (l *CommonTinyListener) ExitBoolExprSingle(c *parser.BoolExprSingleContext) {
+	bEs, _ := Pop()
+	Release(*bEs)
+}
+func (l *CommonTinyListener) ExitBoolExprSingleExtra(c *parser.BoolExprSingleExtraContext) {
+	bEs, _ := Pop()
+	Release(*bEs)
+}
+
+func (l *CommonTinyListener) ExitBoolExprOperand(c *parser.BoolExprOperandContext) {
+	ct, _ := Pop()
+	Release(*ct)
+}
+func (l *CommonTinyListener) ExitStatementBody(c *parser.StatementBodyContext) {
+	ct, _ := Pop()
+	Release(*ct)
+}
+
 //
 //func (l *CommonTinyListener) ExitIfElseSt(c *parser.IfElseStContext) {
 //	panic("implement me")
@@ -441,11 +531,13 @@ func (l *CommonTinyListener) ExitArrayElem(c *parser.ArrayElemContext) {
 //	panic("implement me")
 //}
 //
-//func (l *CommonTinyListener) ExitWhileSt(c *parser.WhileStContext) {
-//	panic("implement me")
-//}
-//
-//func (l *CommonTinyListener) ExitForSt(c *parser.ForStContext) {
-//	panic("implement me")
-//}
-//
+func (l *CommonTinyListener) ExitWhileSt(c *parser.WhileStContext) {
+	p, _ := Pop()
+	Release(*p)
+}
+
+func (l *CommonTinyListener) ExitForSt(c *parser.ForStContext) {
+	p, _ := Pop()
+	Release(*p)
+}
+

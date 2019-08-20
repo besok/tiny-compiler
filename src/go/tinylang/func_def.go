@@ -10,6 +10,7 @@ type FuncDefinition struct {
 	Args       []Var
 	ReturnType Type
 	Body       []interface{}
+	Return     interface{}
 }
 
 func NewFuncDefinition(line int, name string) *FuncDefinition {
@@ -32,7 +33,7 @@ func (f *FuncDefinitionCtx) setState(st CtxState) {
 func (f FuncDefinitionCtx) Close() {
 	AddFunc(f.F)
 }
-func (f FuncDefinitionCtx) PutItem(ctx Ctx) {
+func (f *FuncDefinitionCtx) PutItem(ctx Ctx) {
 
 	switch f.S {
 	case Start:
@@ -46,8 +47,10 @@ func (f FuncDefinitionCtx) PutItem(ctx Ctx) {
 			f.F.ReturnType = ctx.(Var).Type
 		}
 	case Next:
-			variable := ctx.get()
-			f.F.Body = append(f.F.Body, variable)
+		variable := ctx.get()
+		f.F.Body = append(f.F.Body, variable)
+	case End:
+		f.F.Return = ctx.get()
 	}
 }
 
@@ -62,32 +65,25 @@ type NewVariable struct {
 	Right interface{}
 }
 
-type NewVariableCtx struct {
-	V *NewVariable
-	S CtxState
+func (c NewVariable) getState() CtxState {
+	return Start
 }
 
-func (c NewVariableCtx) getState() CtxState {
-	return c.S
+func (c NewVariable) setState(st CtxState) {
 }
 
-func (c NewVariableCtx) setState(st CtxState) {
-	c.S = st
+func (c *NewVariable) PutItem(ctx Ctx) {
+	c.Right = ctx.get()
 }
 
-func (c NewVariableCtx) PutItem(ctx Ctx) {
-		c.V.Right = ctx.get()
-}
-
-func (c NewVariableCtx) Close() {
+func (c NewVariable) Close() {
 	parent, _ := Pop()
-	(*parent).PutItem(c)
+	(*parent).PutItem(&c)
 	Push(*parent)
 }
-func (c NewVariableCtx) get() interface{} {
-	return *(c.V)
+func (c NewVariable) get() interface{} {
+	return c
 }
-
 
 func (v Var) getState() CtxState {
 	return Start
@@ -104,12 +100,10 @@ func (v Var) get() interface{} {
 	return v
 }
 
-
 type Var struct {
 	Name string
 	Type Type
 }
-
 
 type Type struct {
 	IsArray bool
@@ -135,9 +129,8 @@ func (v Val) get() interface{} {
 	return v.V
 }
 
-
 type ArrayInit struct {
-	T Type
+	T   Type
 	Cap int
 	Val []interface{}
 }
@@ -173,7 +166,7 @@ func (f FuncInvoc) setState(st CtxState) {
 }
 
 func (f *FuncInvoc) PutItem(ctx Ctx) {
-	f.Args = append(f.Args,ctx.get())
+	f.Args = append(f.Args, ctx.get())
 }
 
 func (f FuncInvoc) Close() {
@@ -184,10 +177,10 @@ func (f FuncInvoc) get() interface{} {
 }
 
 type ArrayElem struct {
-	Name string
-	Pos int
+	Name   string
+	Pos    int
 	HasPos bool
-	Calc interface{}
+	Calc   interface{}
 }
 
 func (a ArrayElem) getState() CtxState {
@@ -198,7 +191,7 @@ func (a ArrayElem) setState(st CtxState) {
 
 }
 
-func (a ArrayElem) PutItem(ctx Ctx) {
+func (a *ArrayElem) PutItem(ctx Ctx) {
 	a.Calc = ctx.get()
 }
 
@@ -210,4 +203,342 @@ func (a ArrayElem) get() interface{} {
 	return a
 }
 
+type UpdVar struct {
+	Line int
+	Left struct {
+		IsArrEl bool
+		ArrElem ArrayElem
+	}
+	Right interface{}
+}
 
+type UpdVarCtx struct {
+	V UpdVar
+	S CtxState
+}
+
+func (v UpdVarCtx) getState() CtxState {
+	return v.S
+}
+
+func (v UpdVarCtx) setState(st CtxState) {
+	v.S = st
+}
+
+func (v *UpdVarCtx) PutItem(ctx Ctx) {
+	switch v.S {
+	case Start:
+		v.V.Left.ArrElem = ctx.get().(ArrayElem)
+	case End:
+		v.V.Right = ctx.get()
+	}
+	v.S = End
+}
+
+func (v UpdVarCtx) Close() {
+}
+
+func (v UpdVarCtx) get() interface{} {
+	return v.V
+}
+
+type Expr struct {
+	Line  int
+	Left  interface{}
+	Right interface{}
+	Sign  string
+}
+type ExprCtx struct {
+	S CtxState
+	E Expr
+}
+
+func (e *ExprCtx) getState() CtxState {
+	return e.S
+}
+
+func (e *ExprCtx) setState(st CtxState) {
+	e.S = st
+}
+
+func (e *ExprCtx) PutItem(ctx Ctx) {
+	switch e.S {
+	case Start:
+		e.E.Left = ctx.get()
+	case End:
+		e.E.Right = ctx.get()
+	}
+
+	e.S = End
+}
+
+func (e *ExprCtx) Close() {
+}
+
+func (e *ExprCtx) get() interface{} {
+	return e.E
+}
+
+type ExprOperand struct {
+	T string
+	V interface{}
+}
+
+func (op *ExprOperand) getState() CtxState {
+	return Start
+}
+
+func (op *ExprOperand) setState(st CtxState) {
+}
+
+func (op *ExprOperand) PutItem(ctx Ctx) {
+	switch ctx.(type) {
+	case *FuncInvoc:
+		op.V = ctx.get()
+		op.T = "f"
+	case *ArrayElem:
+		op.V = ctx.get()
+		op.T = "a"
+	}
+}
+
+func (op *ExprOperand) Close() {
+}
+
+func (op *ExprOperand) get() interface{} {
+	return *op
+}
+
+type BoolExpr struct {
+	Line     int
+	BoolExpr []BoolExprSingleExtra
+}
+
+func (b *BoolExpr) getState() CtxState {
+	return Start
+}
+
+func (b *BoolExpr) setState(st CtxState) {
+}
+
+func (b *BoolExpr) PutItem(ctx Ctx) {
+	switch ctx.(type) {
+	case *BoolExprSingleCtx:
+		boolExpr := (ctx.get()).(BoolExprSingle)
+		b.BoolExpr = append(b.BoolExpr, BoolExprSingleExtra{Op: "", V: boolExpr})
+	case *BoolExprSingleExtra:
+		b.BoolExpr = append(b.BoolExpr, (ctx.get()).(BoolExprSingleExtra))
+
+	}
+}
+
+func (b *BoolExpr) Close() {
+}
+
+func (b *BoolExpr) get() interface{} {
+	return *b
+}
+
+type BoolExprSingleExtra struct {
+	Op string
+	V  BoolExprSingle
+}
+
+func (o *BoolExprSingleExtra) getState() CtxState {
+	return Start
+}
+
+func (o *BoolExprSingleExtra) setState(st CtxState) {
+}
+
+func (o *BoolExprSingleExtra) PutItem(ctx Ctx) {
+	o.V = ctx.get().(BoolExprSingle)
+}
+
+func (o *BoolExprSingleExtra) Close() {
+}
+
+func (o *BoolExprSingleExtra) get() interface{} {
+	return *o
+}
+
+type BoolExprSingle struct {
+	Sign  string
+	Left  interface{}
+	Right interface{}
+}
+
+type BoolExprSingleCtx struct {
+	V BoolExprSingle
+	S CtxState
+}
+
+func (b *BoolExprSingleCtx) getState() CtxState {
+	return b.S
+}
+
+func (b *BoolExprSingleCtx) setState(st CtxState) {
+	b.S = st
+}
+
+func (b *BoolExprSingleCtx) PutItem(ctx Ctx) {
+	switch b.S {
+	case Start:
+		b.V.Left = ctx.get()
+	case End:
+		b.V.Right = ctx.get()
+	}
+	b.S = End
+}
+
+func (b *BoolExprSingleCtx) Close() {
+}
+
+func (b *BoolExprSingleCtx) get() interface{} {
+	return b.V
+}
+
+type BoolExprOperand struct {
+	IsPrim bool
+	V      interface{}
+}
+
+func (b *BoolExprOperand) getState() CtxState {
+	return Start
+}
+
+func (b *BoolExprOperand) setState(st CtxState) {
+}
+
+func (b *BoolExprOperand) PutItem(ctx Ctx) {
+	b.V = ctx.get()
+}
+
+func (b *BoolExprOperand) Close() {
+}
+
+func (b *BoolExprOperand) get() interface{} {
+	return *b
+}
+
+type StatementBody struct {
+	V []interface{}
+}
+
+func (b *StatementBody) getState() CtxState {
+	return Start
+}
+
+func (b *StatementBody) setState(st CtxState) {
+}
+
+func (b *StatementBody) PutItem(ctx Ctx) {
+	b.V = append(b.V, ctx.get())
+}
+
+func (b *StatementBody) Close() {
+}
+
+func (b *StatementBody) get() interface{} {
+	return *b
+}
+
+type BreakOrContinue struct {
+	IsBreak bool
+}
+
+func (BreakOrContinue) getState() CtxState {
+	return Start
+}
+
+func (BreakOrContinue) setState(st CtxState) {
+}
+
+func (BreakOrContinue) PutItem(ctx Ctx) {
+}
+
+func (BreakOrContinue) Close() {
+}
+
+func (c BreakOrContinue) get() interface{} {
+	return c
+}
+
+type WhileSt struct {
+	Line     int
+	BoolExpr interface{}
+	Body     StatementBody
+}
+type WhileStCtx struct {
+	W WhileSt
+	S CtxState
+}
+
+func (w *WhileStCtx) getState() CtxState {
+	return w.S
+}
+
+func (w *WhileStCtx) setState(st CtxState) {
+	w.S = st
+}
+
+func (w *WhileStCtx) PutItem(ctx Ctx) {
+	switch w.S {
+	case Start:
+		w.W.BoolExpr = ctx.get()
+	case End:
+		w.W.Body = ctx.get().(StatementBody)
+	}
+	w.setState(End)
+}
+
+func (w *WhileStCtx) Close() {
+}
+
+func (w *WhileStCtx) get() interface{} {
+	return w.W
+}
+
+type ForSt struct {
+	Line int
+	InitVar UpdVar
+	UpdVar UpdVar
+	Cond BoolExpr
+	Body StatementBody
+}
+
+type ForStCtx struct {
+	F ForSt
+	S CtxState
+}
+
+func (f *ForStCtx) getState() CtxState {
+	return f.S
+}
+
+func (f *ForStCtx) setState(st CtxState) {
+	f.S = st
+}
+
+func (f *ForStCtx) PutItem(ctx Ctx) {
+	switch f.S {
+	case Start:
+		f.F.InitVar = ctx.get().(UpdVar)
+		f.S = Next
+	case Next:
+		f.F.Cond = ctx.get().(BoolExpr)
+		f.S = Middle
+	case Middle:
+		f.F.UpdVar = ctx.get().(UpdVar)
+		f.S = End
+	case End:
+		f.F.Body = ctx.get().(StatementBody)
+	}
+}
+
+func (f *ForStCtx) Close() {
+}
+
+func (f *ForStCtx) get() interface{} {
+	return f.F
+}

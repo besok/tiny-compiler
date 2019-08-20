@@ -8,5 +8,7 @@ import (
 func Test_EnterEveryRule(t *testing.T) {
 
 	_ = Parse(`C:\projects\tiny-compiler\src\ab\calculator.ab`)
-	fmt.Println("", script)
+	s := script
+	fmt.Printf("%+v /n", s)
+
 }
