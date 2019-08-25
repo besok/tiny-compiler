@@ -7,8 +7,8 @@ import (
 
 func Test_EnterEveryRule(t *testing.T) {
 
-	_ = Parse(`C:\projects\tiny-compiler\src\ab\calculator.ab`)
-	s := script
+	path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
+	s := Parse(path)
 	fmt.Printf("%+v /n", s)
 
 }

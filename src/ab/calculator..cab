@@ -1,0 +1,20 @@
+1:function=main
+2:arg args=]string
+3:return void
+4:function=operation
+5:arg op=string
+6:arg l=num
+7:arg r=num
+8:return num
+9:function=makeStringResult
+10:arg result=num
+11:return string
+12:function=numToString
+13:arg number=num
+14:return string
+15:function=numToArray
+16:arg number=num
+17:return ]num
+18:function=revert
+19:arg array=]num
+20:return ]num

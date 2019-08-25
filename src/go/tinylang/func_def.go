@@ -1,7 +1,7 @@
 package parsing
 
 type Script struct {
-	functions []FuncDefinition
+	Functions []FuncDefinition
 }
 
 type FuncDefinition struct {
@@ -9,12 +9,12 @@ type FuncDefinition struct {
 	Name       string
 	Args       []Var
 	ReturnType Type
-	Body       []interface{}
+	Body       StatementBody
 	Return     interface{}
 }
 
 func NewFuncDefinition(line int, name string) *FuncDefinition {
-	return &FuncDefinition{Line: line, Name: name, Args: make([]Var, 0), Body: make([]interface{}, 0)}
+	return &FuncDefinition{Line: line, Name: name, Args: make([]Var, 0)}
 }
 
 type FuncDefinitionCtx struct {
@@ -48,7 +48,7 @@ func (f *FuncDefinitionCtx) PutItem(ctx Ctx) {
 		}
 	case Next:
 		variable := ctx.get()
-		f.F.Body = append(f.F.Body, variable)
+		f.F.Body = variable.(StatementBody)
 	case End:
 		f.F.Return = ctx.get()
 	}

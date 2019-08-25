@@ -8,7 +8,7 @@ import (
 	"tiny-compiler/src/antlr"
 )
 
-func Parse(path string) error {
+func Parse(path string) Script {
 
 	inp, _ := antlr.NewFileStream(path)
 	lexer := parser.NewTinyLangLexer(inp)
@@ -20,7 +20,7 @@ func Parse(path string) error {
 
 	antlr.ParseTreeWalkerDefault.Walk(NewListener(), file)
 
-	return nil
+	return script
 }
 
 type CommonTinyListener struct {

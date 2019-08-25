@@ -24,10 +24,10 @@ var (
 	End    CtxState = "end"
 )
 
-var script = Script{functions: make([]FuncDefinition, 0)}
+var script = Script{Functions: make([]FuncDefinition, 0)}
 
 func AddFunc(f *FuncDefinition) {
-	script.functions = append(script.functions, *f)
+	script.Functions = append(script.Functions, *f)
 }
 
 type Ctx interface {
