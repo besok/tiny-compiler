@@ -1,0 +1,15 @@
+  1:	function revert
+  2:	arg array = ]num
+  3:	return type = ]num
+  4:	v2 = 2
+  5:	v3 = array[v2]
+  6:	v1 = param v3
+  7:	v6 = 5
+  8:	v5 = param v6
+  9:	v7 = call fn 1
+ 10:	v8 = array[v7]
+ 11:	v4 = param v8
+ 12:	v9 = call fun 2
+ 13:	n = init num
+ 14:	n = v9
+ 15:	

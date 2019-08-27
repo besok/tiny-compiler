@@ -126,7 +126,7 @@ func (v Val) PutItem(ctx Ctx) {}
 func (v Val) Close() {}
 
 func (v Val) get() interface{} {
-	return v.V
+	return v
 }
 
 type ArrayInit struct {

@@ -9,9 +9,27 @@ import (
 )
 
 var (
-	idx   = 0
-	lines = make([]string, 0)
+	varIdx = 0
+	idx    = 0
+	lines  = make([]string, 0)
+	tbl    = make(map[string]Variable, 0)
 )
+
+func cleanTable() {
+	tbl = make(map[string]Variable, 0)
+}
+func addLocal(v Variable) Variable {
+	tbl[v.name] = v
+	return v
+}
+
+func createVar() string {
+	varIdx++
+	return fmt.Sprintf("v%d", varIdx)
+}
+func removeVar() {
+	varIdx--
+}
 
 func number() int {
 	idx++
@@ -19,7 +37,7 @@ func number() int {
 }
 
 func addLine(line string) {
-	lines = append(lines, fmt.Sprintf("%d:%s", number(), line))
+	lines = append(lines, fmt.Sprintf("%3d:	%s", number(), line))
 }
 
 func CreateFile(f string) (*os.File, error) {
@@ -45,32 +63,3 @@ func WriteFile(f *os.File) error {
 	defer f.Close()
 	return dw.Flush()
 }
-
-func Process(item interface{}) {
-	switch item.(type) {
-	case FuncDefinition:
-		processFuncDefinition(item.(FuncDefinition))
-	}
-}
-
-func processFuncDefinition(fd FuncDefinition) {
-	f := fmt.Sprintf("function=%s", fd.Name)
-	addLine(f)
-	for _, vr := range fd.Args {
-		arr := ""
-		if vr.Type.IsArray {
-			arr = "]"
-		}
-		f = fmt.Sprintf("arg %s=%s%s", vr.Name, arr, vr.Type.T)
-		addLine(f)
-	}
-	rt := fd.ReturnType
-	arr := ""
-	if rt.IsArray {
-		arr = "]"
-	}
-	f = fmt.Sprintf("return %s%s", arr, rt.T)
-	addLine(f)
-}
-
-

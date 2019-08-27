@@ -1,8 +1,4 @@
 func revert(array []num) []num {
-	var revertArray []num = [..]num
-	var l num = Len(array) - 1
-	for(i = 0; i < Len(array); i = i+1){
-		revertArray[i] = array[l-i]
-	}
+    var n num = fun(array[2],array[fn(5)])
 	return revertArray
 }

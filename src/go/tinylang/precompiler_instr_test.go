@@ -6,11 +6,12 @@ import (
 
 func Test_Intermediate(t *testing.T) {
 
-	path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
+	//path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
+	path := `C:\projects\tiny-compiler\src\ab\single_func.ab`
 	s := Parse(path)
 
 	for _,f := range s.Functions{
-		Process(f)
+		f.Process()
 	}
 
 	file, _ := CreateFile(path)
