@@ -467,6 +467,7 @@ func (c BreakOrContinue) get() interface{} {
 type WhileSt struct {
 	Line     int
 	BoolExpr interface{}
+	BoolExprT string
 	Body     StatementBody
 }
 type WhileStCtx struct {

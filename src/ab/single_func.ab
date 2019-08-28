@@ -1,4 +1,12 @@
 func revert(array []num) []num {
-    var n num = fun(array[2],array[fn(5)])
+    var n num = 0
+
+    while(true){}
+
+    while(n < 10){
+        Output("count")
+    }
+
+
 	return revertArray
 }

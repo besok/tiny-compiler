@@ -71,7 +71,6 @@ func (l *CommonTinyListener) EnterFuncReturn(c *parser.FuncReturnContext) {
 
 }
 
-
 func (l *CommonTinyListener) EnterFuncInvoc(c *parser.FuncInvocContext) {
 	name := ""
 	if sf := c.SYS_FUNC(); sf != nil {
@@ -277,9 +276,9 @@ func (l *CommonTinyListener) EnterBoolExpr(c *parser.BoolExprContext) {
 func (l *CommonTinyListener) EnterBreakOrContinue(c *parser.BreakOrContinueContext) {
 	pop, _ := Pop()
 	if br := c.BREAK(); br != nil {
-		(*pop).PutItem(BreakOrContinue{IsBreak:true})
-	}else{
-		(*pop).PutItem(BreakOrContinue{IsBreak:false})
+		(*pop).PutItem(BreakOrContinue{IsBreak: true})
+	} else {
+		(*pop).PutItem(BreakOrContinue{IsBreak: false})
 	}
 	Push(*pop)
 }
@@ -327,24 +326,23 @@ func (l *CommonTinyListener) EnterStatementBody(c *parser.StatementBodyContext) 
 	Push(&bodyCtx)
 }
 
-
 func (l *CommonTinyListener) EnterIfElseSt(c *parser.IfElseStContext) {
-	stCtx := IfElseIfStCtx{S: Start, V: IfElseIfSt{Line:c.GetStart().GetLine(), ElseIf: make([]IfSt, 0)}}
+	stCtx := IfElseIfStCtx{S: Start, V: IfElseIfSt{Line: c.GetStart().GetLine(), ElseIf: make([]IfSt, 0)}}
 	Push(&stCtx)
 }
 
 func (l *CommonTinyListener) EnterIfSt(c *parser.IfStContext) {
 	ctx := IfStCtx{S: Start}
 	if it := c.ITEM(); it != nil {
-		ctx.V.Cond= it.GetText()
+		ctx.V.Cond = it.GetText()
 		ctx.S = End
 	}
 	if it := c.FALSE(); it != nil {
-		ctx.V.Cond= it.GetText()
+		ctx.V.Cond = it.GetText()
 		ctx.S = End
 	}
 	if it := c.TRUE(); it != nil {
-		ctx.V.Cond= it.GetText()
+		ctx.V.Cond = it.GetText()
 		ctx.S = End
 	}
 	Push(&ctx)
@@ -363,22 +361,26 @@ func (l *CommonTinyListener) EnterElseSt(c *parser.ElseStContext) {
 }
 
 func (l *CommonTinyListener) EnterWhileSt(c *parser.WhileStContext) {
-	wCtx := WhileStCtx{S: Start,W:WhileSt{Line:c.GetStart().GetLine()}}
+	wCtx := WhileStCtx{S: Start, W: WhileSt{Line: c.GetStart().GetLine()}}
 
 	if it := c.ITEM(); it != nil {
 		wCtx.W.BoolExpr = it.GetText()
+		wCtx.W.BoolExprT = "i"
 		wCtx.S = End
-	}
-	if it := c.FALSE(); it != nil {
+	} else if it := c.FALSE(); it != nil {
 		wCtx.W.BoolExpr = it.GetText()
+		wCtx.W.BoolExprT = "b"
 		wCtx.S = End
-	}
-	if it := c.TRUE(); it != nil {
+	} else if it := c.TRUE(); it != nil {
 		wCtx.W.BoolExpr = it.GetText()
+		wCtx.W.BoolExprT = "b"
 		wCtx.S = End
+	} else {
+		wCtx.W.BoolExprT = "e"
 	}
 	Push(&wCtx)
 }
+
 //
 func (l *CommonTinyListener) EnterForSt(c *parser.ForStContext) {
 	stCtx := ForStCtx{F: ForSt{Line: c.GetStart().GetLine()}, S: Start}
@@ -528,7 +530,6 @@ func (l *CommonTinyListener) ExitStatementBody(c *parser.StatementBodyContext) {
 	Release(*ct)
 }
 
-
 func (l *CommonTinyListener) ExitIfElseSt(c *parser.IfElseStContext) {
 	ctx, _ := Pop()
 	Release(*ctx)
@@ -556,4 +557,3 @@ func (l *CommonTinyListener) ExitForSt(c *parser.ForStContext) {
 	p, _ := Pop()
 	Release(*p)
 }
-

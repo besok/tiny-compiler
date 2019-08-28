@@ -4,25 +4,60 @@ import (
 	"fmt"
 )
 
+// init
+// init_arr
+// param
+// call
+// goto
+// ifTrue x goto line
+// ifFalse x goto line
+
 type View interface {
 	Process() string
 }
 
+func (wh WhileSt) Process() string {
+	switch wh.BoolExprT {
+	case "i","b":
+		e := wh.BoolExpr
+		vr := createVar()
+		addLine(fmt.Sprintf("%s = %s",vr,e))
+		addLine(fmt.Sprintf("%s = %s",vr,e))
+	}
+	return ""
+}
 func (ae ArrayElem) Process() string {
-	el := ae .Name
-	p :=""
-	if !ae.HasPos{
+	el := ae.Name
+	p := ""
+	if !ae.HasPos {
 		p = ae.Calc.(View).Process()
-	}else{
+	} else {
 		p = createVar()
-		addLine(fmt.Sprintf("%s = %d",p,ae.Pos))
+		addLine(fmt.Sprintf("%s = %d", p, ae.Pos))
 	}
 	vr := createVar()
-	addLine(fmt.Sprintf("%s = %s[%s]",vr,el,p))
+	addLine(fmt.Sprintf("%s = %s[%s]", vr, el, p))
+	return vr
+}
+func (e ExprOperand) Process() string {
+	vr := createVar()
+	var r string
+	switch e.T {
+	case "n", "s", "i":
+		r = e.V.(string)
+	case "f", "a":
+		r = e.V.(View).Process()
+	}
+	addLine(fmt.Sprintf("%s = %s", vr, r))
 	return vr
 }
 func (e Expr) Process() string {
-	return ""
+	left := e.Left.(View).Process()
+	right := e.Right.(View).Process()
+	vr := createVar()
+	addLine(fmt.Sprintf("%s = %s %s %s", vr, left, e.Sign, right))
+
+	return vr
 }
 func (fi FuncInvoc) Process() string {
 	name := fi.Name
@@ -30,22 +65,30 @@ func (fi FuncInvoc) Process() string {
 	for _, arg := range fi.Args {
 		vr := createVar()
 		el := arg.(View).Process()
-		addLine(fmt.Sprintf("%s = param %s",vr, el))
+		addLine(fmt.Sprintf("%s = param %s", vr, el))
 		count++
 	}
 	vr := createVar()
-	addLine(fmt.Sprintf("%s = call %s %d",vr, name, count))
+	addLine(fmt.Sprintf("%s = call %s %d", vr, name, count))
 	return vr
 }
 func (v Val) Process() string {
 	nV := createVar()
 	val := v.V
-	switch v.T {
-	case "s":
-		val = val.(string)[1 : len(val.(string))-1]
-	}
 	addLine(fmt.Sprintf("%s = %s", nV, val))
 	return nV
+}
+func (ai ArrayInit) Process() string {
+	for i:=0;i<ai.Cap;i++{
+		vr := createVar()
+		var res string
+		switch ai.Val[i].(type) {
+		case int:
+			res = fmt.Sprintf("%d",ai.Val[i])
+		}
+		addLine(fmt.Sprintf("%s = init_arr %s",vr, res))
+	}
+	return ""
 }
 func (nv NewVariable) Process() string {
 	nV := nv.Right.(View).Process()
@@ -55,7 +98,9 @@ func (nv NewVariable) Process() string {
 		arr = "]"
 	}
 	addLine(fmt.Sprintf("%s = init %s%s", nv.Name, arr, rt.T))
-	addLine(fmt.Sprintf("%s = %s", nv.Name, nV))
+	if nV != "" {
+		addLine(fmt.Sprintf("%s = %s", nv.Name, nV))
+	}
 	_ = addLocal(Variable{name: nv.Name, t: nv.Type, v: nV})
 	return ""
 }
