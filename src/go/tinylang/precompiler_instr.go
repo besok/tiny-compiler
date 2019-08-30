@@ -63,8 +63,21 @@ func (be BoolExpr) Process() string {
 	return prev
 }
 
+func (fs ForSt) Process() string {
+	var startLine = fmt.Sprintf("%d", nextNumber())
+
+	_ = fs.InitVar.Process()
+	fl := fs.Cond.Process()
+	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto ____", fl))
+	initGotoCtx()
+	addJump(lineToFix, false)
+	fs.Body.Process()
+	fs.UpdVar.Process()
+	endLine := fmt.Sprintf("%d", nextNumber())
+	releaseGotoCtx(startLine, endLine)
+	return ""
+}
 func (wh WhileSt) Process() string {
-	initCtx()
 	var startLine = fmt.Sprintf("%d", nextNumber())
 	var vr string
 	switch wh.BoolExprT {
@@ -76,12 +89,14 @@ func (wh WhileSt) Process() string {
 		vr = wh.BoolExpr.(View).Process()
 	}
 
+	initGotoCtx()
+
 	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto ____", vr))
 	addJump(lineToFix, false)
 	wh.Body.Process()
 	addLine(fmt.Sprintf("goto %s", startLine))
 	endLine := fmt.Sprintf("%d", nextNumber())
-	doJumps(startLine, endLine)
+	releaseGotoCtx(startLine, endLine)
 
 	return ""
 }
@@ -174,15 +189,11 @@ func (bc BreakOrContinue) Process() string {
 }
 func (sb StatementBody) Process() string {
 	sts := sb.V
-	r := ""
 
 	for _, v := range sts {
-		res := v.(View).Process()
-		if res == "break" || res == "continue" {
-			r = res
-		}
+		v.(View).Process()
 	}
-	return r
+	return ""
 }
 
 func (fd FuncDefinition) Process() string {

@@ -502,7 +502,7 @@ func (w *WhileStCtx) get() interface{} {
 
 type ForSt struct {
 	Line    int
-	InitVar UpdVar
+	InitVar NewVariable
 	UpdVar  UpdVar
 	Cond    BoolExpr
 	Body    StatementBody
@@ -524,7 +524,7 @@ func (f *ForStCtx) setState(st CtxState) {
 func (f *ForStCtx) PutItem(ctx Ctx) {
 	switch f.S {
 	case Start:
-		f.F.InitVar = ctx.get().(UpdVar)
+		f.F.InitVar = ctx.get().(NewVariable)
 		f.S = Next
 	case Next:
 		f.F.Cond = ctx.get().(BoolExpr)

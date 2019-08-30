@@ -86,20 +86,20 @@ type Line struct {
 }
 
 
-var gotoStack = make([]GotoCtx,0)
+var gotoStack = make([]gotoCtx,0)
 
 func addJump(line int, toStart bool) {
 	ctx := &gotoStack[len(gotoStack)-1]
-	*ctx = append(*ctx, GotoJump{line: line, toStart: toStart})
+	*ctx = append(*ctx, gotoJump{line: line, toStart: toStart})
 }
 
-func initCtx(){
-	gotoStack = append(gotoStack,make(GotoCtx, 0))
+func initGotoCtx(){
+	gotoStack = append(gotoStack,make(gotoCtx, 0))
 }
 
 
 
-func doJumps(startLine string, endLine string) {
+func releaseGotoCtx(startLine string, endLine string) {
 	ctx := gotoStack[len(gotoStack)-1]
 	for _, j := range ctx {
 		if j.toStart {
@@ -111,9 +111,9 @@ func doJumps(startLine string, endLine string) {
 	gotoStack = gotoStack[:len(gotoStack)-1]
 }
 
-type GotoCtx []GotoJump
+type gotoCtx []gotoJump
 
-type GotoJump struct {
+type gotoJump struct {
 	line    int
 	toStart bool
 }
