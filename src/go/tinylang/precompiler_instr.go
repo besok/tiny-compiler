@@ -24,16 +24,15 @@ func (uv UpdVar) Process() string {
 	right := uv.Right.(View).Process()
 	left := uv.Left
 	if left.IsArrEl {
-		addLine(fmt.Sprintf("%s[%d] = %s",left.ArrElem.Name,left.ArrElem.Pos,right))
-	}else{
-		addLine(fmt.Sprintf("%s = %s",left.ArrElem.Name,right))
+		addLine(fmt.Sprintf("%s[%d] = %s", left.ArrElem.Name, left.ArrElem.Pos, right))
+	} else {
+		addLine(fmt.Sprintf("%s = %s", left.ArrElem.Name, right))
 	}
 	return ""
 }
 
-
 func (beo BoolExprOperand) Process() string {
-	if beo.IsPrim{
+	if beo.IsPrim {
 		return strconv.FormatBool(beo.V.(bool))
 	}
 	return beo.V.(View).Process()
@@ -64,10 +63,9 @@ func (be BoolExpr) Process() string {
 	return prev
 }
 
-
-
 func (wh WhileSt) Process() string {
-	var startLine = nextNumber()
+	initCtx()
+	var startLine = fmt.Sprintf("%d", nextNumber())
 	var vr string
 	switch wh.BoolExprT {
 	case "i", "b":
@@ -79,13 +77,12 @@ func (wh WhileSt) Process() string {
 	}
 
 	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto ____", vr))
+	addJump(lineToFix, false)
+	wh.Body.Process()
+	addLine(fmt.Sprintf("goto %s", startLine))
+	endLine := fmt.Sprintf("%d", nextNumber())
+	doJumps(startLine, endLine)
 
-	sb := wh.Body
-
-
-
-	addLine(fmt.Sprintf("goto %d", startLine))
-	changeLine(lineToFix, "____", fmt.Sprintf("%d", nextNumber()))
 	return ""
 }
 func (ae ArrayElem) Process() string {
@@ -167,18 +164,21 @@ func (nv NewVariable) Process() string {
 	return ""
 }
 func (bc BreakOrContinue) Process() string {
-	if bc.IsBreak{
-		return "break"
+	line := addLine(fmt.Sprintf("goto ____"))
+	if bc.IsBreak {
+		addJump(line, false)
+	} else {
+		addJump(line, true)
 	}
-	return "continue"
+	return ""
 }
 func (sb StatementBody) Process() string {
 	sts := sb.V
-	r:=""
+	r := ""
 
 	for _, v := range sts {
 		res := v.(View).Process()
-		if res == "break" || res == "continue"{
+		if res == "break" || res == "continue" {
 			r = res
 		}
 	}

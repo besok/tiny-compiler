@@ -36,30 +36,29 @@ func number() int {
 	return idx
 }
 func nextNumber() int {
-	return idx+1
+	return idx + 1
 }
-
 
 func addLine(line string) int {
 	i := number()
-	lines = append(lines, Line{v:fmt.Sprintf("%3d:	%s", i, line),n:i})
+	lines = append(lines, Line{v: fmt.Sprintf("%3d:	%s", i, line), n: i})
 	return i
 }
 
-func changeLine(number int, src string, trg string){
-	for i:=0;i<len(lines);i++{
+func changeLine(number int, src string, trg string) {
+	for i := 0; i < len(lines); i++ {
 
 		line := &lines[i]
-		if line.n == number{
-			line.v = strings.ReplaceAll(line.v,src,trg)
+		if line.n == number {
+			line.v = strings.ReplaceAll(line.v, src, trg)
 			return
 		}
 	}
 }
 
 func CreateFile(f string) (*os.File, error) {
-	if hasSuffix := strings.HasSuffix(f, "ab"); hasSuffix {
-		file := fmt.Sprintf("%s.cab", strings.TrimSuffix(f, "ab"))
+	if hasSuffix := strings.HasSuffix(f, ".ab"); hasSuffix {
+		file := fmt.Sprintf("%s.cab", strings.TrimSuffix(f, ".ab"))
 		p, e := filepath.Abs(file)
 		if e == nil {
 			return os.Create(p)
@@ -85,3 +84,37 @@ type Line struct {
 	v string
 	n int
 }
+
+
+var gotoStack = make([]GotoCtx,0)
+
+func addJump(line int, toStart bool) {
+	ctx := &gotoStack[len(gotoStack)-1]
+	*ctx = append(*ctx, GotoJump{line: line, toStart: toStart})
+}
+
+func initCtx(){
+	gotoStack = append(gotoStack,make(GotoCtx, 0))
+}
+
+
+
+func doJumps(startLine string, endLine string) {
+	ctx := gotoStack[len(gotoStack)-1]
+	for _, j := range ctx {
+		if j.toStart {
+			changeLine(j.line, "____", startLine)
+		} else {
+			changeLine(j.line, "____", endLine)
+		}
+	}
+	gotoStack = gotoStack[:len(gotoStack)-1]
+}
+
+type GotoCtx []GotoJump
+
+type GotoJump struct {
+	line    int
+	toStart bool
+}
+
