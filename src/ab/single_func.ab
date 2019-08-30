@@ -1,10 +1,8 @@
-func revert(array []num) []num {
-    var n num = 0
+func revert(array []num) void {
 
-    while(true){}
+    var arr []num = {1,2,3}
 
-    while(n < 10){
-        Output("count")
+    while(n == true && el > 0){
     }
 
 

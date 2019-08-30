@@ -104,7 +104,6 @@ func (l *CommonTinyListener) EnterUpdVariable(c *parser.UpdVariableContext) {
 			IsArrEl bool
 			ArrElem ArrayElem
 		}{IsArrEl: true}
-		v.S = End
 	}
 	Push(&v)
 }
@@ -312,12 +311,12 @@ func (l *CommonTinyListener) EnterBoolExprOperand(c *parser.BoolExprOperandConte
 	if tr := c.TRUE(); tr != nil {
 		op.IsPrim = true
 		op.V = true
-	}
-	if fl := c.FALSE(); fl != nil {
+	} else if fl := c.FALSE(); fl != nil {
 		op.IsPrim = true
 		op.V = false
+	} else {
+		op.IsPrim = false
 	}
-	op.IsPrim = false
 	Push(&op)
 }
 

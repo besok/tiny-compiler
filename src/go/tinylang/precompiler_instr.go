@@ -2,6 +2,7 @@ package parsing
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // init
@@ -11,19 +12,80 @@ import (
 // goto
 // ifTrue x goto line
 // ifFalse x goto line
+// goto
+// bool sign
+// arr item
 
 type View interface {
 	Process() string
 }
 
-func (wh WhileSt) Process() string {
-	switch wh.BoolExprT {
-	case "i","b":
-		e := wh.BoolExpr
-		vr := createVar()
-		addLine(fmt.Sprintf("%s = %s",vr,e))
-		addLine(fmt.Sprintf("%s = %s",vr,e))
+func (uv UpdVar) Process() string {
+	right := uv.Right.(View).Process()
+	left := uv.Left
+	if left.IsArrEl {
+		addLine(fmt.Sprintf("%s[%d] = %s",left.ArrElem.Name,left.ArrElem.Pos,right))
+	}else{
+		addLine(fmt.Sprintf("%s = %s",left.ArrElem.Name,right))
 	}
+	return ""
+}
+
+
+func (beo BoolExprOperand) Process() string {
+	if beo.IsPrim{
+		return strconv.FormatBool(beo.V.(bool))
+	}
+	return beo.V.(View).Process()
+}
+
+func (be BoolExpr) Process() string {
+	exprs := be.BoolExpr
+	prev := ""
+	for _, e := range exprs {
+		sign := e.V.Sign
+		left := createVar()
+		leftRes := e.V.Left.(View).Process()
+		addLine(fmt.Sprintf("%s = %s", left, leftRes))
+		right := createVar()
+		rightRes := e.V.Right.(View).Process()
+		addLine(fmt.Sprintf("%s = %s", right, rightRes))
+
+		fin := createVar()
+		addLine(fmt.Sprintf("%s = %s %s %s", fin, left, sign, right))
+		var afterFin = fin
+		if prev != "" {
+			afterFin = createVar()
+			addLine(fmt.Sprintf("%s = %s %s %s", afterFin, prev, e.Op, fin))
+		}
+		prev = afterFin
+	}
+
+	return prev
+}
+
+
+
+func (wh WhileSt) Process() string {
+	var startLine = nextNumber()
+	var vr string
+	switch wh.BoolExprT {
+	case "i", "b":
+		e := wh.BoolExpr
+		vr = createVar()
+		addLine(fmt.Sprintf("%s = %s", vr, e))
+	default:
+		vr = wh.BoolExpr.(View).Process()
+	}
+
+	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto ____", vr))
+
+	sb := wh.Body
+
+
+
+	addLine(fmt.Sprintf("goto %d", startLine))
+	changeLine(lineToFix, "____", fmt.Sprintf("%d", nextNumber()))
 	return ""
 }
 func (ae ArrayElem) Process() string {
@@ -79,14 +141,14 @@ func (v Val) Process() string {
 	return nV
 }
 func (ai ArrayInit) Process() string {
-	for i:=0;i<ai.Cap;i++{
+	for i := 0; i < ai.Cap; i++ {
 		vr := createVar()
 		var res string
 		switch ai.Val[i].(type) {
 		case int:
-			res = fmt.Sprintf("%d",ai.Val[i])
+			res = fmt.Sprintf("%d", ai.Val[i])
 		}
-		addLine(fmt.Sprintf("%s = init_arr %s",vr, res))
+		addLine(fmt.Sprintf("%s = init_arr %s", vr, res))
 	}
 	return ""
 }
@@ -104,12 +166,23 @@ func (nv NewVariable) Process() string {
 	_ = addLocal(Variable{name: nv.Name, t: nv.Type, v: nV})
 	return ""
 }
+func (bc BreakOrContinue) Process() string {
+	if bc.IsBreak{
+		return "break"
+	}
+	return "continue"
+}
 func (sb StatementBody) Process() string {
 	sts := sb.V
+	r:=""
+
 	for _, v := range sts {
-		_ = v.(View).Process()
+		res := v.(View).Process()
+		if res == "break" || res == "continue"{
+			r = res
+		}
 	}
-	return ""
+	return r
 }
 
 func (fd FuncDefinition) Process() string {

@@ -1,15 +1,20 @@
   1:	function revert
   2:	arg array = ]num
-  3:	return type = ]num
-  4:	a = init ]string
-  5:	v1 = init_arr 1
-  6:	v2 = init_arr 2
-  7:	v3 = init_arr 3
-  8:	v4 = init_arr 4
-  9:	b = init ]num
- 10:	v5 = "left"
- 11:	v6 = right
- 12:	v7 = v5 + v6
- 13:	n = init num
- 14:	n = v7
- 15:	
+  3:	return type = void
+  4:	v1 = init_arr 1
+  5:	v2 = init_arr 2
+  6:	v3 = init_arr 3
+  7:	arr = init ]num
+  8:	v5 = n
+  9:	v4 = v5
+ 10:	v6 = true
+ 11:	v7 = v4 == v6
+ 12:	v9 = el
+ 13:	v8 = v9
+ 14:	v11 = 0
+ 15:	v10 = v11
+ 16:	v12 = v8 > v10
+ 17:	v13 = v7 && v12
+ 18:	ifFalse v13 goto 20
+ 19:	goto 8
+ 20:	
