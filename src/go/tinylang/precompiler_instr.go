@@ -77,6 +77,32 @@ func (fs ForSt) Process() string {
 	releaseGotoCtx(startLine, endLine)
 	return ""
 }
+
+func (ife IfElseIfSt) Process() string {
+
+	ends := make([]int, 0)
+
+	i := ife.If
+	vr := i.Cond.(View).Process()
+	line := addLine(fmt.Sprintf("ifFalse %s goto ____", vr))
+	i.Body.Process()
+	ends = append(ends, addLine(fmt.Sprintf("goto ____")))
+	changeLine(line, "____", fmt.Sprintf("%d", nextNumber()))
+	sts := ife.ElseIf
+	for _, s := range sts {
+		vr := s.Cond.(View).Process()
+		line := addLine(fmt.Sprintf("ifFalse %s goto ____", vr))
+		s.Body.Process()
+		ends = append(ends, addLine(fmt.Sprintf("goto ____")))
+		changeLine(line, "____", fmt.Sprintf("%d", nextNumber()))
+	}
+	ife.Else.Body.Process()
+	for _,e:=range ends{
+		changeLine(e,"____",fmt.Sprintf("%d",nextNumber()))
+	}
+
+	return ""
+}
 func (wh WhileSt) Process() string {
 	var startLine = fmt.Sprintf("%d", nextNumber())
 	var vr string
@@ -189,6 +215,10 @@ func (bc BreakOrContinue) Process() string {
 }
 func (sb StatementBody) Process() string {
 	sts := sb.V
+
+	if sts == nil {
+		return ""
+	}
 
 	for _, v := range sts {
 		v.(View).Process()

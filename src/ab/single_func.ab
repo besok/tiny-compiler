@@ -3,6 +3,8 @@ func revert(array []num) void {
     var arr []num = {1,2,3}
 
     while(n == true && el > 0){
+    if(fff){}
+
     }
 
 
