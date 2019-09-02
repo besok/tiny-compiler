@@ -3,12 +3,20 @@ package parsing
 import (
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"log"
+	"os"
+	"reflect"
 	"strconv"
 	"strings"
 	"tiny-compiler/src/antlr"
 )
 
 func Parse(path string) Script {
+	open, e := os.Open(path)
+	if e!= nil {
+		log.Fatalf(" error to open a file :%s, error: %s",path,e)
+	}
+
+	e = open.Close()
 
 	inp, _ := antlr.NewFileStream(path)
 	lexer := parser.NewTinyLangLexer(inp)
@@ -32,12 +40,26 @@ func NewListener() *CommonTinyListener {
 }
 
 //func (l *CommonTinyListener) VisitTerminal(node antlr.TerminalNode) {
-//	panic("implement me")
 //}
 
-//func (l *CommonTinyListener) VisitErrorNode(node antlr.ErrorNode) {
-//	panic("implement me")
-//}
+func (l *CommonTinyListener) VisitErrorNode(node antlr.ErrorNode) {
+	if pop, b := Pop(); b {
+		ne := pop
+		ln := (*ne).line()
+		for ; ln == -1; {
+			ne, b = Pop()
+			if !b {
+				break
+			}
+			ln = (*ne).line()
+		}
+		tp := reflect.TypeOf((*ne).get()).Name()
+		log.Fatalf(" compile error: %s in %s, line:%d", node.GetText(),tp ,ln)
+	}else{
+		log.Fatalf(" compile error: %s , line:%d", node.GetText(),0)
+	}
+}
+
 //
 //func (l *CommonTinyListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
 //	panic("implement me")
@@ -54,7 +76,6 @@ func NewListener() *CommonTinyListener {
 func (l *CommonTinyListener) EnterFuncInit(c *parser.FuncInitContext) {
 	line := c.GetStart().GetLine()
 	funcName := c.ITEM().GetText()
-	log.Println(line, funcName)
 
 	fd := NewFuncDefinition(line, funcName)
 	dCtx := &FuncDefinitionCtx{F: fd, S: Start}
@@ -65,9 +86,8 @@ func (l *CommonTinyListener) EnterFuncInit(c *parser.FuncInitContext) {
 //}
 
 func (l *CommonTinyListener) EnterFuncReturn(c *parser.FuncReturnContext) {
-	p, _ := Pop()
-	(*p).setState(End)
-	Push(*p)
+	ctx := FuncReturn{Line: c.GetStart().GetLine()}
+	Push(&ctx)
 
 }
 
@@ -441,7 +461,8 @@ func (l *CommonTinyListener) ExitFuncReturnType(c *parser.FuncReturnTypeContext)
 
 //
 func (l *CommonTinyListener) ExitFuncReturn(c *parser.FuncReturnContext) {
-
+	fr, _ := Pop()
+	Release(*fr)
 }
 
 func (l *CommonTinyListener) ExitFuncInvoc(c *parser.FuncInvocContext) {

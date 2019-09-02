@@ -36,6 +36,7 @@ type Ctx interface {
 	PutItem(ctx Ctx)
 	Close()
 	get() interface{}
+	line() int
 }
 
 func Release(c Ctx){

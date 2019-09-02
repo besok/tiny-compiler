@@ -10,7 +10,6 @@ type FuncDefinition struct {
 	Args       []Var
 	ReturnType Type
 	Body       StatementBody
-	Return     interface{}
 }
 
 func NewFuncDefinition(line int, name string) *FuncDefinition {
@@ -22,6 +21,9 @@ type FuncDefinitionCtx struct {
 	S CtxState
 }
 
+func (f FuncDefinitionCtx) line() int {
+	return f.F.Line
+}
 func (f FuncDefinitionCtx) getState() CtxState {
 	return f.S
 }
@@ -49,8 +51,6 @@ func (f *FuncDefinitionCtx) PutItem(ctx Ctx) {
 	case Next:
 		variable := ctx.get()
 		f.F.Body = variable.(StatementBody)
-	case End:
-		f.F.Return = ctx.get()
 	}
 }
 
@@ -65,6 +65,9 @@ type NewVariable struct {
 	Right interface{}
 }
 
+func (c NewVariable) line() int {
+	return c.Line
+}
 func (c NewVariable) getState() CtxState {
 	return Start
 }
@@ -84,7 +87,9 @@ func (c NewVariable) Close() {
 func (c NewVariable) get() interface{} {
 	return c
 }
-
+func (v Var) line() int {
+	return -1
+}
 func (v Var) getState() CtxState {
 	return Start
 }
@@ -115,6 +120,9 @@ type Val struct {
 	V interface{}
 }
 
+func (v Val) line() int {
+	return -1
+}
 func (v Val) getState() CtxState {
 	return Start
 }
@@ -135,6 +143,9 @@ type ArrayInit struct {
 	Val []interface{}
 }
 
+func (l ArrayInit) line() int {
+	return -1
+}
 func (l ArrayInit) getState() CtxState {
 	return Start
 }
@@ -158,6 +169,9 @@ type FuncInvoc struct {
 	Args []interface{}
 }
 
+func (f FuncInvoc) line() int {
+	return f.Line
+}
 func (f FuncInvoc) getState() CtxState {
 	return Start
 }
@@ -183,6 +197,9 @@ type ArrayElem struct {
 	Calc   interface{}
 }
 
+func (a ArrayElem) line() int {
+	return -1
+}
 func (a ArrayElem) getState() CtxState {
 	return Start
 }
@@ -217,6 +234,9 @@ type UpdVarCtx struct {
 	S CtxState
 }
 
+func (v UpdVarCtx) line() int {
+	return v.V.Line
+}
 func (v UpdVarCtx) getState() CtxState {
 	return v.S
 }
@@ -253,6 +273,9 @@ type ExprCtx struct {
 	E Expr
 }
 
+func (e *ExprCtx) line() int {
+	return e.E.Line
+}
 func (e *ExprCtx) getState() CtxState {
 	return e.S
 }
@@ -284,6 +307,9 @@ type ExprOperand struct {
 	V interface{}
 }
 
+func (op *ExprOperand) line() int {
+	return -1
+}
 func (op *ExprOperand) getState() CtxState {
 	return Start
 }
@@ -314,6 +340,9 @@ type BoolExpr struct {
 	BoolExpr []BoolExprSingleExtra
 }
 
+func (b *BoolExpr) line() int {
+	return b.Line
+}
 func (b *BoolExpr) getState() CtxState {
 	return Start
 }
@@ -344,6 +373,9 @@ type BoolExprSingleExtra struct {
 	V  BoolExprSingle
 }
 
+func (o *BoolExprSingleExtra) line() int {
+	return -1
+}
 func (o *BoolExprSingleExtra) getState() CtxState {
 	return Start
 }
@@ -373,6 +405,9 @@ type BoolExprSingleCtx struct {
 	S CtxState
 }
 
+func (b *BoolExprSingleCtx) line() int {
+	return -1
+}
 func (b *BoolExprSingleCtx) getState() CtxState {
 	return b.S
 }
@@ -403,6 +438,9 @@ type BoolExprOperand struct {
 	V      interface{}
 }
 
+func (b *BoolExprOperand) line() int {
+	return -1
+}
 func (b *BoolExprOperand) getState() CtxState {
 	return Start
 }
@@ -425,6 +463,9 @@ type StatementBody struct {
 	V []interface{}
 }
 
+func (b *StatementBody) line() int {
+	return -1
+}
 func (b *StatementBody) getState() CtxState {
 	return Start
 }
@@ -447,17 +488,21 @@ type BreakOrContinue struct {
 	IsBreak bool
 }
 
-func (BreakOrContinue) getState() CtxState {
+func (c BreakOrContinue) line() int {
+	return -1
+}
+
+func (c BreakOrContinue) getState() CtxState {
 	return Start
 }
 
-func (BreakOrContinue) setState(st CtxState) {
+func (c BreakOrContinue) setState(st CtxState) {
 }
 
-func (BreakOrContinue) PutItem(ctx Ctx) {
+func (c BreakOrContinue) PutItem(ctx Ctx) {
 }
 
-func (BreakOrContinue) Close() {
+func (c BreakOrContinue) Close() {
 }
 
 func (c BreakOrContinue) get() interface{} {
@@ -465,16 +510,19 @@ func (c BreakOrContinue) get() interface{} {
 }
 
 type WhileSt struct {
-	Line     int
-	BoolExpr interface{}
+	Line      int
+	BoolExpr  interface{}
 	BoolExprT string
-	Body     StatementBody
+	Body      StatementBody
 }
 type WhileStCtx struct {
 	W WhileSt
 	S CtxState
 }
 
+func (w *WhileStCtx) line() int {
+	return w.W.Line
+}
 func (w *WhileStCtx) getState() CtxState {
 	return w.S
 }
@@ -513,6 +561,9 @@ type ForStCtx struct {
 	S CtxState
 }
 
+func (f *ForStCtx) line() int {
+	return f.F.Line
+}
 func (f *ForStCtx) getState() CtxState {
 	return f.S
 }
@@ -553,6 +604,9 @@ type IfStCtx struct {
 	S CtxState
 }
 
+func (i *IfStCtx) line() int {
+	return -1
+}
 func (i *IfStCtx) getState() CtxState {
 	return i.S
 }
@@ -582,6 +636,9 @@ type ElseSt struct {
 	Body StatementBody
 }
 
+func (e *ElseSt) line() int {
+	return -1
+}
 func (e *ElseSt) getState() CtxState {
 	return Start
 }
@@ -601,7 +658,7 @@ func (e *ElseSt) get() interface{} {
 }
 
 type IfElseIfSt struct {
-	Line   int ``
+	Line   int
 	If     IfSt
 	ElseIf []IfSt
 	Else   ElseSt
@@ -611,6 +668,9 @@ type IfElseIfStCtx struct {
 	V IfElseIfSt
 }
 
+func (e *IfElseIfStCtx) line() int {
+	return e.V.Line
+}
 func (e *IfElseIfStCtx) getState() CtxState {
 	return e.S
 }
@@ -637,4 +697,33 @@ func (e *IfElseIfStCtx) Close() {
 
 func (e *IfElseIfStCtx) get() interface{} {
 	return e.V
+}
+
+type FuncReturn struct {
+	V interface{}
+	Line int
+}
+
+func (c *FuncReturn) getState() CtxState {
+	return Start
+}
+
+func (c *FuncReturn) setState(st CtxState) {
+
+}
+
+func (c *FuncReturn) PutItem(ctx Ctx) {
+	c.V = ctx.get()
+}
+
+func (c *FuncReturn) Close() {
+
+}
+
+func (c *FuncReturn) get() interface{} {
+	return *c
+}
+
+func (c *FuncReturn) line() int {
+	return c.Line
 }
