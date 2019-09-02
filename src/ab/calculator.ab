@@ -40,7 +40,7 @@ func makeStringResult(result num) string {
 	var nums []num = revert(numToArray(result))
 	var strNum string = ""
 
-	for(i =0; i < Len(nums); i = i+1){
+	for(var i num =0; i < Len(nums); i = i+1){
 		strNum = strNum + numToString(nums[i])
 	}
 
@@ -70,7 +70,7 @@ func numToArray(number num) []num {
 func revert(array []num) []num {
 	var revertArray []num = [..]num
 	var l num = Len(array) - 1
-	for(i = 0; i < Len(array); i = i+1){
+	for(var i num = 0; i < Len(array); i = i+1){
 		revertArray[i] = array[l-i]
 	}
 	return revertArray

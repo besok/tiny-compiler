@@ -1,0 +1,17 @@
+  1:	function numToString
+  2:	arg number = num
+  3:	return type = string
+  4:	v1 = init_arr "0"
+  5:	v2 = init_arr "1"
+  6:	v3 = init_arr "2"
+  7:	v4 = init_arr "3"
+  8:	v5 = init_arr "4"
+  9:	v6 = init_arr "5"
+ 10:	v7 = init_arr "6"
+ 11:	v8 = init_arr "7"
+ 12:	v9 = init_arr "8"
+ 13:	v10 = init_arr "9"
+ 14:	numbers = init ]string
+ 15:	v11 = number
+ 16:	v12 = numbers[15]
+ 17:	return v12

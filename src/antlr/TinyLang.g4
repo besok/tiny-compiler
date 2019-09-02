@@ -29,7 +29,7 @@ BOOL_PL:  '&&' | '||';
 
 file: funcInit* EOF;
 
-funcInit: 'func' ITEM '(' funcArgs ')' funcReturnType '{' statementBody funcReturn?'}' ;
+funcInit: 'func' ITEM '(' funcArgs ')' funcReturnType '{' statementBody '}' ;
 funcArg: ITEM variableType ;
 funcArgs: ( funcArg (',' funcArg)*)? ;
 funcReturn: RETURN (arrayElem | funcInvoc | val | expr | boolExpr) ;
@@ -73,7 +73,7 @@ boolExprSingle:
         ;
 boolExprOperand:  expr | exprOperand | TRUE | FALSE | arrayElem ;
 breakOrContinue: BREAK | CONTINUE;
-statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt | breakOrContinue)*;
+statementBody: (newVariable | updVariable | funcInvoc | ifElseSt | whileSt | forSt | breakOrContinue | funcReturn)*;
 ifElseSt: ifSt elseIfSt* elseSt?;
 ifSt :  IF '('(TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{' statementBody?'}' ;
 elseIfSt: ELSE ifSt;
@@ -81,5 +81,5 @@ elseSt: ELSE '{'statementBody? '}';
 
 whileSt: WHILE '(' (TRUE | FALSE | boolExpr | ITEM | funcInvoc )')' '{' statementBody? '}';
 
-forSt: FOR '(' updVariable ';' boolExpr ';' updVariable ')' '{' statementBody'}';
+forSt: FOR '(' newVariable ';' boolExpr ';' updVariable ')' '{' statementBody'}';
 

@@ -1,12 +1,4 @@
-func revert(array []num) void {
-
-    var arr []num = {1,2,3}
-
-    while(n == true && el > 0){
-    if(fff){}
-
-    }
-
-
-	return revertArray
+func numToString(number num) string {
+	var numbers []string = {"0","1","2","3","4","5","6","7","8","9"}
+	return numbers[number]
 }
