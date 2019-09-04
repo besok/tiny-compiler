@@ -25,7 +25,7 @@ func addLocal(v Variable) Variable {
 
 func createVar() string {
 	varIdx++
-	return fmt.Sprintf("v%d", varIdx)
+	return fmt.Sprintf("_v%d", varIdx)
 }
 func removeVar() {
 	varIdx--
