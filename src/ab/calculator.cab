@@ -1,6 +1,6 @@
    1:  function main
-   2:  arg args = ]string
-   3:  return type = void
+   2:  argument args = ]string
+   3:  return_type = void
    4:  _v1 = true
    5:  isWorking = init bool
    6:  isWorking = _v1
@@ -51,10 +51,10 @@
   51:  goto 52
   52:  goto 7
   53:  function operation
-  54:  arg op = string
-  55:  arg l = num
-  56:  arg r = num
-  57:  return type = num
+  54:  argument op = string
+  55:  argument l = num
+  56:  argument r = num
+  57:  return_type = num
   58:  _v33 = 0
   59:  result = init num
   60:  result = _v33
@@ -121,8 +121,8 @@
  121:  _v78 = result
  122:  return _v78
  123:  function makeStringResult
- 124:  arg result = num
- 125:  return type = string
+ 124:  argument result = num
+ 125:  return_type = string
  126:  _v81 = result
  127:  _v80 = param _v81
  128:  _v82 = call numToArray 1
@@ -171,8 +171,8 @@
  171:  _v112 = _v110 + _v111
  172:  return _v112
  173:  function numToString
- 174:  arg number = num
- 175:  return type = string
+ 174:  argument number = num
+ 175:  return_type = string
  176:  _v113 = init_arr "0"
  177:  _v114 = init_arr "1"
  178:  _v115 = init_arr "2"
@@ -188,8 +188,8 @@
  188:  _v124 = numbers[187]
  189:  return _v124
  190:  function numToArray
- 191:  arg number = num
- 192:  return type = ]num
+ 191:  argument number = num
+ 192:  return_type = ]num
  193:  arrayOfNum = init ]num
  194:  _v125 = number
  195:  tempElement = init num
@@ -218,8 +218,8 @@
  218:  _v142 = arrayOfNum
  219:  return _v142
  220:  function revert
- 221:  arg array = ]num
- 222:  return type = ]num
+ 221:  argument array = ]num
+ 222:  return_type = ]num
  223:  revertArray = init ]num
  224:  _v145 = array
  225:  _v144 = param _v145
