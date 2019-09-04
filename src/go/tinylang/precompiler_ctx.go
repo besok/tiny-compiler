@@ -41,7 +41,7 @@ func nextNumber() int {
 
 func addLine(line string) int {
 	i := number()
-	lines = append(lines, Line{v: fmt.Sprintf("%3d:	%s", i, line), n: i})
+	lines = append(lines, Line{v: fmt.Sprintf("%4d:  %s", i, line), n: i})
 	return i
 }
 

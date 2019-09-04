@@ -260,7 +260,7 @@ func (fd FuncDefinition) Process() string {
 		if vr.Type.IsArray {
 			arr = "]"
 		}
-		f = fmt.Sprintf("arg %s = %s%s", vr.Name, arr, vr.Type.T)
+		f = fmt.Sprintf("argument %s = %s%s", vr.Name, arr, vr.Type.T)
 		addLine(f)
 	}
 	rt := fd.ReturnType
@@ -268,7 +268,7 @@ func (fd FuncDefinition) Process() string {
 	if rt.IsArray {
 		arr = "]"
 	}
-	f = fmt.Sprintf("return type = %s%s", arr, rt.T)
+	f = fmt.Sprintf("return_type = %s%s", arr, rt.T)
 	addLine(f)
 	fd.Body.Process()
 	return ""

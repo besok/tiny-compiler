@@ -1,254 +1,254 @@
-  1:	function main
-  2:	arg args = ]string
-  3:	return type = void
-  4:	_v1 = true
-  5:	isWorking = init bool
-  6:	isWorking = _v1
-  7:	_v2 = isWorking
-  8:	ifFalse _v2 goto 53
-  9:	_v4 = "please input a number : "
- 10:	_v3 = param _v4
- 11:	_v5 = call Input 1
- 12:	l = init num
- 13:	l = _v5
- 14:	_v7 = "please input an operator like +,-,/,*,% :"
- 15:	_v6 = param _v7
- 16:	_v8 = call Input 1
- 17:	op = init string
- 18:	op = _v8
- 19:	_v10 = "please input a number :"
- 20:	_v9 = param _v10
- 21:	_v11 = call Input 1
- 22:	r = init num
- 23:	r = _v11
- 24:	_v13 = op
- 25:	_v12 = param _v13
- 26:	_v15 = l
- 27:	_v14 = param _v15
- 28:	_v17 = r
- 29:	_v16 = param _v17
- 30:	_v18 = call operation 3
- 31:	res = init num
- 32:	res = _v18
- 33:	_v21 = res
- 34:	_v20 = param _v21
- 35:	_v22 = call makeStringResult 1
- 36:	_v19 = param _v22
- 37:	_v23 = call Output 1
- 38:	_v25 = "do you want to continue?"
- 39:	_v24 = param _v25
- 40:	_v26 = call Input 1
- 41:	cont = init string
- 42:	cont = _v26
- 43:	_v28 = cont
- 44:	_v27 = _v28
- 45:	_v30 = "y"
- 46:	_v29 = _v30
- 47:	_v31 = _v27 != _v29
- 48:	ifFalse _v31 goto 52
- 49:	_v32 = false
- 50:	isWorking = _v32
- 51:	goto 52
- 52:	goto 7
- 53:	function operation
- 54:	arg op = string
- 55:	arg l = num
- 56:	arg r = num
- 57:	return type = num
- 58:	_v33 = 0
- 59:	result = init num
- 60:	result = _v33
- 61:	_v35 = op
- 62:	_v34 = _v35
- 63:	_v37 = "+"
- 64:	_v36 = _v37
- 65:	_v38 = _v34 == _v36
- 66:	ifFalse _v38 goto 72
- 67:	_v39 = l
- 68:	_v40 = r
- 69:	_v41 = _v39 + _v40
- 70:	result = _v41
- 71:	goto 121
- 72:	_v43 = op
- 73:	_v42 = _v43
- 74:	_v45 = "-"
- 75:	_v44 = _v45
- 76:	_v46 = _v42 == _v44
- 77:	ifFalse _v46 goto 83
- 78:	_v47 = l
- 79:	_v48 = r
- 80:	_v49 = _v47 - _v48
- 81:	result = _v49
- 82:	goto 121
- 83:	_v51 = op
- 84:	_v50 = _v51
- 85:	_v53 = "*"
- 86:	_v52 = _v53
- 87:	_v54 = _v50 == _v52
- 88:	ifFalse _v54 goto 94
- 89:	_v55 = l
- 90:	_v56 = r
- 91:	_v57 = _v55 * _v56
- 92:	result = _v57
- 93:	goto 121
- 94:	_v59 = op
- 95:	_v58 = _v59
- 96:	_v61 = "/"
- 97:	_v60 = _v61
- 98:	_v62 = _v58 == _v60
- 99:	ifFalse _v62 goto 105
-100:	_v63 = l
-101:	_v64 = r
-102:	_v65 = _v63 / _v64
-103:	result = _v65
-104:	goto 121
-105:	_v67 = op
-106:	_v66 = _v67
-107:	_v69 = "%"
-108:	_v68 = _v69
-109:	_v70 = _v66 == _v68
-110:	ifFalse _v70 goto 116
-111:	_v71 = l
-112:	_v72 = r
-113:	_v73 = _v71 % _v72
-114:	result = _v73
-115:	goto 121
-116:	_v75 = "please to ensure you peek correct operator"
-117:	_v74 = param _v75
-118:	_v76 = call Output 1
-119:	_v77 = 0
-120:	result = _v77
-121:	_v78 = result
-122:	return _v78
-123:	function makeStringResult
-124:	arg result = num
-125:	return type = string
-126:	_v81 = result
-127:	_v80 = param _v81
-128:	_v82 = call numToArray 1
-129:	_v79 = param _v82
-130:	_v83 = call revert 1
-131:	nums = init ]num
-132:	nums = _v83
-133:	_v84 = ""
-134:	strNum = init string
-135:	strNum = _v84
-136:	_v85 = 0
-137:	i = init num
-138:	i = _v85
-139:	_v87 = i
-140:	_v86 = _v87
-141:	_v91 = nums
-142:	_v90 = param _v91
-143:	_v92 = call Len 1
-144:	_v89 = _v92
-145:	_v88 = _v89
-146:	_v93 = _v86 < _v88
-147:	ifFalse _v93 goto 160
-148:	_v94 = strNum
-149:	_v97 = i
-150:	_v98 = nums[149]
-151:	_v96 = param _v98
-152:	_v99 = call numToString 1
-153:	_v95 = _v99
-154:	_v100 = _v94 + _v95
-155:	strNum = _v100
-156:	_v101 = i
-157:	_v102 = 1
-158:	_v103 = _v101 + _v102
-159:	i = _v103
-160:	_v105 = strNum
-161:	_v104 = _v105
-162:	_v107 = ""
-163:	_v106 = _v107
-164:	_v108 = _v104 == _v106
-165:	ifFalse _v108 goto 169
-166:	_v109 = "undefined"
-167:	strNum = _v109
-168:	goto 169
-169:	_v110 = "result is "
-170:	_v111 = strNum
-171:	_v112 = _v110 + _v111
-172:	return _v112
-173:	function numToString
-174:	arg number = num
-175:	return type = string
-176:	_v113 = init_arr "0"
-177:	_v114 = init_arr "1"
-178:	_v115 = init_arr "2"
-179:	_v116 = init_arr "3"
-180:	_v117 = init_arr "4"
-181:	_v118 = init_arr "5"
-182:	_v119 = init_arr "6"
-183:	_v120 = init_arr "7"
-184:	_v121 = init_arr "8"
-185:	_v122 = init_arr "9"
-186:	numbers = init ]string
-187:	_v123 = number
-188:	_v124 = numbers[187]
-189:	return _v124
-190:	function numToArray
-191:	arg number = num
-192:	return type = ]num
-193:	arrayOfNum = init ]num
-194:	_v125 = number
-195:	tempElement = init num
-196:	tempElement = _v125
-197:	_v127 = tempelement
-198:	_v126 = _v127
-199:	_v129 = 0
-200:	_v128 = _v129
-201:	_v130 = _v126 > _v128
-202:	ifFalse _v130 goto 218
-203:	_v131 = tempElement
-204:	_v132 = 10
-205:	_v133 = _v131 % _v132
-206:	nextEl = init num
-207:	nextEl = _v133
-208:	_v135 = arrayOfNum
-209:	_v134 = param _v135
-210:	_v137 = nextEl
-211:	_v136 = param _v137
-212:	_v138 = call Add 2
-213:	_v139 = tempElement
-214:	_v140 = 10
-215:	_v141 = _v139 / _v140
-216:	tempElement = _v141
-217:	goto 197
-218:	_v142 = arrayOfNum
-219:	return _v142
-220:	function revert
-221:	arg array = ]num
-222:	return type = ]num
-223:	revertArray = init ]num
-224:	_v145 = array
-225:	_v144 = param _v145
-226:	_v146 = call Len 1
-227:	_v143 = _v146
-228:	_v147 = 1
-229:	_v148 = _v143 - _v147
-230:	l = init num
-231:	l = _v148
-232:	_v149 = 0
-233:	i = init num
-234:	i = _v149
-235:	_v151 = i
-236:	_v150 = _v151
-237:	_v155 = array
-238:	_v154 = param _v155
-239:	_v156 = call Len 1
-240:	_v153 = _v156
-241:	_v152 = _v153
-242:	_v157 = _v150 < _v152
-243:	ifFalse _v157 goto 253
-244:	_v158 = l
-245:	_v159 = i
-246:	_v160 = _v158 - _v159
-247:	_v161 = array[_v160]
-248:	revertArray[0] = _v161
-249:	_v162 = i
-250:	_v163 = 1
-251:	_v164 = _v162 + _v163
-252:	i = _v164
-253:	_v165 = revertArray
-254:	return _v165
+   1:  function main
+   2:  arg args = ]string
+   3:  return type = void
+   4:  _v1 = true
+   5:  isWorking = init bool
+   6:  isWorking = _v1
+   7:  _v2 = isWorking
+   8:  ifFalse _v2 goto 53
+   9:  _v4 = "please input a number : "
+  10:  _v3 = param _v4
+  11:  _v5 = call Input 1
+  12:  l = init num
+  13:  l = _v5
+  14:  _v7 = "please input an operator like +,-,/,*,% :"
+  15:  _v6 = param _v7
+  16:  _v8 = call Input 1
+  17:  op = init string
+  18:  op = _v8
+  19:  _v10 = "please input a number :"
+  20:  _v9 = param _v10
+  21:  _v11 = call Input 1
+  22:  r = init num
+  23:  r = _v11
+  24:  _v13 = op
+  25:  _v12 = param _v13
+  26:  _v15 = l
+  27:  _v14 = param _v15
+  28:  _v17 = r
+  29:  _v16 = param _v17
+  30:  _v18 = call operation 3
+  31:  res = init num
+  32:  res = _v18
+  33:  _v21 = res
+  34:  _v20 = param _v21
+  35:  _v22 = call makeStringResult 1
+  36:  _v19 = param _v22
+  37:  _v23 = call Output 1
+  38:  _v25 = "do you want to continue?"
+  39:  _v24 = param _v25
+  40:  _v26 = call Input 1
+  41:  cont = init string
+  42:  cont = _v26
+  43:  _v28 = cont
+  44:  _v27 = _v28
+  45:  _v30 = "y"
+  46:  _v29 = _v30
+  47:  _v31 = _v27 != _v29
+  48:  ifFalse _v31 goto 52
+  49:  _v32 = false
+  50:  isWorking = _v32
+  51:  goto 52
+  52:  goto 7
+  53:  function operation
+  54:  arg op = string
+  55:  arg l = num
+  56:  arg r = num
+  57:  return type = num
+  58:  _v33 = 0
+  59:  result = init num
+  60:  result = _v33
+  61:  _v35 = op
+  62:  _v34 = _v35
+  63:  _v37 = "+"
+  64:  _v36 = _v37
+  65:  _v38 = _v34 == _v36
+  66:  ifFalse _v38 goto 72
+  67:  _v39 = l
+  68:  _v40 = r
+  69:  _v41 = _v39 + _v40
+  70:  result = _v41
+  71:  goto 121
+  72:  _v43 = op
+  73:  _v42 = _v43
+  74:  _v45 = "-"
+  75:  _v44 = _v45
+  76:  _v46 = _v42 == _v44
+  77:  ifFalse _v46 goto 83
+  78:  _v47 = l
+  79:  _v48 = r
+  80:  _v49 = _v47 - _v48
+  81:  result = _v49
+  82:  goto 121
+  83:  _v51 = op
+  84:  _v50 = _v51
+  85:  _v53 = "*"
+  86:  _v52 = _v53
+  87:  _v54 = _v50 == _v52
+  88:  ifFalse _v54 goto 94
+  89:  _v55 = l
+  90:  _v56 = r
+  91:  _v57 = _v55 * _v56
+  92:  result = _v57
+  93:  goto 121
+  94:  _v59 = op
+  95:  _v58 = _v59
+  96:  _v61 = "/"
+  97:  _v60 = _v61
+  98:  _v62 = _v58 == _v60
+  99:  ifFalse _v62 goto 105
+ 100:  _v63 = l
+ 101:  _v64 = r
+ 102:  _v65 = _v63 / _v64
+ 103:  result = _v65
+ 104:  goto 121
+ 105:  _v67 = op
+ 106:  _v66 = _v67
+ 107:  _v69 = "%"
+ 108:  _v68 = _v69
+ 109:  _v70 = _v66 == _v68
+ 110:  ifFalse _v70 goto 116
+ 111:  _v71 = l
+ 112:  _v72 = r
+ 113:  _v73 = _v71 % _v72
+ 114:  result = _v73
+ 115:  goto 121
+ 116:  _v75 = "please to ensure you peek correct operator"
+ 117:  _v74 = param _v75
+ 118:  _v76 = call Output 1
+ 119:  _v77 = 0
+ 120:  result = _v77
+ 121:  _v78 = result
+ 122:  return _v78
+ 123:  function makeStringResult
+ 124:  arg result = num
+ 125:  return type = string
+ 126:  _v81 = result
+ 127:  _v80 = param _v81
+ 128:  _v82 = call numToArray 1
+ 129:  _v79 = param _v82
+ 130:  _v83 = call revert 1
+ 131:  nums = init ]num
+ 132:  nums = _v83
+ 133:  _v84 = ""
+ 134:  strNum = init string
+ 135:  strNum = _v84
+ 136:  _v85 = 0
+ 137:  i = init num
+ 138:  i = _v85
+ 139:  _v87 = i
+ 140:  _v86 = _v87
+ 141:  _v91 = nums
+ 142:  _v90 = param _v91
+ 143:  _v92 = call Len 1
+ 144:  _v89 = _v92
+ 145:  _v88 = _v89
+ 146:  _v93 = _v86 < _v88
+ 147:  ifFalse _v93 goto 160
+ 148:  _v94 = strNum
+ 149:  _v97 = i
+ 150:  _v98 = nums[149]
+ 151:  _v96 = param _v98
+ 152:  _v99 = call numToString 1
+ 153:  _v95 = _v99
+ 154:  _v100 = _v94 + _v95
+ 155:  strNum = _v100
+ 156:  _v101 = i
+ 157:  _v102 = 1
+ 158:  _v103 = _v101 + _v102
+ 159:  i = _v103
+ 160:  _v105 = strNum
+ 161:  _v104 = _v105
+ 162:  _v107 = ""
+ 163:  _v106 = _v107
+ 164:  _v108 = _v104 == _v106
+ 165:  ifFalse _v108 goto 169
+ 166:  _v109 = "undefined"
+ 167:  strNum = _v109
+ 168:  goto 169
+ 169:  _v110 = "result is "
+ 170:  _v111 = strNum
+ 171:  _v112 = _v110 + _v111
+ 172:  return _v112
+ 173:  function numToString
+ 174:  arg number = num
+ 175:  return type = string
+ 176:  _v113 = init_arr "0"
+ 177:  _v114 = init_arr "1"
+ 178:  _v115 = init_arr "2"
+ 179:  _v116 = init_arr "3"
+ 180:  _v117 = init_arr "4"
+ 181:  _v118 = init_arr "5"
+ 182:  _v119 = init_arr "6"
+ 183:  _v120 = init_arr "7"
+ 184:  _v121 = init_arr "8"
+ 185:  _v122 = init_arr "9"
+ 186:  numbers = init ]string
+ 187:  _v123 = number
+ 188:  _v124 = numbers[187]
+ 189:  return _v124
+ 190:  function numToArray
+ 191:  arg number = num
+ 192:  return type = ]num
+ 193:  arrayOfNum = init ]num
+ 194:  _v125 = number
+ 195:  tempElement = init num
+ 196:  tempElement = _v125
+ 197:  _v127 = tempelement
+ 198:  _v126 = _v127
+ 199:  _v129 = 0
+ 200:  _v128 = _v129
+ 201:  _v130 = _v126 > _v128
+ 202:  ifFalse _v130 goto 218
+ 203:  _v131 = tempElement
+ 204:  _v132 = 10
+ 205:  _v133 = _v131 % _v132
+ 206:  nextEl = init num
+ 207:  nextEl = _v133
+ 208:  _v135 = arrayOfNum
+ 209:  _v134 = param _v135
+ 210:  _v137 = nextEl
+ 211:  _v136 = param _v137
+ 212:  _v138 = call Add 2
+ 213:  _v139 = tempElement
+ 214:  _v140 = 10
+ 215:  _v141 = _v139 / _v140
+ 216:  tempElement = _v141
+ 217:  goto 197
+ 218:  _v142 = arrayOfNum
+ 219:  return _v142
+ 220:  function revert
+ 221:  arg array = ]num
+ 222:  return type = ]num
+ 223:  revertArray = init ]num
+ 224:  _v145 = array
+ 225:  _v144 = param _v145
+ 226:  _v146 = call Len 1
+ 227:  _v143 = _v146
+ 228:  _v147 = 1
+ 229:  _v148 = _v143 - _v147
+ 230:  l = init num
+ 231:  l = _v148
+ 232:  _v149 = 0
+ 233:  i = init num
+ 234:  i = _v149
+ 235:  _v151 = i
+ 236:  _v150 = _v151
+ 237:  _v155 = array
+ 238:  _v154 = param _v155
+ 239:  _v156 = call Len 1
+ 240:  _v153 = _v156
+ 241:  _v152 = _v153
+ 242:  _v157 = _v150 < _v152
+ 243:  ifFalse _v157 goto 253
+ 244:  _v158 = l
+ 245:  _v159 = i
+ 246:  _v160 = _v158 - _v159
+ 247:  _v161 = array[_v160]
+ 248:  revertArray[0] = _v161
+ 249:  _v162 = i
+ 250:  _v163 = 1
+ 251:  _v164 = _v162 + _v163
+ 252:  i = _v164
+ 253:  _v165 = revertArray
+ 254:  return _v165
