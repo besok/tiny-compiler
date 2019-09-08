@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
-	"tiny-compiler/src/antlr"
+	"tiny-compiler/src/antlr/tiny"
 )
 
 func Parse(path string) Script {
