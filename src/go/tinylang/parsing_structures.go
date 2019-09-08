@@ -115,7 +115,7 @@ type Type struct {
 	T       string
 }
 
-type Val struct {
+type  Val struct {
 	T string
 	V interface{}
 }

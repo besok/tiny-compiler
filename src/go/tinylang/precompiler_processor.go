@@ -44,18 +44,18 @@ func (be BoolExpr) Process() string {
 	prev := ""
 	for _, e := range exprs {
 		sign := e.V.Sign
-		left := createVar()
+		left := createVar(Ptr)
 		leftRes := e.V.Left.(View).Process()
 		addLine(fmt.Sprintf("%s = %s", left, leftRes))
-		right := createVar()
+		right := createVar(Ptr)
 		rightRes := e.V.Right.(View).Process()
 		addLine(fmt.Sprintf("%s = %s", right, rightRes))
 
-		fin := createVar()
+		fin := createVar(Ptr)
 		addLine(fmt.Sprintf("%s = %s %s %s", fin, left, sign, right))
 		var afterFin = fin
 		if prev != "" {
-			afterFin = createVar()
+			afterFin = createVar(Ptr)
 			addLine(fmt.Sprintf("%s = %s %s %s", afterFin, prev, e.Op, fin))
 		}
 		prev = afterFin
@@ -69,7 +69,7 @@ func (fs ForSt) Process() string {
 
 	_ = fs.InitVar.Process()
 	fl := fs.Cond.Process()
-	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto ____", fl))
+	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto %s", fl, patch))
 	initGotoCtx()
 	addJump(lineToFix, false)
 	fs.Body.Process()
@@ -91,7 +91,7 @@ func (ife IfElseIfSt) Process() string {
 
 	ife.Else.Body.Process()
 	for _, e := range ends {
-		changeLine(e, "____", fmt.Sprintf("%d", nextNumber()))
+		changeLine(e, fmt.Sprintf("%d", nextNumber()))
 	}
 
 	return ""
@@ -102,23 +102,27 @@ func processIfSt(ifSt IfSt, ends *[]int) {
 	var vr string
 	switch c.(type) {
 	case string:
-		vr = createVar()
+		vr = createVar(Ptr)
 	default:
 		vr = c.(View).Process()
 	}
-	line := addLine(fmt.Sprintf("ifFalse %s goto ____", vr))
+	line := addLine(fmt.Sprintf("ifFalse %s goto %s", vr, patch))
 	ifSt.Body.Process()
-	*ends = append(*ends, addLine(fmt.Sprintf("goto ____")))
-	changeLine(line, "____", fmt.Sprintf("%d", nextNumber()))
+	*ends = append(*ends, addLine(fmt.Sprintf("goto %s", patch)))
+	changeLine(line, fmt.Sprintf("%d", nextNumber()))
 }
 
 func (wh WhileSt) Process() string {
 	var startLine = fmt.Sprintf("%d", nextNumber())
 	var vr string
 	switch wh.BoolExprT {
-	case "i", "b":
+	case "i":
 		e := wh.BoolExpr
-		vr = createVar()
+		vr = createVar(Ptr)
+		addLine(fmt.Sprintf("%s = %s", vr, e))
+	case "b":
+		e := wh.BoolExpr
+		vr = createVar(Bool)
 		addLine(fmt.Sprintf("%s = %s", vr, e))
 	default:
 		vr = wh.BoolExpr.(View).Process()
@@ -126,7 +130,7 @@ func (wh WhileSt) Process() string {
 
 	initGotoCtx()
 
-	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto ____", vr))
+	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto %s", vr, patch))
 	addJump(lineToFix, false)
 	wh.Body.Process()
 	addLine(fmt.Sprintf("goto %s", startLine))
@@ -139,30 +143,37 @@ func (ae ArrayElem) Process() string {
 	el := ae.Name
 	p := ""
 	if !ae.HasPos {
-
 		switch ae.Calc.(type) {
 		case string:
-			vr := createVar()
-			p = fmt.Sprintf("%d",addLine(fmt.Sprintf("%s = %s", vr, ae.Calc)))
+			vr := createVar(Ptr)
+			p = fmt.Sprintf("%d", addLine(fmt.Sprintf("%s = %s", vr, ae.Calc)))
 		default:
-			 p = ae.Calc.(View).Process()
+			p = ae.Calc.(View).Process()
 		}
 
 	} else {
-		p = createVar()
+		p = createVar(Num)
 		addLine(fmt.Sprintf("%s = %d", p, ae.Pos))
 	}
-	vr := createVar()
+	vr := createVar(Ptr)
 	addLine(fmt.Sprintf("%s = %s[%s]", vr, el, p))
 	return vr
 }
 func (e ExprOperand) Process() string {
-	vr := createVar()
+	vr := ""
 	var r string
 	switch e.T {
-	case "n", "s", "i":
+	case "s":
+		r = e.V.(string)
+		vr = createVar(Str)
+	case "n":
+		r = e.V.(string)
+		vr = createVar(Num)
+	case "i":
+		vr = createVar(Ptr)
 		r = e.V.(string)
 	case "f", "a":
+		vr = createVar(Ptr)
 		r = e.V.(View).Process()
 	}
 	addLine(fmt.Sprintf("%s = %s", vr, r))
@@ -171,7 +182,7 @@ func (e ExprOperand) Process() string {
 func (e Expr) Process() string {
 	left := e.Left.(View).Process()
 	right := e.Right.(View).Process()
-	vr := createVar()
+	vr := createVar(Ptr)
 	addLine(fmt.Sprintf("%s = %s %s %s", vr, left, e.Sign, right))
 
 	return vr
@@ -180,30 +191,47 @@ func (fi FuncInvoc) Process() string {
 	name := fi.Name
 	count := 0
 	for _, arg := range fi.Args {
-		vr := createVar()
+		vr := createVar(Ptr)
 		el := arg.(View).Process()
 		addLine(fmt.Sprintf("%s = param %s", vr, el))
 		count++
 	}
-	vr := createVar()
+	vr := createVar(Ptr)
 	addLine(fmt.Sprintf("%s = call %s %d", vr, name, count))
 	return vr
 }
 func (v Val) Process() string {
-	nV := createVar()
+	var nV string
+	switch v.T {
+	case "b":
+		nV = createVar(Bool)
+	case "s":
+		nV = createVar(Str)
+	case "n":
+		nV = createVar(Num)
+	case "i":
+		nV = createVar(Ptr)
+	}
 	val := v.V
 	addLine(fmt.Sprintf("%s = %s", nV, val))
 	return nV
 }
 func (ai ArrayInit) Process() string {
 	for i := 0; i < ai.Cap; i++ {
-		vr := createVar()
+		vr := ""
+		v := ai.Val[i]
 		var res string
-		switch ai.Val[i].(type) {
+		switch v.(type) {
 		case int:
-			res = fmt.Sprintf("%d", ai.Val[i])
+			vr = createVar(Num)
+			res = fmt.Sprintf("%d", v)
 		case string:
-			res = fmt.Sprintf("%s", ai.Val[i])
+			if v == "true" || v == "false" {
+				vr = createVar(Bool)
+			} else {
+				vr = createVar(Str)
+			}
+			res = fmt.Sprintf("%s", v)
 		}
 		addLine(fmt.Sprintf("%s = init_arr %s", vr, res))
 	}
@@ -224,7 +252,7 @@ func (nv NewVariable) Process() string {
 	return ""
 }
 func (bc BreakOrContinue) Process() string {
-	line := addLine(fmt.Sprintf("goto ____"))
+	line := addLine(fmt.Sprintf("goto %s", patch))
 	if bc.IsBreak {
 		addJump(line, false)
 	} else {
@@ -249,7 +277,7 @@ func (sb StatementBody) Process() string {
 
 func (fd FuncReturn) Process() string {
 	nx := fd.V.(View).Process()
-	addLine(fmt.Sprintf("return %s",nx))
+	addLine(fmt.Sprintf("return %s", nx))
 	return nx
 }
 func (fd FuncDefinition) Process() string {

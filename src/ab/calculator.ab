@@ -59,7 +59,7 @@ func numToString(number num) string {
 func numToArray(number num) []num {
 	var arrayOfNum []num = [..]num
 	var tempElement num = number
-	while(tempelement > 0){
+	while(tempElement > 0){
 		var nextEl num = tempElement % 10
 		Add(arrayOfNum, nextEl)
 		tempElement = tempElement / 10

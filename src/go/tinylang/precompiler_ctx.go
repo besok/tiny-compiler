@@ -8,11 +8,23 @@ import (
 	"strings"
 )
 
+
+type VT string
+
+const (
+	Str VT = "_s"
+	Num VT = "_n"
+	Bool VT = "_b"
+	Ptr VT = "_p"
+)
+
+
 var (
-	varIdx = 0
+	varIdx = map[VT]int{Str:0,Num:0,Bool:0,Ptr:0}
 	idx    = 0
 	lines  = make([]Line, 0)
 	tbl    = make(map[string]Variable, 0)
+	patch = "____"
 )
 
 func cleanTable() {
@@ -23,12 +35,13 @@ func addLocal(v Variable) Variable {
 	return v
 }
 
-func createVar() string {
-	varIdx++
-	return fmt.Sprintf("_v%d", varIdx)
+func createVar(vt VT) string {
+	varIdx[vt]++
+	el := varIdx[vt]
+	return fmt.Sprintf("%s%d",string(vt), el)
 }
-func removeVar() {
-	varIdx--
+func removeVar(vt VT) {
+	varIdx[vt]--
 }
 
 func number() int {
@@ -45,12 +58,12 @@ func addLine(line string) int {
 	return i
 }
 
-func changeLine(number int, src string, trg string) {
+func changeLine(number int, trg string) {
 	for i := 0; i < len(lines); i++ {
 
 		line := &lines[i]
 		if line.n == number {
-			line.v = strings.ReplaceAll(line.v, src, trg)
+			line.v = strings.ReplaceAll(line.v, patch, trg)
 			return
 		}
 	}
@@ -85,27 +98,24 @@ type Line struct {
 	n int
 }
 
-
-var gotoStack = make([]gotoCtx,0)
+var gotoStack = make([]gotoCtx, 0)
 
 func addJump(line int, toStart bool) {
 	ctx := &gotoStack[len(gotoStack)-1]
 	*ctx = append(*ctx, gotoJump{line: line, toStart: toStart})
 }
 
-func initGotoCtx(){
-	gotoStack = append(gotoStack,make(gotoCtx, 0))
+func initGotoCtx() {
+	gotoStack = append(gotoStack, make(gotoCtx, 0))
 }
-
-
 
 func releaseGotoCtx(startLine string, endLine string) {
 	ctx := gotoStack[len(gotoStack)-1]
 	for _, j := range ctx {
 		if j.toStart {
-			changeLine(j.line, "____", startLine)
+			changeLine(j.line, startLine)
 		} else {
-			changeLine(j.line, "____", endLine)
+			changeLine(j.line, endLine)
 		}
 	}
 	gotoStack = gotoStack[:len(gotoStack)-1]
@@ -117,4 +127,3 @@ type gotoJump struct {
 	line    int
 	toStart bool
 }
-
