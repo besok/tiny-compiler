@@ -1,9 +1,9 @@
    1:  function main
    2:  argument args = ]string
    3:  return_type = void
-   4:  _n1 = 5
+   4:  _b1 = true
    5:  isWorking = init bool
-   6:  isWorking = _n1
+   6:  isWorking = _b1
    7:  _p1 = isWorking
    8:  ifFalse _p1 goto 53
    9:  _s1 = "please input a number : "
@@ -46,8 +46,8 @@
   46:  _p24 = _s5
   47:  _p25 = _p22 != _p24
   48:  ifFalse _p25 goto 52
-  49:  _b1 = false
-  50:  isWorking = _b1
+  49:  _b2 = false
+  50:  isWorking = _b2
   51:  goto 52
   52:  goto 7
   53:  function operation
@@ -55,9 +55,9 @@
   55:  argument l = num
   56:  argument r = num
   57:  return_type = num
-  58:  _n2 = 0
+  58:  _n1 = 0
   59:  result = init num
-  60:  result = _n2
+  60:  result = _n1
   61:  _p27 = op
   62:  _p26 = _p27
   63:  _s6 = "+"
@@ -116,8 +116,8 @@
  116:  _s11 = "please to ensure you peek correct operator"
  117:  _p61 = param _s11
  118:  _p62 = call Output 1
- 119:  _n3 = 0
- 120:  result = _n3
+ 119:  _n2 = 0
+ 120:  result = _n2
  121:  _p63 = result
  122:  return _p63
  123:  function makeStringResult
@@ -133,9 +133,9 @@
  133:  _s12 = ""
  134:  strNum = init string
  135:  strNum = _s12
- 136:  _n4 = 0
+ 136:  _n3 = 0
  137:  i = init num
- 138:  i = _n4
+ 138:  i = _n3
  139:  _p70 = i
  140:  _p69 = _p70
  141:  _p74 = nums
@@ -147,15 +147,15 @@
  147:  ifFalse _p76 goto 160
  148:  _p77 = strNum
  149:  _p80 = i
- 150:  _p81 = nums[149]
+ 150:  _p81 = nums[_p80]
  151:  _p79 = param _p81
  152:  _p82 = call numToString 1
  153:  _p78 = _p82
  154:  _p83 = _p77 + _p78
  155:  strNum = _p83
  156:  _p84 = i
- 157:  _n5 = 1
- 158:  _p85 = _p84 + _n5
+ 157:  _n4 = 1
+ 158:  _p85 = _p84 + _n4
  159:  i = _p85
  160:  _p87 = strNum
  161:  _p86 = _p87
@@ -185,7 +185,7 @@
  185:  _s25 = init_arr "9"
  186:  numbers = init ]string
  187:  _p92 = number
- 188:  _p93 = numbers[187]
+ 188:  _p93 = numbers[_p92]
  189:  return _p93
  190:  function numToArray
  191:  argument number = num
@@ -194,15 +194,15 @@
  194:  _p94 = number
  195:  tempElement = init num
  196:  tempElement = _p94
- 197:  _p96 = tempelement
+ 197:  _p96 = tempElement
  198:  _p95 = _p96
- 199:  _n6 = 0
- 200:  _p97 = _n6
+ 199:  _n5 = 0
+ 200:  _p97 = _n5
  201:  _p98 = _p95 > _p97
  202:  ifFalse _p98 goto 218
  203:  _p99 = tempElement
- 204:  _n7 = 10
- 205:  _p100 = _p99 % _n7
+ 204:  _n6 = 10
+ 205:  _p100 = _p99 % _n6
  206:  nextEl = init num
  207:  nextEl = _p100
  208:  _p102 = arrayOfNum
@@ -211,8 +211,8 @@
  211:  _p103 = param _p104
  212:  _p105 = call Add 2
  213:  _p106 = tempElement
- 214:  _n8 = 10
- 215:  _p107 = _p106 / _n8
+ 214:  _n7 = 10
+ 215:  _p107 = _p106 / _n7
  216:  tempElement = _p107
  217:  goto 197
  218:  _p108 = arrayOfNum
@@ -225,13 +225,13 @@
  225:  _p110 = param _p111
  226:  _p112 = call Len 1
  227:  _p109 = _p112
- 228:  _n9 = 1
- 229:  _p113 = _p109 - _n9
+ 228:  _n8 = 1
+ 229:  _p113 = _p109 - _n8
  230:  l = init num
  231:  l = _p113
- 232:  _n10 = 0
+ 232:  _n9 = 0
  233:  i = init num
- 234:  i = _n10
+ 234:  i = _n9
  235:  _p115 = i
  236:  _p114 = _p115
  237:  _p119 = array
@@ -247,8 +247,8 @@
  247:  _p125 = array[_p124]
  248:  revertArray[0] = _p125
  249:  _p126 = i
- 250:  _n11 = 1
- 251:  _p127 = _p126 + _n11
+ 250:  _n10 = 1
+ 251:  _p127 = _p126 + _n10
  252:  i = _p127
  253:  _p128 = revertArray
  254:  return _p128

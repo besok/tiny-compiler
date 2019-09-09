@@ -146,7 +146,8 @@ func (ae ArrayElem) Process() string {
 		switch ae.Calc.(type) {
 		case string:
 			vr := createVar(Ptr)
-			p = fmt.Sprintf("%d", addLine(fmt.Sprintf("%s = %s", vr, ae.Calc)))
+			_ = addLine(fmt.Sprintf("%s = %s", vr, ae.Calc))
+			p = fmt.Sprintf("%s", vr)
 		default:
 			p = ae.Calc.(View).Process()
 		}

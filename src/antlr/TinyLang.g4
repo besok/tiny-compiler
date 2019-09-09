@@ -39,8 +39,8 @@ funcInvoc: ( SYS_FUNC | ITEM ) '('funcArgsInvoc')' ;
 funcArgsInvoc:( funcInvocArgs (',' funcInvocArgs)* )?;
 funcInvocArgs : val | funcInvoc | arrayElem; // <-
 
-updVariable: (ITEM | arrayElem) '=' (expr | funcInvoc | val | arrayInit | arrayElem  );
-newVariable: 'var' ITEM variableType '=' (expr | val | arrayInit | funcInvoc );
+updVariable: (ITEM | arrayElem) '=' (arrayElem | expr | funcInvoc | val | arrayInit );
+newVariable: 'var' ITEM variableType '=' (arrayElem | expr | val | arrayInit | funcInvoc );
 
 val: TRUE | FALSE | STRING_RAW | NUMBER | ITEM ;
 
