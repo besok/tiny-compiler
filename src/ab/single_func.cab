@@ -1,7 +1,20 @@
    1:  function numToString
    2:  argument number = num
    3:  return_type = void
-   4:  _n1 = 1
-   5:  _p1 = numbers[_n1]
-   6:  s = init string
-   7:  s = _p1
+   4:  _n1 = 0
+   5:  i = init num
+   6:  i = _n1
+   7:  _p2 = i
+   8:  _p1 = _p2
+   9:  _p6 = nums
+  10:  _p5 = param _p6
+  11:  _p7 = call Len 1
+  12:  _p4 = _p7
+  13:  _p3 = _p4
+  14:  _p8 = _p1 < _p3
+  15:  ifFalse _p8 goto 21
+  16:  _p9 = i
+  17:  _n2 = 1
+  18:  _p10 = _p9 + _n2
+  19:  i = _p10
+  20:  goto 7

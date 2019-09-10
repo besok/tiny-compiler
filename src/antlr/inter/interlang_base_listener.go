@@ -21,6 +21,12 @@ func (s *BaseInterLangListener) EnterEveryRule(ctx antlr.ParserRuleContext) {}
 // ExitEveryRule is called when any rule is exited.
 func (s *BaseInterLangListener) ExitEveryRule(ctx antlr.ParserRuleContext) {}
 
+// EnterFile is called when production file is entered.
+func (s *BaseInterLangListener) EnterFile(ctx *FileContext) {}
+
+// ExitFile is called when production file is exited.
+func (s *BaseInterLangListener) ExitFile(ctx *FileContext) {}
+
 // EnterFunction is called when production function is entered.
 func (s *BaseInterLangListener) EnterFunction(ctx *FunctionContext) {}
 
@@ -39,8 +45,122 @@ func (s *BaseInterLangListener) EnterRetTp(ctx *RetTpContext) {}
 // ExitRetTp is called when production retTp is exited.
 func (s *BaseInterLangListener) ExitRetTp(ctx *RetTpContext) {}
 
+// EnterStatement is called when production statement is entered.
+func (s *BaseInterLangListener) EnterStatement(ctx *StatementContext) {}
+
+// ExitStatement is called when production statement is exited.
+func (s *BaseInterLangListener) ExitStatement(ctx *StatementContext) {}
+
+// EnterInternalArrArg is called when production internalArrArg is entered.
+func (s *BaseInterLangListener) EnterInternalArrArg(ctx *InternalArrArgContext) {}
+
+// ExitInternalArrArg is called when production internalArrArg is exited.
+func (s *BaseInterLangListener) ExitInternalArrArg(ctx *InternalArrArgContext) {}
+
+// EnterInternalVar is called when production internalVar is entered.
+func (s *BaseInterLangListener) EnterInternalVar(ctx *InternalVarContext) {}
+
+// ExitInternalVar is called when production internalVar is exited.
+func (s *BaseInterLangListener) ExitInternalVar(ctx *InternalVarContext) {}
+
+// EnterNewVar is called when production newVar is entered.
+func (s *BaseInterLangListener) EnterNewVar(ctx *NewVarContext) {}
+
+// ExitNewVar is called when production newVar is exited.
+func (s *BaseInterLangListener) ExitNewVar(ctx *NewVarContext) {}
+
+// EnterNewArrVar is called when production newArrVar is entered.
+func (s *BaseInterLangListener) EnterNewArrVar(ctx *NewArrVarContext) {}
+
+// ExitNewArrVar is called when production newArrVar is exited.
+func (s *BaseInterLangListener) ExitNewArrVar(ctx *NewArrVarContext) {}
+
+// EnterUpdVar is called when production updVar is entered.
+func (s *BaseInterLangListener) EnterUpdVar(ctx *UpdVarContext) {}
+
+// ExitUpdVar is called when production updVar is exited.
+func (s *BaseInterLangListener) ExitUpdVar(ctx *UpdVarContext) {}
+
+// EnterInitItem is called when production initItem is entered.
+func (s *BaseInterLangListener) EnterInitItem(ctx *InitItemContext) {}
+
+// ExitInitItem is called when production initItem is exited.
+func (s *BaseInterLangListener) ExitInitItem(ctx *InitItemContext) {}
+
+// EnterInitPrim is called when production initPrim is entered.
+func (s *BaseInterLangListener) EnterInitPrim(ctx *InitPrimContext) {}
+
+// ExitInitPrim is called when production initPrim is exited.
+func (s *BaseInterLangListener) ExitInitPrim(ctx *InitPrimContext) {}
+
+// EnterInitParam is called when production initParam is entered.
+func (s *BaseInterLangListener) EnterInitParam(ctx *InitParamContext) {}
+
+// ExitInitParam is called when production initParam is exited.
+func (s *BaseInterLangListener) ExitInitParam(ctx *InitParamContext) {}
+
+// EnterInitCall is called when production initCall is entered.
+func (s *BaseInterLangListener) EnterInitCall(ctx *InitCallContext) {}
+
+// ExitInitCall is called when production initCall is exited.
+func (s *BaseInterLangListener) ExitInitCall(ctx *InitCallContext) {}
+
+// EnterInitBoolOp is called when production initBoolOp is entered.
+func (s *BaseInterLangListener) EnterInitBoolOp(ctx *InitBoolOpContext) {}
+
+// ExitInitBoolOp is called when production initBoolOp is exited.
+func (s *BaseInterLangListener) ExitInitBoolOp(ctx *InitBoolOpContext) {}
+
+// EnterInitNumOp is called when production initNumOp is entered.
+func (s *BaseInterLangListener) EnterInitNumOp(ctx *InitNumOpContext) {}
+
+// ExitInitNumOp is called when production initNumOp is exited.
+func (s *BaseInterLangListener) ExitInitNumOp(ctx *InitNumOpContext) {}
+
+// EnterInitArrEl is called when production initArrEl is entered.
+func (s *BaseInterLangListener) EnterInitArrEl(ctx *InitArrElContext) {}
+
+// ExitInitArrEl is called when production initArrEl is exited.
+func (s *BaseInterLangListener) ExitInitArrEl(ctx *InitArrElContext) {}
+
+// EnterExtArrEl is called when production extArrEl is entered.
+func (s *BaseInterLangListener) EnterExtArrEl(ctx *ExtArrElContext) {}
+
+// ExitExtArrEl is called when production extArrEl is exited.
+func (s *BaseInterLangListener) ExitExtArrEl(ctx *ExtArrElContext) {}
+
+// EnterReturn is called when production return is entered.
+func (s *BaseInterLangListener) EnterReturn(ctx *ReturnContext) {}
+
+// ExitReturn is called when production return is exited.
+func (s *BaseInterLangListener) ExitReturn(ctx *ReturnContext) {}
+
+// EnterGotoIn is called when production gotoIn is entered.
+func (s *BaseInterLangListener) EnterGotoIn(ctx *GotoInContext) {}
+
+// ExitGotoIn is called when production gotoIn is exited.
+func (s *BaseInterLangListener) ExitGotoIn(ctx *GotoInContext) {}
+
+// EnterGoto is called when production goto is entered.
+func (s *BaseInterLangListener) EnterGoto(ctx *GotoContext) {}
+
+// ExitGoto is called when production goto is exited.
+func (s *BaseInterLangListener) ExitGoto(ctx *GotoContext) {}
+
+// EnterIfFalse is called when production ifFalse is entered.
+func (s *BaseInterLangListener) EnterIfFalse(ctx *IfFalseContext) {}
+
+// ExitIfFalse is called when production ifFalse is exited.
+func (s *BaseInterLangListener) ExitIfFalse(ctx *IfFalseContext) {}
+
 // EnterType is called when production type is entered.
 func (s *BaseInterLangListener) EnterType(ctx *TypeContext) {}
 
 // ExitType is called when production type is exited.
 func (s *BaseInterLangListener) ExitType(ctx *TypeContext) {}
+
+// EnterLine is called when production line is entered.
+func (s *BaseInterLangListener) EnterLine(ctx *LineContext) {}
+
+// ExitLine is called when production line is exited.
+func (s *BaseInterLangListener) ExitLine(ctx *LineContext) {}

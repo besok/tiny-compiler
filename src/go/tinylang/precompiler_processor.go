@@ -65,15 +65,17 @@ func (be BoolExpr) Process() string {
 }
 
 func (fs ForSt) Process() string {
-	var startLine = fmt.Sprintf("%d", nextNumber())
 
 	_ = fs.InitVar.Process()
+	var startLine = fmt.Sprintf("%d", nextNumber())
 	fl := fs.Cond.Process()
 	lineToFix := addLine(fmt.Sprintf("ifFalse %s goto %s", fl, patch))
 	initGotoCtx()
 	addJump(lineToFix, false)
 	fs.Body.Process()
 	fs.UpdVar.Process()
+	end := addLine(fmt.Sprintf("goto %s", patch))
+	addJump(end,true)
 	endLine := fmt.Sprintf("%d", nextNumber())
 	releaseGotoCtx(startLine, endLine)
 	return ""
