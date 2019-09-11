@@ -1,0 +1,5 @@
+package memory
+
+
+func T(){
+}

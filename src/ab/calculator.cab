@@ -144,7 +144,7 @@
  144:  _p72 = _p75
  145:  _p71 = _p72
  146:  _p76 = _p69 < _p71
- 147:  ifFalse _p76 goto 160
+ 147:  ifFalse _p76 goto 161
  148:  _p77 = strNum
  149:  _p80 = i
  150:  _p81 = nums[_p80]
@@ -157,98 +157,100 @@
  157:  _n4 = 1
  158:  _p85 = _p84 + _n4
  159:  i = _p85
- 160:  _p87 = strNum
- 161:  _p86 = _p87
- 162:  _s13 = ""
- 163:  _p88 = _s13
- 164:  _p89 = _p86 == _p88
- 165:  ifFalse _p89 goto 169
- 166:  _s14 = "undefined"
- 167:  strNum = _s14
- 168:  goto 169
- 169:  _s15 = "result is "
- 170:  _p90 = strNum
- 171:  _p91 = _s15 + _p90
- 172:  return _p91
- 173:  function numToString
- 174:  argument number = num
- 175:  return_type = string
- 176:  _s16 = init_arr "0"
- 177:  _s17 = init_arr "1"
- 178:  _s18 = init_arr "2"
- 179:  _s19 = init_arr "3"
- 180:  _s20 = init_arr "4"
- 181:  _s21 = init_arr "5"
- 182:  _s22 = init_arr "6"
- 183:  _s23 = init_arr "7"
- 184:  _s24 = init_arr "8"
- 185:  _s25 = init_arr "9"
- 186:  numbers = init ]string
- 187:  _p92 = number
- 188:  _p93 = numbers[_p92]
- 189:  return _p93
- 190:  function numToArray
- 191:  argument number = num
- 192:  return_type = ]num
- 193:  arrayOfNum = init ]num
- 194:  _p94 = number
- 195:  tempElement = init num
- 196:  tempElement = _p94
- 197:  _p96 = tempElement
- 198:  _p95 = _p96
- 199:  _n5 = 0
- 200:  _p97 = _n5
- 201:  _p98 = _p95 > _p97
- 202:  ifFalse _p98 goto 218
- 203:  _p99 = tempElement
- 204:  _n6 = 10
- 205:  _p100 = _p99 % _n6
- 206:  nextEl = init num
- 207:  nextEl = _p100
- 208:  _p102 = arrayOfNum
- 209:  _p101 = param _p102
- 210:  _p104 = nextEl
- 211:  _p103 = param _p104
- 212:  _p105 = call Add 2
- 213:  _p106 = tempElement
- 214:  _n7 = 10
- 215:  _p107 = _p106 / _n7
- 216:  tempElement = _p107
- 217:  goto 197
- 218:  _p108 = arrayOfNum
- 219:  return _p108
- 220:  function revert
- 221:  argument array = ]num
- 222:  return_type = ]num
- 223:  revertArray = init ]num
- 224:  _p111 = array
- 225:  _p110 = param _p111
- 226:  _p112 = call Len 1
- 227:  _p109 = _p112
- 228:  _n8 = 1
- 229:  _p113 = _p109 - _n8
- 230:  l = init num
- 231:  l = _p113
- 232:  _n9 = 0
- 233:  i = init num
- 234:  i = _n9
- 235:  _p115 = i
- 236:  _p114 = _p115
- 237:  _p119 = array
- 238:  _p118 = param _p119
- 239:  _p120 = call Len 1
- 240:  _p117 = _p120
- 241:  _p116 = _p117
- 242:  _p121 = _p114 < _p116
- 243:  ifFalse _p121 goto 253
- 244:  _p122 = l
- 245:  _p123 = i
- 246:  _p124 = _p122 - _p123
- 247:  _p125 = array[_p124]
- 248:  revertArray[0] = _p125
- 249:  _p126 = i
- 250:  _n10 = 1
- 251:  _p127 = _p126 + _n10
- 252:  i = _p127
- 253:  _p128 = revertArray
- 254:  return _p128
+ 160:  goto 139
+ 161:  _p87 = strNum
+ 162:  _p86 = _p87
+ 163:  _s13 = ""
+ 164:  _p88 = _s13
+ 165:  _p89 = _p86 == _p88
+ 166:  ifFalse _p89 goto 170
+ 167:  _s14 = "undefined"
+ 168:  strNum = _s14
+ 169:  goto 170
+ 170:  _s15 = "result is "
+ 171:  _p90 = strNum
+ 172:  _p91 = _s15 + _p90
+ 173:  return _p91
+ 174:  function numToString
+ 175:  argument number = num
+ 176:  return_type = string
+ 177:  _s16 = init_arr "0"
+ 178:  _s17 = init_arr "1"
+ 179:  _s18 = init_arr "2"
+ 180:  _s19 = init_arr "3"
+ 181:  _s20 = init_arr "4"
+ 182:  _s21 = init_arr "5"
+ 183:  _s22 = init_arr "6"
+ 184:  _s23 = init_arr "7"
+ 185:  _s24 = init_arr "8"
+ 186:  _s25 = init_arr "9"
+ 187:  numbers = init ]string
+ 188:  _p92 = number
+ 189:  _p93 = numbers[_p92]
+ 190:  return _p93
+ 191:  function numToArray
+ 192:  argument number = num
+ 193:  return_type = ]num
+ 194:  arrayOfNum = init ]num
+ 195:  _p94 = number
+ 196:  tempElement = init num
+ 197:  tempElement = _p94
+ 198:  _p96 = tempElement
+ 199:  _p95 = _p96
+ 200:  _n5 = 0
+ 201:  _p97 = _n5
+ 202:  _p98 = _p95 > _p97
+ 203:  ifFalse _p98 goto 219
+ 204:  _p99 = tempElement
+ 205:  _n6 = 10
+ 206:  _p100 = _p99 % _n6
+ 207:  nextEl = init num
+ 208:  nextEl = _p100
+ 209:  _p102 = arrayOfNum
+ 210:  _p101 = param _p102
+ 211:  _p104 = nextEl
+ 212:  _p103 = param _p104
+ 213:  _p105 = call Add 2
+ 214:  _p106 = tempElement
+ 215:  _n7 = 10
+ 216:  _p107 = _p106 / _n7
+ 217:  tempElement = _p107
+ 218:  goto 198
+ 219:  _p108 = arrayOfNum
+ 220:  return _p108
+ 221:  function revert
+ 222:  argument array = ]num
+ 223:  return_type = ]num
+ 224:  revertArray = init ]num
+ 225:  _p111 = array
+ 226:  _p110 = param _p111
+ 227:  _p112 = call Len 1
+ 228:  _p109 = _p112
+ 229:  _n8 = 1
+ 230:  _p113 = _p109 - _n8
+ 231:  l = init num
+ 232:  l = _p113
+ 233:  _n9 = 0
+ 234:  i = init num
+ 235:  i = _n9
+ 236:  _p115 = i
+ 237:  _p114 = _p115
+ 238:  _p119 = array
+ 239:  _p118 = param _p119
+ 240:  _p120 = call Len 1
+ 241:  _p117 = _p120
+ 242:  _p116 = _p117
+ 243:  _p121 = _p114 < _p116
+ 244:  ifFalse _p121 goto 255
+ 245:  _p122 = l
+ 246:  _p123 = i
+ 247:  _p124 = _p122 - _p123
+ 248:  _p125 = array[_p124]
+ 249:  revertArray[0] = _p125
+ 250:  _p126 = i
+ 251:  _n10 = 1
+ 252:  _p127 = _p126 + _n10
+ 253:  i = _p127
+ 254:  goto 236
+ 255:  _p128 = revertArray
+ 256:  return _p128
