@@ -2,6 +2,7 @@ package memory
 
 import (
 	"encoding/binary"
+	"log"
 )
 
 var (
@@ -10,16 +11,18 @@ var (
 )
 
 const (
-	intSize        = 8
-	boolSize       = 1
-	String   PType = "STRING"
-	Int      PType = "INT"
-	Bool     PType = "BOOL"
+	intSize  = 8
+	boolSize = 1
 )
 
-func initMemory(sizeKb int) {
-	memory = make([]byte, sizeKb*1024)
+func initMemoryKb(sizeKb int) {
+	initMemory(sizeKb * 1024)
+}
+
+func initMemory(sizeBt int) {
+	memory = make([]byte, sizeBt)
 	offset = 0
+	log.Printf("init memory with %d bytes", sizeBt)
 }
 
 func getBytes(p Pointer) []byte {
@@ -45,6 +48,42 @@ func getString(p Pointer) string {
 	return string(getBytes(p))
 }
 
+func getArrayString(strArray []Pointer) []string {
+	checkTypeOfASrray(strArray, String)
+	arr := make([]string, len(strArray))
+	for i, p := range strArray {
+		arr[i] = getGeneric(p).(string)
+	}
+	return arr
+}
+
+func getArrayBool(boolArray []Pointer) []bool {
+	checkTypeOfASrray(boolArray, Bool)
+	arr := make([]bool, len(boolArray))
+	for i, p := range boolArray {
+		arr[i] = getGeneric(p).(bool)
+	}
+	return arr
+}
+
+func getArrayInt(intArray []Pointer) []int64 {
+	checkTypeOfASrray(intArray, Int)
+
+	arr := make([]int64, len(intArray))
+	for i, p := range intArray {
+		arr[i] = getGeneric(p).(int64)
+	}
+	return arr
+
+}
+
+func checkTypeOfASrray(arr []Pointer, t PType) {
+	p := arr[0]
+	if p.tp != t {
+		panic("wrong type")
+	}
+}
+
 func getArray(pArr []Pointer) []interface{} {
 	arr := make([]interface{}, len(pArr))
 	for i, p := range pArr {
@@ -68,17 +107,15 @@ func getGeneric(p Pointer) interface{} {
 func putArrayBool(arr []bool) []Pointer {
 	ln := len(arr)
 	pointers := make([]Pointer, ln)
-
 	for i, el := range arr {
 		pointers[i] = putGeneric(el)
 	}
 
 	return pointers
 }
-func putArrayInt(arr []int) []Pointer {
+func putArrayInt(arr []int64) []Pointer {
 	ln := len(arr)
 	pointers := make([]Pointer, ln)
-
 	for i, el := range arr {
 		pointers[i] = putGeneric(el)
 	}
@@ -88,7 +125,6 @@ func putArrayInt(arr []int) []Pointer {
 func putArrayString(arr []string) []Pointer {
 	ln := len(arr)
 	pointers := make([]Pointer, ln)
-
 	for i, el := range arr {
 		pointers[i] = putGeneric(el)
 	}
@@ -100,8 +136,8 @@ func putGeneric(el interface{}) Pointer {
 	switch el.(type) {
 	case string:
 		return putString(el.(string))
-	case int:
-		return putInt(el.(int))
+	case int64:
+		return putInt(el.(int64))
 	case bool:
 		return putBool(el.(bool))
 	default:
@@ -110,7 +146,7 @@ func putGeneric(el interface{}) Pointer {
 
 }
 
-func putInt(v int) Pointer {
+func putInt(v int64) Pointer {
 	b := make([]byte, intSize)
 
 	b[0] = byte(v >> 56)
@@ -121,7 +157,6 @@ func putInt(v int) Pointer {
 	b[5] = byte(v >> 16)
 	b[6] = byte(v >> 8)
 	b[7] = byte(v)
-
 	return putBytes(b, Int)
 }
 
@@ -152,12 +187,7 @@ func putBytes(bt []byte, pType PType) Pointer {
 	return p
 }
 func hasMemory(lenIn int) bool {
-	if lenIn < len(memory)-offset {
-		return true
-	}
-
-	return false
-
+	return lenIn < len(memory)-offset
 }
 
 func increaseMemory() {
@@ -171,6 +201,7 @@ func increaseMemory() {
 		memory[i] = el
 	}
 
+	log.Printf("increase memory from %d to %d ", oldLen, newLen)
 }
 
 type OutOfMemoryError string
@@ -180,6 +211,12 @@ func (er *OutOfMemoryError) Error() string {
 }
 
 type PType string
+
+const (
+	String PType = "STRING"
+	Int    PType = "INT"
+	Bool   PType = "BOOL"
+)
 
 type Pointer struct {
 	len    int
