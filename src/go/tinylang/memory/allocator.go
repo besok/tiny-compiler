@@ -233,9 +233,32 @@ func addPointer(p Pointer) bool {
 func remPointer(p Pointer) bool {
 	for i, el := range pointers {
 		if el == p {
+			if i == len(pointers)-1 {
+				offset = offset - el.len
+			}
 			pointers = append(pointers[:i], pointers[i+1:]...)
 			return true
 		}
 	}
 	return false
+}
+
+func defragmentation() error {
+	return nil
+}
+
+func nextFreeArea() Pointer {
+	prevOffset := 0
+
+	for _, el := range pointers {
+		if el.offset-prevOffset > 1 {
+			return Pointer{offset: prevOffset, len: el.offset - prevOffset}
+		}
+		prevOffset = countShift(el)
+	}
+	return Pointer{offset: -1, len: 0}
+}
+
+func countShift(p Pointer) int {
+	return p.offset + p.len
 }

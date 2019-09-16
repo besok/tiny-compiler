@@ -67,6 +67,34 @@ func Test_addAndRemPointers(t *testing.T) {
 
 }
 
+func Test_FreeArea(t *testing.T) {
+	initMemory(100)
+	p1 := putString("Boris")
+	_ = putString("Boris is going ")
+	_ = putString("Boris is going home")
+
+	remPointer(p1)
+
+	p := nextFreeArea()
+
+	if p.offset != 0 {
+		t.Fatalf("error!")
+	}
+
+	p2 := putString("Boris is going home!")
+
+	if offset != 59 {
+		t.Fatalf("error, offset:%d", offset)
+	}
+
+	remPointer(p2)
+
+	if offset != 39 {
+		t.Fatalf("error, offset:%d", offset)
+	}
+
+}
+
 func arrCmpB(left []bool, right []bool) bool {
 	if len(left) == len(right) {
 		for i := range left {
