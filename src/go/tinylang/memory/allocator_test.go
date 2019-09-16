@@ -1,6 +1,7 @@
 package memory
 
 import (
+	"log"
 	"testing"
 )
 
@@ -93,6 +94,36 @@ func Test_FreeArea(t *testing.T) {
 		t.Fatalf("error, offset:%d", offset)
 	}
 
+}
+
+func Test_Defragmentation(t *testing.T) {
+	initMemory(100)
+	s := "Boris is going home"
+
+	_ = putString("Boris")
+	p2 := putString("Boris is going ")
+	p3 := putString(s)
+	p4 := putString(s)
+	_ = putString(s)
+
+	if offset != 77 {
+		t.Fatalf("error, offset:%d", offset)
+	}
+
+	remPointer(p2)
+
+	if offset != 77 {
+		t.Fatalf("error, offset:%d", offset)
+	}
+
+	defragmentation()
+
+	sRes3 := getString(p3)
+	sRes4 := getString(p4)
+
+	if sRes3 == s || s == sRes4{
+		log.Fatalf(" error , offset:%d",offset)
+	}
 }
 
 func arrCmpB(left []bool, right []bool) bool {

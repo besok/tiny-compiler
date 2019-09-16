@@ -243,8 +243,34 @@ func remPointer(p Pointer) bool {
 	return false
 }
 
-func defragmentation() error {
-	return nil
+func defragmentation() {
+	for p := nextFreeArea(); p.offset < 0; p = nextFreeArea() {
+		shiftPointers(p)
+	}
+}
+
+func shiftPointers(fr Pointer) {
+	tmp := fr
+	for _, p := range pointers {
+		if p.offset > fr.offset {
+			tmp = shiftPointer(tmp, p)
+		}
+	}
+	offset = offset - fr.len
+}
+
+func shiftPointer(fr Pointer, cp Pointer) Pointer {
+	offset := cp.offset
+	bts := memory[offset : offset+cp.len]
+	for i := 0; i < len(bts); i++ {
+		memory[i+fr.offset] = bts[i]
+	}
+
+	fr.offset += cp.len
+
+	log.Printf("shift ")
+
+	return fr
 }
 
 func nextFreeArea() Pointer {
@@ -252,10 +278,13 @@ func nextFreeArea() Pointer {
 
 	for _, el := range pointers {
 		if el.offset-prevOffset > 1 {
-			return Pointer{offset: prevOffset, len: el.offset - prevOffset}
+			p := Pointer{offset: prevOffset, len: el.offset - prevOffset}
+			log.Printf(" found a new empty area: %+v\n", p)
+			return p
 		}
 		prevOffset = countShift(el)
 	}
+	log.Printf("free pointers not found \n")
 	return Pointer{offset: -1, len: 0}
 }
 
