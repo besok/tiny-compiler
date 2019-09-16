@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_test(t *testing.T) {
+func Test_commonMemory(t *testing.T) {
 
 	initMemoryKb(1)
 	pB := putBool(true)
@@ -38,6 +38,33 @@ func Test_test(t *testing.T) {
 	if !arrCmpB(aB, zB) || !arrCmpI(aI, zI) || !arrCmpS(aS, zS) {
 		t.Fatalf("error for array", )
 	}
+}
+
+func Test_addAndRemPointers(t *testing.T) {
+	addPointer(Pointer{len: 1, offset: 1, tp: Bool})
+	addPointer(Pointer{len: 1, offset: 2, tp: Bool})
+	addPointer(Pointer{len: 1, offset: 3, tp: Bool})
+
+	if len(pointers) < 3 {
+		t.Fatalf("error for poitners")
+	}
+
+	ok := remPointer(Pointer{len: 1, offset: 1, tp: Bool})
+
+	if !ok {
+		t.Fatalf("error")
+	}
+
+	if len(pointers) > 2 {
+		t.Fatalf("error for pointers")
+	}
+
+	ok = remPointer(Pointer{len: 1, offset: 10, tp: Bool})
+
+	if ok {
+		t.Fatalf("error")
+	}
+
 }
 
 func arrCmpB(left []bool, right []bool) bool {

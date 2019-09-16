@@ -6,8 +6,9 @@ import (
 )
 
 var (
-	memory []byte
-	offset int
+	memory   []byte
+	offset   int
+	pointers = make([]Pointer, 0)
 )
 
 const (
@@ -182,6 +183,7 @@ func putBytes(bt []byte, pType PType) Pointer {
 		memory[i+offset] = el
 	}
 	p := Pointer{offset: offset, len: len(bt), tp: pType}
+	addPointer(p)
 	offset = offset + len(bt)
 
 	return p
@@ -222,4 +224,18 @@ type Pointer struct {
 	len    int
 	offset int
 	tp     PType
+}
+
+func addPointer(p Pointer) bool {
+	pointers = append(pointers, p)
+	return true
+}
+func remPointer(p Pointer) bool {
+	for i, el := range pointers {
+		if el == p {
+			pointers = append(pointers[:i], pointers[i+1:]...)
+			return true
+		}
+	}
+	return false
 }
