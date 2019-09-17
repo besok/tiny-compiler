@@ -42,15 +42,15 @@ func Test_commonMemory(t *testing.T) {
 }
 
 func Test_addAndRemPointers(t *testing.T) {
-	addPointer(Pointer{len: 1, offset: 1, tp: Bool})
-	addPointer(Pointer{len: 1, offset: 2, tp: Bool})
-	addPointer(Pointer{len: 1, offset: 3, tp: Bool})
+	addPointer(&Pointer{len: 1, offset: 1, tp: Bool})
+	addPointer(&Pointer{len: 1, offset: 2, tp: Bool})
+	addPointer(&Pointer{len: 1, offset: 3, tp: Bool})
 
 	if len(pointers) < 3 {
 		t.Fatalf("error for poitners")
 	}
 
-	ok := remPointer(Pointer{len: 1, offset: 1, tp: Bool})
+	ok := remPointer(&Pointer{len: 1, offset: 1, tp: Bool})
 
 	if !ok {
 		t.Fatalf("error")
@@ -60,7 +60,7 @@ func Test_addAndRemPointers(t *testing.T) {
 		t.Fatalf("error for pointers")
 	}
 
-	ok = remPointer(Pointer{len: 1, offset: 10, tp: Bool})
+	ok = remPointer(&Pointer{len: 1, offset: 10, tp: Bool})
 
 	if ok {
 		t.Fatalf("error")
@@ -100,14 +100,14 @@ func Test_Defragmentation(t *testing.T) {
 	initMemory(100)
 	s := "Boris is going home"
 
-	_ = putString("Boris")
+	p1 := putString("Boris")
 	p2 := putString("Boris is going ")
 	p3 := putString(s)
 	p4 := putString(s)
-	_ = putString(s)
+	p5 := putString(s)
 
 	if offset != 77 {
-		t.Fatalf("error, offset:%d", offset)
+		t.Fatalf("wrong offswet:%d", offset)
 	}
 
 	remPointer(p2)
@@ -120,10 +120,38 @@ func Test_Defragmentation(t *testing.T) {
 
 	sRes3 := getString(p3)
 	sRes4 := getString(p4)
+	sRes5 := getString(p5)
 
-	if sRes3 == s || s == sRes4{
-		log.Fatalf(" error , offset:%d",offset)
+	if sRes3 != s || s != sRes4 || s != sRes5 {
+		log.Fatalf("wrong shift for offset")
 	}
+
+	// the last one
+	if offset != 62 {
+		log.Fatalf("wrong offset %d", offset)
+	}
+
+	remPointer(p5)
+
+	if offset != 43 {
+		log.Fatalf("wrong offset %d", offset)
+	}
+
+	if sRes3 != s || s != sRes4 {
+		log.Fatalf("wrong shift for offset")
+	}
+
+	remPointer(p1)
+	defragmentation()
+
+	if offset != 38 {
+		log.Fatalf("wrong offset %d", offset)
+	}
+
+	if sRes3 != s || s != sRes4 {
+		log.Fatalf("wrong shift for offset")
+	}
+
 }
 
 func arrCmpB(left []bool, right []bool) bool {

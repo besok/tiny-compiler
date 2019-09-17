@@ -8,7 +8,7 @@ import (
 var (
 	memory   []byte
 	offset   int
-	pointers = make([]Pointer, 0)
+	pointers = make([]*Pointer, 0)
 )
 
 const (
@@ -26,13 +26,13 @@ func initMemory(sizeBt int) {
 	log.Printf("init memory with %d bytes", sizeBt)
 }
 
-func getBytes(p Pointer) []byte {
+func getBytes(p *Pointer) []byte {
 	st := p.offset
 	fn := st + p.len
 	return memory[st:fn]
 }
 
-func getBool(p Pointer) bool {
+func getBool(p *Pointer) bool {
 	bytes := getBytes(p)
 	el := bytes[0]
 	if el == 1 {
@@ -41,15 +41,15 @@ func getBool(p Pointer) bool {
 	return false
 }
 
-func getInt(p Pointer) int64 {
+func getInt(p *Pointer) int64 {
 	return int64(binary.BigEndian.Uint64(getBytes(p)))
 }
 
-func getString(p Pointer) string {
+func getString(p *Pointer) string {
 	return string(getBytes(p))
 }
 
-func getArrayString(strArray []Pointer) []string {
+func getArrayString(strArray []*Pointer) []string {
 	checkTypeOfASrray(strArray, String)
 	arr := make([]string, len(strArray))
 	for i, p := range strArray {
@@ -58,7 +58,7 @@ func getArrayString(strArray []Pointer) []string {
 	return arr
 }
 
-func getArrayBool(boolArray []Pointer) []bool {
+func getArrayBool(boolArray []*Pointer) []bool {
 	checkTypeOfASrray(boolArray, Bool)
 	arr := make([]bool, len(boolArray))
 	for i, p := range boolArray {
@@ -67,7 +67,7 @@ func getArrayBool(boolArray []Pointer) []bool {
 	return arr
 }
 
-func getArrayInt(intArray []Pointer) []int64 {
+func getArrayInt(intArray []*Pointer) []int64 {
 	checkTypeOfASrray(intArray, Int)
 
 	arr := make([]int64, len(intArray))
@@ -78,22 +78,14 @@ func getArrayInt(intArray []Pointer) []int64 {
 
 }
 
-func checkTypeOfASrray(arr []Pointer, t PType) {
+func checkTypeOfASrray(arr []*Pointer, t PType) {
 	p := arr[0]
 	if p.tp != t {
 		panic("wrong type")
 	}
 }
 
-func getArray(pArr []Pointer) []interface{} {
-	arr := make([]interface{}, len(pArr))
-	for i, p := range pArr {
-		arr[i] = getGeneric(p)
-	}
-	return arr
-}
-
-func getGeneric(p Pointer) interface{} {
+func getGeneric(p *Pointer) interface{} {
 	switch p.tp {
 	case Int:
 		return getInt(p)
@@ -105,27 +97,27 @@ func getGeneric(p Pointer) interface{} {
 	return nil
 }
 
-func putArrayBool(arr []bool) []Pointer {
+func putArrayBool(arr []bool) []*Pointer {
 	ln := len(arr)
-	pointers := make([]Pointer, ln)
+	pointers := make([]*Pointer, ln)
 	for i, el := range arr {
 		pointers[i] = putGeneric(el)
 	}
 
 	return pointers
 }
-func putArrayInt(arr []int64) []Pointer {
+func putArrayInt(arr []int64) []*Pointer {
 	ln := len(arr)
-	pointers := make([]Pointer, ln)
+	pointers := make([]*Pointer, ln)
 	for i, el := range arr {
 		pointers[i] = putGeneric(el)
 	}
 
 	return pointers
 }
-func putArrayString(arr []string) []Pointer {
+func putArrayString(arr []string) []*Pointer {
 	ln := len(arr)
-	pointers := make([]Pointer, ln)
+	pointers := make([]*Pointer, ln)
 	for i, el := range arr {
 		pointers[i] = putGeneric(el)
 	}
@@ -133,7 +125,7 @@ func putArrayString(arr []string) []Pointer {
 	return pointers
 }
 
-func putGeneric(el interface{}) Pointer {
+func putGeneric(el interface{}) *Pointer {
 	switch el.(type) {
 	case string:
 		return putString(el.(string))
@@ -142,12 +134,12 @@ func putGeneric(el interface{}) Pointer {
 	case bool:
 		return putBool(el.(bool))
 	default:
-		return Pointer{len: 0, offset: -1}
+		return &Pointer{len: 0, offset: -1}
 	}
 
 }
 
-func putInt(v int64) Pointer {
+func putInt(v int64) *Pointer {
 	b := make([]byte, intSize)
 
 	b[0] = byte(v >> 56)
@@ -161,11 +153,11 @@ func putInt(v int64) Pointer {
 	return putBytes(b, Int)
 }
 
-func putString(s string) Pointer {
+func putString(s string) *Pointer {
 	return putBytes([]byte(s), String)
 }
 
-func putBool(el bool) Pointer {
+func putBool(el bool) *Pointer {
 	b := make([]byte, boolSize)
 	if el {
 		b[0] = byte(1)
@@ -175,7 +167,7 @@ func putBool(el bool) Pointer {
 	return putBytes(b, Bool)
 }
 
-func putBytes(bt []byte, pType PType) Pointer {
+func putBytes(bt []byte, pType PType) *Pointer {
 	for ; !hasMemory(len(bt)); increaseMemory() {
 	}
 
@@ -183,10 +175,10 @@ func putBytes(bt []byte, pType PType) Pointer {
 		memory[i+offset] = el
 	}
 	p := Pointer{offset: offset, len: len(bt), tp: pType}
-	addPointer(p)
+	addPointer(&p)
 	offset = offset + len(bt)
 
-	return p
+	return &p
 }
 func hasMemory(lenIn int) bool {
 	return lenIn < len(memory)-offset
@@ -226,17 +218,20 @@ type Pointer struct {
 	tp     PType
 }
 
-func addPointer(p Pointer) bool {
+var NoPointer = Pointer{offset: -1, len: 0}
+
+func addPointer(p *Pointer) bool {
 	pointers = append(pointers, p)
 	return true
 }
-func remPointer(p Pointer) bool {
+func remPointer(p *Pointer) bool {
 	for i, el := range pointers {
 		if el == p {
 			if i == len(pointers)-1 {
 				offset = offset - el.len
 			}
 			pointers = append(pointers[:i], pointers[i+1:]...)
+			log.Printf("the pointer:%+v has been removed",p)
 			return true
 		}
 	}
@@ -244,31 +239,32 @@ func remPointer(p Pointer) bool {
 }
 
 func defragmentation() {
-	for p := nextFreeArea(); p.offset < 0; p = nextFreeArea() {
-		shiftPointers(p)
+	log.Printf("the defragmentation is about to start: pointers:%d, offset:%d, memory:%d bytes", len(pointers),offset, len(memory))
+	for p := nextFreeArea(); p != NoPointer; p = nextFreeArea() {
+		shiftPointers(&p)
 	}
 }
 
-func shiftPointers(fr Pointer) {
+func shiftPointers(fr *Pointer) {
 	tmp := fr
-	for _, p := range pointers {
+	for i := range pointers {
+		p := pointers[i]
 		if p.offset > fr.offset {
 			tmp = shiftPointer(tmp, p)
 		}
 	}
-	offset = offset - fr.len
+	log.Printf("the shift has been done on %d bytes",fr.len)
+	offset -= fr.len
 }
 
-func shiftPointer(fr Pointer, cp Pointer) Pointer {
-	offset := cp.offset
-	bts := memory[offset : offset+cp.len]
+func shiftPointer(fr *Pointer, cp *Pointer) *Pointer {
+	bts := getBytes(cp)
 	for i := 0; i < len(bts); i++ {
 		memory[i+fr.offset] = bts[i]
 	}
 
 	fr.offset += cp.len
-
-	log.Printf("shift ")
+	cp.offset -= fr.len
 
 	return fr
 }
@@ -279,15 +275,14 @@ func nextFreeArea() Pointer {
 	for _, el := range pointers {
 		if el.offset-prevOffset > 1 {
 			p := Pointer{offset: prevOffset, len: el.offset - prevOffset}
-			log.Printf(" found a new empty area: %+v\n", p)
+			log.Printf("found a new empty area: %+v\n", p)
 			return p
 		}
 		prevOffset = countShift(el)
 	}
-	log.Printf("free pointers not found \n")
 	return Pointer{offset: -1, len: 0}
 }
 
-func countShift(p Pointer) int {
+func countShift(p *Pointer) int {
 	return p.offset + p.len
 }
