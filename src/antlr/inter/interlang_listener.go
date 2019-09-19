@@ -38,6 +38,9 @@ type InterLangListener interface {
 	// EnterUpdVar is called when entering the updVar production.
 	EnterUpdVar(c *UpdVarContext)
 
+	// EnterInitIntVar is called when entering the initIntVar production.
+	EnterInitIntVar(c *InitIntVarContext)
+
 	// EnterInitItem is called when entering the initItem production.
 	EnterInitItem(c *InitItemContext)
 
@@ -62,20 +65,20 @@ type InterLangListener interface {
 	// EnterExtArrEl is called when entering the extArrEl production.
 	EnterExtArrEl(c *ExtArrElContext)
 
-	// EnterReturn is called when entering the return production.
-	EnterReturn(c *ReturnContext)
+	// EnterReturnTp is called when entering the returnTp production.
+	EnterReturnTp(c *ReturnTpContext)
 
 	// EnterGotoIn is called when entering the gotoIn production.
 	EnterGotoIn(c *GotoInContext)
 
-	// EnterGoto is called when entering the goto production.
-	EnterGoto(c *GotoContext)
+	// EnterGotoTp is called when entering the gotoTp production.
+	EnterGotoTp(c *GotoTpContext)
 
 	// EnterIfFalse is called when entering the ifFalse production.
 	EnterIfFalse(c *IfFalseContext)
 
-	// EnterType is called when entering the type production.
-	EnterType(c *TypeContext)
+	// EnterTypeTp is called when entering the typeTp production.
+	EnterTypeTp(c *TypeTpContext)
 
 	// EnterLine is called when entering the line production.
 	EnterLine(c *LineContext)
@@ -110,6 +113,9 @@ type InterLangListener interface {
 	// ExitUpdVar is called when exiting the updVar production.
 	ExitUpdVar(c *UpdVarContext)
 
+	// ExitInitIntVar is called when exiting the initIntVar production.
+	ExitInitIntVar(c *InitIntVarContext)
+
 	// ExitInitItem is called when exiting the initItem production.
 	ExitInitItem(c *InitItemContext)
 
@@ -134,20 +140,20 @@ type InterLangListener interface {
 	// ExitExtArrEl is called when exiting the extArrEl production.
 	ExitExtArrEl(c *ExtArrElContext)
 
-	// ExitReturn is called when exiting the return production.
-	ExitReturn(c *ReturnContext)
+	// ExitReturnTp is called when exiting the returnTp production.
+	ExitReturnTp(c *ReturnTpContext)
 
 	// ExitGotoIn is called when exiting the gotoIn production.
 	ExitGotoIn(c *GotoInContext)
 
-	// ExitGoto is called when exiting the goto production.
-	ExitGoto(c *GotoContext)
+	// ExitGotoTp is called when exiting the gotoTp production.
+	ExitGotoTp(c *GotoTpContext)
 
 	// ExitIfFalse is called when exiting the ifFalse production.
 	ExitIfFalse(c *IfFalseContext)
 
-	// ExitType is called when exiting the type production.
-	ExitType(c *TypeContext)
+	// ExitTypeTp is called when exiting the typeTp production.
+	ExitTypeTp(c *TypeTpContext)
 
 	// ExitLine is called when exiting the line production.
 	ExitLine(c *LineContext)

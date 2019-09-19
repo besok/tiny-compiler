@@ -48,6 +48,10 @@ func (v *BaseInterLangVisitor) VisitUpdVar(ctx *UpdVarContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseInterLangVisitor) VisitInitIntVar(ctx *InitIntVarContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseInterLangVisitor) VisitInitItem(ctx *InitItemContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -80,7 +84,7 @@ func (v *BaseInterLangVisitor) VisitExtArrEl(ctx *ExtArrElContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseInterLangVisitor) VisitReturn(ctx *ReturnContext) interface{} {
+func (v *BaseInterLangVisitor) VisitReturnTp(ctx *ReturnTpContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -88,7 +92,7 @@ func (v *BaseInterLangVisitor) VisitGotoIn(ctx *GotoInContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseInterLangVisitor) VisitGoto(ctx *GotoContext) interface{} {
+func (v *BaseInterLangVisitor) VisitGotoTp(ctx *GotoTpContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -96,7 +100,7 @@ func (v *BaseInterLangVisitor) VisitIfFalse(ctx *IfFalseContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseInterLangVisitor) VisitType(ctx *TypeContext) interface{} {
+func (v *BaseInterLangVisitor) VisitTypeTp(ctx *TypeTpContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

@@ -81,6 +81,12 @@ func (s *BaseInterLangListener) EnterUpdVar(ctx *UpdVarContext) {}
 // ExitUpdVar is called when production updVar is exited.
 func (s *BaseInterLangListener) ExitUpdVar(ctx *UpdVarContext) {}
 
+// EnterInitIntVar is called when production initIntVar is entered.
+func (s *BaseInterLangListener) EnterInitIntVar(ctx *InitIntVarContext) {}
+
+// ExitInitIntVar is called when production initIntVar is exited.
+func (s *BaseInterLangListener) ExitInitIntVar(ctx *InitIntVarContext) {}
+
 // EnterInitItem is called when production initItem is entered.
 func (s *BaseInterLangListener) EnterInitItem(ctx *InitItemContext) {}
 
@@ -129,11 +135,11 @@ func (s *BaseInterLangListener) EnterExtArrEl(ctx *ExtArrElContext) {}
 // ExitExtArrEl is called when production extArrEl is exited.
 func (s *BaseInterLangListener) ExitExtArrEl(ctx *ExtArrElContext) {}
 
-// EnterReturn is called when production return is entered.
-func (s *BaseInterLangListener) EnterReturn(ctx *ReturnContext) {}
+// EnterReturnTp is called when production returnTp is entered.
+func (s *BaseInterLangListener) EnterReturnTp(ctx *ReturnTpContext) {}
 
-// ExitReturn is called when production return is exited.
-func (s *BaseInterLangListener) ExitReturn(ctx *ReturnContext) {}
+// ExitReturnTp is called when production returnTp is exited.
+func (s *BaseInterLangListener) ExitReturnTp(ctx *ReturnTpContext) {}
 
 // EnterGotoIn is called when production gotoIn is entered.
 func (s *BaseInterLangListener) EnterGotoIn(ctx *GotoInContext) {}
@@ -141,11 +147,11 @@ func (s *BaseInterLangListener) EnterGotoIn(ctx *GotoInContext) {}
 // ExitGotoIn is called when production gotoIn is exited.
 func (s *BaseInterLangListener) ExitGotoIn(ctx *GotoInContext) {}
 
-// EnterGoto is called when production goto is entered.
-func (s *BaseInterLangListener) EnterGoto(ctx *GotoContext) {}
+// EnterGotoTp is called when production gotoTp is entered.
+func (s *BaseInterLangListener) EnterGotoTp(ctx *GotoTpContext) {}
 
-// ExitGoto is called when production goto is exited.
-func (s *BaseInterLangListener) ExitGoto(ctx *GotoContext) {}
+// ExitGotoTp is called when production gotoTp is exited.
+func (s *BaseInterLangListener) ExitGotoTp(ctx *GotoTpContext) {}
 
 // EnterIfFalse is called when production ifFalse is entered.
 func (s *BaseInterLangListener) EnterIfFalse(ctx *IfFalseContext) {}
@@ -153,11 +159,11 @@ func (s *BaseInterLangListener) EnterIfFalse(ctx *IfFalseContext) {}
 // ExitIfFalse is called when production ifFalse is exited.
 func (s *BaseInterLangListener) ExitIfFalse(ctx *IfFalseContext) {}
 
-// EnterType is called when production type is entered.
-func (s *BaseInterLangListener) EnterType(ctx *TypeContext) {}
+// EnterTypeTp is called when production typeTp is entered.
+func (s *BaseInterLangListener) EnterTypeTp(ctx *TypeTpContext) {}
 
-// ExitType is called when production type is exited.
-func (s *BaseInterLangListener) ExitType(ctx *TypeContext) {}
+// ExitTypeTp is called when production typeTp is exited.
+func (s *BaseInterLangListener) ExitTypeTp(ctx *TypeTpContext) {}
 
 // EnterLine is called when production line is entered.
 func (s *BaseInterLangListener) EnterLine(ctx *LineContext) {}

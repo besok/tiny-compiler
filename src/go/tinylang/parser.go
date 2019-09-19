@@ -10,6 +10,21 @@ import (
 	"tiny-compiler/src/antlr/tiny"
 )
 
+func CompileToInterLang(path string) *os.File {
+	s := Parse(path)
+
+	for _,f := range s.Functions{
+		f.Process()
+	}
+
+	file, _ := CreateFile(path)
+	e := WriteFile(file)
+	if e != nil{
+		log.Fatalf("error to save to file: %s ",e)
+	}
+	return file
+}
+
 func Parse(path string) Script {
 	open, e := os.Open(path)
 	if e!= nil {

@@ -31,8 +31,8 @@ ITEM : [a-z][a-zA-Z0-9]* ;
 file: function* EOF;
 
 function: line FUN ITEM arg* retTp statement*;
-arg: line ARG ITEM EQ ARRAY? type;
-retTp: line RET_TP EQ (ARRAY? type | VOID);
+arg: line ARG ITEM EQ ARRAY? typeTp;
+retTp: line RET_TP EQ (ARRAY? typeTp | VOID);
 statement:
       newVar
     | updVar
@@ -45,17 +45,17 @@ statement:
     | initNumOp
     | initArrEl
     | extArrEl
-    | goto
+    | gotoTp
     | ifFalse
     | initIntVar
-    | return;
+    | returnTp;
 
 
 
 internalArrArg: line internalVar EQ INIT_ARR (NUMBER | STRING_RAW | TRUE | FALSE);
 internalVar:INNER_VAR NUMBER;
 
-newVar:line ITEM EQ INIT ARRAY? type;
+newVar:line ITEM EQ INIT ARRAY? typeTp;
 newArrVar: internalArrArg* newVar;
 updVar: line ITEM EQ internalVar;
 initIntVar: line internalVar EQ internalVar;
@@ -68,12 +68,12 @@ initNumOp: line internalVar EQ internalVar NUM_SIGN internalVar ;
 initArrEl: line internalVar EQ ITEM'['internalVar']';
 extArrEl: line ITEM'['(NUMBER | internalVar )']' EQ internalVar;
 
-return: line RET internalVar;
+returnTp: line RET internalVar;
 
 gotoIn: GOTO NUMBER;
-goto: line gotoIn;
+gotoTp: line gotoIn;
 
 ifFalse: line IFFALSE internalVar gotoIn;
 
-type: STR | BOOL | NUM;
+typeTp: STR | BOOL | NUM;
 line: NUMBER ':';

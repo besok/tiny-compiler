@@ -38,6 +38,9 @@ type InterLangVisitor interface {
 	// Visit a parse tree produced by InterLangParser#updVar.
 	VisitUpdVar(ctx *UpdVarContext) interface{}
 
+	// Visit a parse tree produced by InterLangParser#initIntVar.
+	VisitInitIntVar(ctx *InitIntVarContext) interface{}
+
 	// Visit a parse tree produced by InterLangParser#initItem.
 	VisitInitItem(ctx *InitItemContext) interface{}
 
@@ -62,20 +65,20 @@ type InterLangVisitor interface {
 	// Visit a parse tree produced by InterLangParser#extArrEl.
 	VisitExtArrEl(ctx *ExtArrElContext) interface{}
 
-	// Visit a parse tree produced by InterLangParser#return.
-	VisitReturn(ctx *ReturnContext) interface{}
+	// Visit a parse tree produced by InterLangParser#returnTp.
+	VisitReturnTp(ctx *ReturnTpContext) interface{}
 
 	// Visit a parse tree produced by InterLangParser#gotoIn.
 	VisitGotoIn(ctx *GotoInContext) interface{}
 
-	// Visit a parse tree produced by InterLangParser#goto.
-	VisitGoto(ctx *GotoContext) interface{}
+	// Visit a parse tree produced by InterLangParser#gotoTp.
+	VisitGotoTp(ctx *GotoTpContext) interface{}
 
 	// Visit a parse tree produced by InterLangParser#ifFalse.
 	VisitIfFalse(ctx *IfFalseContext) interface{}
 
-	// Visit a parse tree produced by InterLangParser#type.
-	VisitType(ctx *TypeContext) interface{}
+	// Visit a parse tree produced by InterLangParser#typeTp.
+	VisitTypeTp(ctx *TypeTpContext) interface{}
 
 	// Visit a parse tree produced by InterLangParser#line.
 	VisitLine(ctx *LineContext) interface{}
