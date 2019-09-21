@@ -40,10 +40,6 @@ func (v *BaseInterLangVisitor) VisitNewVar(ctx *NewVarContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseInterLangVisitor) VisitNewArrVar(ctx *NewArrVarContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
 func (v *BaseInterLangVisitor) VisitUpdVar(ctx *UpdVarContext) interface{} {
 	return v.VisitChildren(ctx)
 }

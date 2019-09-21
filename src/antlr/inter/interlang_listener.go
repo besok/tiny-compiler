@@ -32,9 +32,6 @@ type InterLangListener interface {
 	// EnterNewVar is called when entering the newVar production.
 	EnterNewVar(c *NewVarContext)
 
-	// EnterNewArrVar is called when entering the newArrVar production.
-	EnterNewArrVar(c *NewArrVarContext)
-
 	// EnterUpdVar is called when entering the updVar production.
 	EnterUpdVar(c *UpdVarContext)
 
@@ -106,9 +103,6 @@ type InterLangListener interface {
 
 	// ExitNewVar is called when exiting the newVar production.
 	ExitNewVar(c *NewVarContext)
-
-	// ExitNewArrVar is called when exiting the newArrVar production.
-	ExitNewArrVar(c *NewArrVarContext)
 
 	// ExitUpdVar is called when exiting the updVar production.
 	ExitUpdVar(c *UpdVarContext)

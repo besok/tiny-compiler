@@ -7,9 +7,9 @@ import (
 func Test_Intermediate(t *testing.T) {
 
 	//path := `C:\projects\tiny-compiler\src\ab\single_func.ab`
-	patch := `C:\projects\tiny-compiler\src\ab\calculator.ab`
+	path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
 
-	file := CompileToInterLang(patch)
+	file := IR(path)
 
 	println("file name",file.Name())
 

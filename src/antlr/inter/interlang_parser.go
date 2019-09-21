@@ -16,98 +16,93 @@ var _ = reflect.Copy
 var _ = strconv.Itoa
 
 var parserATN = []uint16{
-	3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 31, 225,
+	3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 31, 214,
 	4, 2, 9, 2, 4, 3, 9, 3, 4, 4, 9, 4, 4, 5, 9, 5, 4, 6, 9, 6, 4, 7, 9, 7,
 	4, 8, 9, 8, 4, 9, 9, 9, 4, 10, 9, 10, 4, 11, 9, 11, 4, 12, 9, 12, 4, 13,
 	9, 13, 4, 14, 9, 14, 4, 15, 9, 15, 4, 16, 9, 16, 4, 17, 9, 17, 4, 18, 9,
 	18, 4, 19, 9, 19, 4, 20, 9, 20, 4, 21, 9, 21, 4, 22, 9, 22, 4, 23, 9, 23,
-	4, 24, 9, 24, 4, 25, 9, 25, 4, 26, 9, 26, 3, 2, 7, 2, 54, 10, 2, 12, 2,
-	14, 2, 57, 11, 2, 3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 7, 3, 65, 10, 3,
-	12, 3, 14, 3, 68, 11, 3, 3, 3, 3, 3, 7, 3, 72, 10, 3, 12, 3, 14, 3, 75,
-	11, 3, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 5, 4, 82, 10, 4, 3, 4, 3, 4, 3, 5,
-	3, 5, 3, 5, 3, 5, 5, 5, 90, 10, 5, 3, 5, 3, 5, 5, 5, 94, 10, 5, 3, 6, 3,
-	6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3,
-	6, 3, 6, 5, 6, 111, 10, 6, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 8, 3,
-	8, 3, 8, 3, 9, 3, 9, 3, 9, 3, 9, 3, 9, 5, 9, 127, 10, 9, 3, 9, 3, 9, 3,
-	10, 7, 10, 132, 10, 10, 12, 10, 14, 10, 135, 11, 10, 3, 10, 3, 10, 3, 11,
-	3, 11, 3, 11, 3, 11, 3, 11, 3, 12, 3, 12, 3, 12, 3, 12, 3, 12, 3, 13, 3,
-	13, 3, 13, 3, 13, 3, 13, 3, 14, 3, 14, 3, 14, 3, 14, 3, 14, 3, 15, 3, 15,
-	3, 15, 3, 15, 3, 15, 3, 15, 3, 16, 3, 16, 3, 16, 3, 16, 3, 16, 3, 16, 3,
-	16, 3, 17, 3, 17, 3, 17, 3, 17, 3, 17, 3, 17, 3, 17, 3, 18, 3, 18, 3, 18,
-	3, 18, 3, 18, 3, 18, 3, 18, 3, 19, 3, 19, 3, 19, 3, 19, 3, 19, 3, 19, 3,
-	19, 3, 19, 3, 20, 3, 20, 3, 20, 3, 20, 3, 20, 5, 20, 199, 10, 20, 3, 20,
-	3, 20, 3, 20, 3, 20, 3, 21, 3, 21, 3, 21, 3, 21, 3, 22, 3, 22, 3, 22, 3,
-	23, 3, 23, 3, 23, 3, 24, 3, 24, 3, 24, 3, 24, 3, 24, 3, 25, 3, 25, 3, 26,
-	3, 26, 3, 26, 3, 26, 2, 2, 27, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22,
-	24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 2, 5, 4, 2, 15,
-	16, 22, 23, 4, 2, 27, 27, 31, 31, 3, 2, 12, 14, 2, 222, 2, 55, 3, 2, 2,
-	2, 4, 60, 3, 2, 2, 2, 6, 76, 3, 2, 2, 2, 8, 85, 3, 2, 2, 2, 10, 110, 3,
-	2, 2, 2, 12, 112, 3, 2, 2, 2, 14, 118, 3, 2, 2, 2, 16, 121, 3, 2, 2, 2,
-	18, 133, 3, 2, 2, 2, 20, 138, 3, 2, 2, 2, 22, 143, 3, 2, 2, 2, 24, 148,
-	3, 2, 2, 2, 26, 153, 3, 2, 2, 2, 28, 158, 3, 2, 2, 2, 30, 164, 3, 2, 2,
-	2, 32, 171, 3, 2, 2, 2, 34, 178, 3, 2, 2, 2, 36, 185, 3, 2, 2, 2, 38, 193,
-	3, 2, 2, 2, 40, 204, 3, 2, 2, 2, 42, 208, 3, 2, 2, 2, 44, 211, 3, 2, 2,
-	2, 46, 214, 3, 2, 2, 2, 48, 219, 3, 2, 2, 2, 50, 221, 3, 2, 2, 2, 52, 54,
-	5, 4, 3, 2, 53, 52, 3, 2, 2, 2, 54, 57, 3, 2, 2, 2, 55, 53, 3, 2, 2, 2,
-	55, 56, 3, 2, 2, 2, 56, 58, 3, 2, 2, 2, 57, 55, 3, 2, 2, 2, 58, 59, 7,
-	2, 2, 3, 59, 3, 3, 2, 2, 2, 60, 61, 5, 50, 26, 2, 61, 62, 7, 6, 2, 2, 62,
-	66, 7, 31, 2, 2, 63, 65, 5, 6, 4, 2, 64, 63, 3, 2, 2, 2, 65, 68, 3, 2,
-	2, 2, 66, 64, 3, 2, 2, 2, 66, 67, 3, 2, 2, 2, 67, 69, 3, 2, 2, 2, 68, 66,
-	3, 2, 2, 2, 69, 73, 5, 8, 5, 2, 70, 72, 5, 10, 6, 2, 71, 70, 3, 2, 2, 2,
-	72, 75, 3, 2, 2, 2, 73, 71, 3, 2, 2, 2, 73, 74, 3, 2, 2, 2, 74, 5, 3, 2,
-	2, 2, 75, 73, 3, 2, 2, 2, 76, 77, 5, 50, 26, 2, 77, 78, 7, 7, 2, 2, 78,
-	79, 7, 31, 2, 2, 79, 81, 7, 8, 2, 2, 80, 82, 7, 28, 2, 2, 81, 80, 3, 2,
-	2, 2, 81, 82, 3, 2, 2, 2, 82, 83, 3, 2, 2, 2, 83, 84, 5, 48, 25, 2, 84,
-	7, 3, 2, 2, 2, 85, 86, 5, 50, 26, 2, 86, 87, 7, 9, 2, 2, 87, 93, 7, 8,
-	2, 2, 88, 90, 7, 28, 2, 2, 89, 88, 3, 2, 2, 2, 89, 90, 3, 2, 2, 2, 90,
-	91, 3, 2, 2, 2, 91, 94, 5, 48, 25, 2, 92, 94, 7, 11, 2, 2, 93, 89, 3, 2,
-	2, 2, 93, 92, 3, 2, 2, 2, 94, 9, 3, 2, 2, 2, 95, 111, 5, 16, 9, 2, 96,
-	111, 5, 20, 11, 2, 97, 111, 5, 18, 10, 2, 98, 111, 5, 24, 13, 2, 99, 111,
-	5, 26, 14, 2, 100, 111, 5, 28, 15, 2, 101, 111, 5, 30, 16, 2, 102, 111,
-	5, 32, 17, 2, 103, 111, 5, 34, 18, 2, 104, 111, 5, 36, 19, 2, 105, 111,
-	5, 38, 20, 2, 106, 111, 5, 44, 23, 2, 107, 111, 5, 46, 24, 2, 108, 111,
-	5, 22, 12, 2, 109, 111, 5, 40, 21, 2, 110, 95, 3, 2, 2, 2, 110, 96, 3,
-	2, 2, 2, 110, 97, 3, 2, 2, 2, 110, 98, 3, 2, 2, 2, 110, 99, 3, 2, 2, 2,
-	110, 100, 3, 2, 2, 2, 110, 101, 3, 2, 2, 2, 110, 102, 3, 2, 2, 2, 110,
-	103, 3, 2, 2, 2, 110, 104, 3, 2, 2, 2, 110, 105, 3, 2, 2, 2, 110, 106,
-	3, 2, 2, 2, 110, 107, 3, 2, 2, 2, 110, 108, 3, 2, 2, 2, 110, 109, 3, 2,
-	2, 2, 111, 11, 3, 2, 2, 2, 112, 113, 5, 50, 26, 2, 113, 114, 5, 14, 8,
-	2, 114, 115, 7, 8, 2, 2, 115, 116, 7, 18, 2, 2, 116, 117, 9, 2, 2, 2, 117,
-	13, 3, 2, 2, 2, 118, 119, 7, 29, 2, 2, 119, 120, 7, 22, 2, 2, 120, 15,
-	3, 2, 2, 2, 121, 122, 5, 50, 26, 2, 122, 123, 7, 31, 2, 2, 123, 124, 7,
-	8, 2, 2, 124, 126, 7, 17, 2, 2, 125, 127, 7, 28, 2, 2, 126, 125, 3, 2,
-	2, 2, 126, 127, 3, 2, 2, 2, 127, 128, 3, 2, 2, 2, 128, 129, 5, 48, 25,
-	2, 129, 17, 3, 2, 2, 2, 130, 132, 5, 12, 7, 2, 131, 130, 3, 2, 2, 2, 132,
-	135, 3, 2, 2, 2, 133, 131, 3, 2, 2, 2, 133, 134, 3, 2, 2, 2, 134, 136,
-	3, 2, 2, 2, 135, 133, 3, 2, 2, 2, 136, 137, 5, 16, 9, 2, 137, 19, 3, 2,
-	2, 2, 138, 139, 5, 50, 26, 2, 139, 140, 7, 31, 2, 2, 140, 141, 7, 8, 2,
-	2, 141, 142, 5, 14, 8, 2, 142, 21, 3, 2, 2, 2, 143, 144, 5, 50, 26, 2,
-	144, 145, 5, 14, 8, 2, 145, 146, 7, 8, 2, 2, 146, 147, 5, 14, 8, 2, 147,
-	23, 3, 2, 2, 2, 148, 149, 5, 50, 26, 2, 149, 150, 5, 14, 8, 2, 150, 151,
-	7, 8, 2, 2, 151, 152, 7, 31, 2, 2, 152, 25, 3, 2, 2, 2, 153, 154, 5, 50,
-	26, 2, 154, 155, 5, 14, 8, 2, 155, 156, 7, 8, 2, 2, 156, 157, 9, 2, 2,
-	2, 157, 27, 3, 2, 2, 2, 158, 159, 5, 50, 26, 2, 159, 160, 5, 14, 8, 2,
-	160, 161, 7, 8, 2, 2, 161, 162, 7, 30, 2, 2, 162, 163, 5, 14, 8, 2, 163,
-	29, 3, 2, 2, 2, 164, 165, 5, 50, 26, 2, 165, 166, 5, 14, 8, 2, 166, 167,
-	7, 8, 2, 2, 167, 168, 7, 19, 2, 2, 168, 169, 9, 3, 2, 2, 169, 170, 7, 22,
-	2, 2, 170, 31, 3, 2, 2, 2, 171, 172, 5, 50, 26, 2, 172, 173, 5, 14, 8,
-	2, 173, 174, 7, 8, 2, 2, 174, 175, 5, 14, 8, 2, 175, 176, 7, 25, 2, 2,
-	176, 177, 5, 14, 8, 2, 177, 33, 3, 2, 2, 2, 178, 179, 5, 50, 26, 2, 179,
-	180, 5, 14, 8, 2, 180, 181, 7, 8, 2, 2, 181, 182, 5, 14, 8, 2, 182, 183,
-	7, 24, 2, 2, 183, 184, 5, 14, 8, 2, 184, 35, 3, 2, 2, 2, 185, 186, 5, 50,
-	26, 2, 186, 187, 5, 14, 8, 2, 187, 188, 7, 8, 2, 2, 188, 189, 7, 31, 2,
-	2, 189, 190, 7, 3, 2, 2, 190, 191, 5, 14, 8, 2, 191, 192, 7, 28, 2, 2,
-	192, 37, 3, 2, 2, 2, 193, 194, 5, 50, 26, 2, 194, 195, 7, 31, 2, 2, 195,
-	198, 7, 3, 2, 2, 196, 199, 7, 22, 2, 2, 197, 199, 5, 14, 8, 2, 198, 196,
-	3, 2, 2, 2, 198, 197, 3, 2, 2, 2, 199, 200, 3, 2, 2, 2, 200, 201, 7, 28,
-	2, 2, 201, 202, 7, 8, 2, 2, 202, 203, 5, 14, 8, 2, 203, 39, 3, 2, 2, 2,
-	204, 205, 5, 50, 26, 2, 205, 206, 7, 10, 2, 2, 206, 207, 5, 14, 8, 2, 207,
-	41, 3, 2, 2, 2, 208, 209, 7, 21, 2, 2, 209, 210, 7, 22, 2, 2, 210, 43,
-	3, 2, 2, 2, 211, 212, 5, 50, 26, 2, 212, 213, 5, 42, 22, 2, 213, 45, 3,
-	2, 2, 2, 214, 215, 5, 50, 26, 2, 215, 216, 7, 20, 2, 2, 216, 217, 5, 14,
-	8, 2, 217, 218, 5, 42, 22, 2, 218, 47, 3, 2, 2, 2, 219, 220, 9, 4, 2, 2,
-	220, 49, 3, 2, 2, 2, 221, 222, 7, 22, 2, 2, 222, 223, 7, 4, 2, 2, 223,
-	51, 3, 2, 2, 2, 12, 55, 66, 73, 81, 89, 93, 110, 126, 133, 198,
+	4, 24, 9, 24, 4, 25, 9, 25, 3, 2, 7, 2, 52, 10, 2, 12, 2, 14, 2, 55, 11,
+	2, 3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 7, 3, 63, 10, 3, 12, 3, 14, 3, 66,
+	11, 3, 3, 3, 3, 3, 7, 3, 70, 10, 3, 12, 3, 14, 3, 73, 11, 3, 3, 4, 3, 4,
+	3, 4, 3, 4, 3, 4, 3, 4, 3, 5, 3, 5, 3, 5, 3, 5, 3, 5, 5, 5, 86, 10, 5,
+	3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6,
+	3, 6, 3, 6, 5, 6, 102, 10, 6, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 8,
+	3, 8, 3, 8, 3, 9, 7, 9, 114, 10, 9, 12, 9, 14, 9, 117, 11, 9, 3, 9, 3,
+	9, 3, 9, 3, 9, 3, 9, 3, 9, 3, 10, 3, 10, 3, 10, 3, 10, 3, 10, 3, 11, 3,
+	11, 3, 11, 3, 11, 3, 11, 3, 12, 3, 12, 3, 12, 3, 12, 3, 12, 3, 13, 3, 13,
+	3, 13, 3, 13, 3, 13, 3, 14, 3, 14, 3, 14, 3, 14, 3, 14, 3, 14, 3, 15, 3,
+	15, 3, 15, 3, 15, 3, 15, 3, 15, 3, 15, 3, 16, 3, 16, 3, 16, 3, 16, 3, 16,
+	3, 16, 3, 16, 3, 17, 3, 17, 3, 17, 3, 17, 3, 17, 3, 17, 3, 17, 3, 18, 3,
+	18, 3, 18, 3, 18, 3, 18, 3, 18, 3, 18, 3, 18, 3, 19, 3, 19, 3, 19, 3, 19,
+	3, 19, 5, 19, 185, 10, 19, 3, 19, 3, 19, 3, 19, 3, 19, 3, 20, 3, 20, 3,
+	20, 3, 20, 3, 21, 3, 21, 3, 21, 3, 22, 3, 22, 3, 22, 3, 23, 3, 23, 3, 23,
+	3, 23, 3, 23, 3, 24, 5, 24, 207, 10, 24, 3, 24, 3, 24, 3, 25, 3, 25, 3,
+	25, 3, 25, 2, 2, 26, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28,
+	30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 2, 5, 4, 2, 15, 16, 22, 23, 4,
+	2, 27, 27, 31, 31, 3, 2, 12, 14, 2, 209, 2, 53, 3, 2, 2, 2, 4, 58, 3, 2,
+	2, 2, 6, 74, 3, 2, 2, 2, 8, 80, 3, 2, 2, 2, 10, 101, 3, 2, 2, 2, 12, 103,
+	3, 2, 2, 2, 14, 109, 3, 2, 2, 2, 16, 115, 3, 2, 2, 2, 18, 124, 3, 2, 2,
+	2, 20, 129, 3, 2, 2, 2, 22, 134, 3, 2, 2, 2, 24, 139, 3, 2, 2, 2, 26, 144,
+	3, 2, 2, 2, 28, 150, 3, 2, 2, 2, 30, 157, 3, 2, 2, 2, 32, 164, 3, 2, 2,
+	2, 34, 171, 3, 2, 2, 2, 36, 179, 3, 2, 2, 2, 38, 190, 3, 2, 2, 2, 40, 194,
+	3, 2, 2, 2, 42, 197, 3, 2, 2, 2, 44, 200, 3, 2, 2, 2, 46, 206, 3, 2, 2,
+	2, 48, 210, 3, 2, 2, 2, 50, 52, 5, 4, 3, 2, 51, 50, 3, 2, 2, 2, 52, 55,
+	3, 2, 2, 2, 53, 51, 3, 2, 2, 2, 53, 54, 3, 2, 2, 2, 54, 56, 3, 2, 2, 2,
+	55, 53, 3, 2, 2, 2, 56, 57, 7, 2, 2, 3, 57, 3, 3, 2, 2, 2, 58, 59, 5, 48,
+	25, 2, 59, 60, 7, 6, 2, 2, 60, 64, 7, 31, 2, 2, 61, 63, 5, 6, 4, 2, 62,
+	61, 3, 2, 2, 2, 63, 66, 3, 2, 2, 2, 64, 62, 3, 2, 2, 2, 64, 65, 3, 2, 2,
+	2, 65, 67, 3, 2, 2, 2, 66, 64, 3, 2, 2, 2, 67, 71, 5, 8, 5, 2, 68, 70,
+	5, 10, 6, 2, 69, 68, 3, 2, 2, 2, 70, 73, 3, 2, 2, 2, 71, 69, 3, 2, 2, 2,
+	71, 72, 3, 2, 2, 2, 72, 5, 3, 2, 2, 2, 73, 71, 3, 2, 2, 2, 74, 75, 5, 48,
+	25, 2, 75, 76, 7, 7, 2, 2, 76, 77, 7, 31, 2, 2, 77, 78, 7, 8, 2, 2, 78,
+	79, 5, 46, 24, 2, 79, 7, 3, 2, 2, 2, 80, 81, 5, 48, 25, 2, 81, 82, 7, 9,
+	2, 2, 82, 85, 7, 8, 2, 2, 83, 86, 5, 46, 24, 2, 84, 86, 7, 11, 2, 2, 85,
+	83, 3, 2, 2, 2, 85, 84, 3, 2, 2, 2, 86, 9, 3, 2, 2, 2, 87, 102, 5, 16,
+	9, 2, 88, 102, 5, 18, 10, 2, 89, 102, 5, 22, 12, 2, 90, 102, 5, 24, 13,
+	2, 91, 102, 5, 26, 14, 2, 92, 102, 5, 28, 15, 2, 93, 102, 5, 30, 16, 2,
+	94, 102, 5, 32, 17, 2, 95, 102, 5, 34, 18, 2, 96, 102, 5, 36, 19, 2, 97,
+	102, 5, 42, 22, 2, 98, 102, 5, 44, 23, 2, 99, 102, 5, 20, 11, 2, 100, 102,
+	5, 38, 20, 2, 101, 87, 3, 2, 2, 2, 101, 88, 3, 2, 2, 2, 101, 89, 3, 2,
+	2, 2, 101, 90, 3, 2, 2, 2, 101, 91, 3, 2, 2, 2, 101, 92, 3, 2, 2, 2, 101,
+	93, 3, 2, 2, 2, 101, 94, 3, 2, 2, 2, 101, 95, 3, 2, 2, 2, 101, 96, 3, 2,
+	2, 2, 101, 97, 3, 2, 2, 2, 101, 98, 3, 2, 2, 2, 101, 99, 3, 2, 2, 2, 101,
+	100, 3, 2, 2, 2, 102, 11, 3, 2, 2, 2, 103, 104, 5, 48, 25, 2, 104, 105,
+	5, 14, 8, 2, 105, 106, 7, 8, 2, 2, 106, 107, 7, 18, 2, 2, 107, 108, 9,
+	2, 2, 2, 108, 13, 3, 2, 2, 2, 109, 110, 7, 29, 2, 2, 110, 111, 7, 22, 2,
+	2, 111, 15, 3, 2, 2, 2, 112, 114, 5, 12, 7, 2, 113, 112, 3, 2, 2, 2, 114,
+	117, 3, 2, 2, 2, 115, 113, 3, 2, 2, 2, 115, 116, 3, 2, 2, 2, 116, 118,
+	3, 2, 2, 2, 117, 115, 3, 2, 2, 2, 118, 119, 5, 48, 25, 2, 119, 120, 7,
+	31, 2, 2, 120, 121, 7, 8, 2, 2, 121, 122, 7, 17, 2, 2, 122, 123, 5, 46,
+	24, 2, 123, 17, 3, 2, 2, 2, 124, 125, 5, 48, 25, 2, 125, 126, 7, 31, 2,
+	2, 126, 127, 7, 8, 2, 2, 127, 128, 5, 14, 8, 2, 128, 19, 3, 2, 2, 2, 129,
+	130, 5, 48, 25, 2, 130, 131, 5, 14, 8, 2, 131, 132, 7, 8, 2, 2, 132, 133,
+	5, 14, 8, 2, 133, 21, 3, 2, 2, 2, 134, 135, 5, 48, 25, 2, 135, 136, 5,
+	14, 8, 2, 136, 137, 7, 8, 2, 2, 137, 138, 7, 31, 2, 2, 138, 23, 3, 2, 2,
+	2, 139, 140, 5, 48, 25, 2, 140, 141, 5, 14, 8, 2, 141, 142, 7, 8, 2, 2,
+	142, 143, 9, 2, 2, 2, 143, 25, 3, 2, 2, 2, 144, 145, 5, 48, 25, 2, 145,
+	146, 5, 14, 8, 2, 146, 147, 7, 8, 2, 2, 147, 148, 7, 30, 2, 2, 148, 149,
+	5, 14, 8, 2, 149, 27, 3, 2, 2, 2, 150, 151, 5, 48, 25, 2, 151, 152, 5,
+	14, 8, 2, 152, 153, 7, 8, 2, 2, 153, 154, 7, 19, 2, 2, 154, 155, 9, 3,
+	2, 2, 155, 156, 7, 22, 2, 2, 156, 29, 3, 2, 2, 2, 157, 158, 5, 48, 25,
+	2, 158, 159, 5, 14, 8, 2, 159, 160, 7, 8, 2, 2, 160, 161, 5, 14, 8, 2,
+	161, 162, 7, 25, 2, 2, 162, 163, 5, 14, 8, 2, 163, 31, 3, 2, 2, 2, 164,
+	165, 5, 48, 25, 2, 165, 166, 5, 14, 8, 2, 166, 167, 7, 8, 2, 2, 167, 168,
+	5, 14, 8, 2, 168, 169, 7, 24, 2, 2, 169, 170, 5, 14, 8, 2, 170, 33, 3,
+	2, 2, 2, 171, 172, 5, 48, 25, 2, 172, 173, 5, 14, 8, 2, 173, 174, 7, 8,
+	2, 2, 174, 175, 7, 31, 2, 2, 175, 176, 7, 3, 2, 2, 176, 177, 5, 14, 8,
+	2, 177, 178, 7, 28, 2, 2, 178, 35, 3, 2, 2, 2, 179, 180, 5, 48, 25, 2,
+	180, 181, 7, 31, 2, 2, 181, 184, 7, 3, 2, 2, 182, 185, 7, 22, 2, 2, 183,
+	185, 5, 14, 8, 2, 184, 182, 3, 2, 2, 2, 184, 183, 3, 2, 2, 2, 185, 186,
+	3, 2, 2, 2, 186, 187, 7, 28, 2, 2, 187, 188, 7, 8, 2, 2, 188, 189, 5, 14,
+	8, 2, 189, 37, 3, 2, 2, 2, 190, 191, 5, 48, 25, 2, 191, 192, 7, 10, 2,
+	2, 192, 193, 5, 14, 8, 2, 193, 39, 3, 2, 2, 2, 194, 195, 7, 21, 2, 2, 195,
+	196, 7, 22, 2, 2, 196, 41, 3, 2, 2, 2, 197, 198, 5, 48, 25, 2, 198, 199,
+	5, 40, 21, 2, 199, 43, 3, 2, 2, 2, 200, 201, 5, 48, 25, 2, 201, 202, 7,
+	20, 2, 2, 202, 203, 5, 14, 8, 2, 203, 204, 5, 40, 21, 2, 204, 45, 3, 2,
+	2, 2, 205, 207, 7, 28, 2, 2, 206, 205, 3, 2, 2, 2, 206, 207, 3, 2, 2, 2,
+	207, 208, 3, 2, 2, 2, 208, 209, 9, 4, 2, 2, 209, 47, 3, 2, 2, 2, 210, 211,
+	7, 22, 2, 2, 211, 212, 7, 4, 2, 2, 212, 49, 3, 2, 2, 2, 10, 53, 64, 71,
+	85, 101, 115, 184, 206,
 }
 var deserializer = antlr.NewATNDeserializer(nil)
 var deserializedATN = deserializer.DeserializeFromUInt16(parserATN)
@@ -127,9 +122,9 @@ var symbolicNames = []string{
 
 var ruleNames = []string{
 	"file", "function", "arg", "retTp", "statement", "internalArrArg", "internalVar",
-	"newVar", "newArrVar", "updVar", "initIntVar", "initItem", "initPrim",
-	"initParam", "initCall", "initBoolOp", "initNumOp", "initArrEl", "extArrEl",
-	"returnTp", "gotoIn", "gotoTp", "ifFalse", "typeTp", "line",
+	"newVar", "updVar", "initIntVar", "initItem", "initPrim", "initParam",
+	"initCall", "initBoolOp", "initNumOp", "initArrEl", "extArrEl", "returnTp",
+	"gotoIn", "gotoTp", "ifFalse", "typeTp", "line",
 }
 var decisionToDFA = make([]*antlr.DFA, len(deserializedATN.DecisionToState))
 
@@ -201,23 +196,22 @@ const (
 	InterLangParserRULE_internalArrArg = 5
 	InterLangParserRULE_internalVar    = 6
 	InterLangParserRULE_newVar         = 7
-	InterLangParserRULE_newArrVar      = 8
-	InterLangParserRULE_updVar         = 9
-	InterLangParserRULE_initIntVar     = 10
-	InterLangParserRULE_initItem       = 11
-	InterLangParserRULE_initPrim       = 12
-	InterLangParserRULE_initParam      = 13
-	InterLangParserRULE_initCall       = 14
-	InterLangParserRULE_initBoolOp     = 15
-	InterLangParserRULE_initNumOp      = 16
-	InterLangParserRULE_initArrEl      = 17
-	InterLangParserRULE_extArrEl       = 18
-	InterLangParserRULE_returnTp       = 19
-	InterLangParserRULE_gotoIn         = 20
-	InterLangParserRULE_gotoTp         = 21
-	InterLangParserRULE_ifFalse        = 22
-	InterLangParserRULE_typeTp         = 23
-	InterLangParserRULE_line           = 24
+	InterLangParserRULE_updVar         = 8
+	InterLangParserRULE_initIntVar     = 9
+	InterLangParserRULE_initItem       = 10
+	InterLangParserRULE_initPrim       = 11
+	InterLangParserRULE_initParam      = 12
+	InterLangParserRULE_initCall       = 13
+	InterLangParserRULE_initBoolOp     = 14
+	InterLangParserRULE_initNumOp      = 15
+	InterLangParserRULE_initArrEl      = 16
+	InterLangParserRULE_extArrEl       = 17
+	InterLangParserRULE_returnTp       = 18
+	InterLangParserRULE_gotoIn         = 19
+	InterLangParserRULE_gotoTp         = 20
+	InterLangParserRULE_ifFalse        = 21
+	InterLangParserRULE_typeTp         = 22
+	InterLangParserRULE_line           = 23
 )
 
 // IFileContext is an interface to support dynamic dispatch.
@@ -337,22 +331,22 @@ func (p *InterLangParser) File() (localctx IFileContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(53)
+	p.SetState(51)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == InterLangParserNUMBER {
 		{
-			p.SetState(50)
+			p.SetState(48)
 			p.Function()
 		}
 
-		p.SetState(55)
+		p.SetState(53)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(56)
+		p.SetState(54)
 		p.Match(InterLangParserEOF)
 	}
 
@@ -525,50 +519,50 @@ func (p *InterLangParser) Function() (localctx IFunctionContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(58)
+		p.SetState(56)
 		p.Line()
 	}
 	{
-		p.SetState(59)
+		p.SetState(57)
 		p.Match(InterLangParserFUN)
 	}
 	{
-		p.SetState(60)
+		p.SetState(58)
 		p.Match(InterLangParserITEM)
 	}
-	p.SetState(64)
+	p.SetState(62)
 	p.GetErrorHandler().Sync(p)
 	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
-				p.SetState(61)
+				p.SetState(59)
 				p.Arg()
 			}
 
 		}
-		p.SetState(66)
+		p.SetState(64)
 		p.GetErrorHandler().Sync(p)
 		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext())
 	}
 	{
-		p.SetState(67)
+		p.SetState(65)
 		p.RetTp()
 	}
-	p.SetState(71)
+	p.SetState(69)
 	p.GetErrorHandler().Sync(p)
 	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
-				p.SetState(68)
+				p.SetState(66)
 				p.Statement()
 			}
 
 		}
-		p.SetState(73)
+		p.SetState(71)
 		p.GetErrorHandler().Sync(p)
 		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 	}
@@ -646,10 +640,6 @@ func (s *ArgContext) TypeTp() ITypeTpContext {
 	return t.(ITypeTpContext)
 }
 
-func (s *ArgContext) ARRAY() antlr.TerminalNode {
-	return s.GetToken(InterLangParserARRAY, 0)
-}
-
 func (s *ArgContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -683,7 +673,6 @@ func (s *ArgContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *InterLangParser) Arg() (localctx IArgContext) {
 	localctx = NewArgContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, InterLangParserRULE_arg)
-	var _la int
 
 	defer func() {
 		p.ExitRule()
@@ -703,34 +692,23 @@ func (p *InterLangParser) Arg() (localctx IArgContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(74)
+		p.SetState(72)
 		p.Line()
 	}
 	{
-		p.SetState(75)
+		p.SetState(73)
 		p.Match(InterLangParserARG)
 	}
 	{
-		p.SetState(76)
+		p.SetState(74)
 		p.Match(InterLangParserITEM)
 	}
 	{
-		p.SetState(77)
+		p.SetState(75)
 		p.Match(InterLangParserEQ)
 	}
-	p.SetState(79)
-	p.GetErrorHandler().Sync(p)
-	_la = p.GetTokenStream().LA(1)
-
-	if _la == InterLangParserARRAY {
-		{
-			p.SetState(78)
-			p.Match(InterLangParserARRAY)
-		}
-
-	}
 	{
-		p.SetState(81)
+		p.SetState(76)
 		p.TypeTp()
 	}
 
@@ -807,10 +785,6 @@ func (s *RetTpContext) VOID() antlr.TerminalNode {
 	return s.GetToken(InterLangParserVOID, 0)
 }
 
-func (s *RetTpContext) ARRAY() antlr.TerminalNode {
-	return s.GetToken(InterLangParserARRAY, 0)
-}
-
 func (s *RetTpContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -844,7 +818,6 @@ func (s *RetTpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *InterLangParser) RetTp() (localctx IRetTpContext) {
 	localctx = NewRetTpContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 6, InterLangParserRULE_retTp)
-	var _la int
 
 	defer func() {
 		p.ExitRule()
@@ -864,41 +837,30 @@ func (p *InterLangParser) RetTp() (localctx IRetTpContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(83)
+		p.SetState(78)
 		p.Line()
 	}
 	{
-		p.SetState(84)
+		p.SetState(79)
 		p.Match(InterLangParserRET_TP)
 	}
 	{
-		p.SetState(85)
+		p.SetState(80)
 		p.Match(InterLangParserEQ)
 	}
-	p.SetState(91)
+	p.SetState(83)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case InterLangParserSTR, InterLangParserBOOL, InterLangParserNUM, InterLangParserARRAY:
-		p.SetState(87)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
-
-		if _la == InterLangParserARRAY {
-			{
-				p.SetState(86)
-				p.Match(InterLangParserARRAY)
-			}
-
-		}
 		{
-			p.SetState(89)
+			p.SetState(81)
 			p.TypeTp()
 		}
 
 	case InterLangParserVOID:
 		{
-			p.SetState(90)
+			p.SetState(82)
 			p.Match(InterLangParserVOID)
 		}
 
@@ -965,16 +927,6 @@ func (s *StatementContext) UpdVar() IUpdVarContext {
 	}
 
 	return t.(IUpdVarContext)
-}
-
-func (s *StatementContext) NewArrVar() INewArrVarContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*INewArrVarContext)(nil)).Elem(), 0)
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(INewArrVarContext)
 }
 
 func (s *StatementContext) InitItem() IInitItemContext {
@@ -1147,111 +1099,104 @@ func (p *InterLangParser) Statement() (localctx IStatementContext) {
 		}
 	}()
 
-	p.SetState(108)
+	p.SetState(99)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext()) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(93)
+			p.SetState(85)
 			p.NewVar()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(94)
+			p.SetState(86)
 			p.UpdVar()
 		}
 
 	case 3:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(95)
-			p.NewArrVar()
+			p.SetState(87)
+			p.InitItem()
 		}
 
 	case 4:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(96)
-			p.InitItem()
+			p.SetState(88)
+			p.InitPrim()
 		}
 
 	case 5:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(97)
-			p.InitPrim()
+			p.SetState(89)
+			p.InitParam()
 		}
 
 	case 6:
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(98)
-			p.InitParam()
+			p.SetState(90)
+			p.InitCall()
 		}
 
 	case 7:
 		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(99)
-			p.InitCall()
+			p.SetState(91)
+			p.InitBoolOp()
 		}
 
 	case 8:
 		p.EnterOuterAlt(localctx, 8)
 		{
-			p.SetState(100)
-			p.InitBoolOp()
+			p.SetState(92)
+			p.InitNumOp()
 		}
 
 	case 9:
 		p.EnterOuterAlt(localctx, 9)
 		{
-			p.SetState(101)
-			p.InitNumOp()
+			p.SetState(93)
+			p.InitArrEl()
 		}
 
 	case 10:
 		p.EnterOuterAlt(localctx, 10)
 		{
-			p.SetState(102)
-			p.InitArrEl()
+			p.SetState(94)
+			p.ExtArrEl()
 		}
 
 	case 11:
 		p.EnterOuterAlt(localctx, 11)
 		{
-			p.SetState(103)
-			p.ExtArrEl()
+			p.SetState(95)
+			p.GotoTp()
 		}
 
 	case 12:
 		p.EnterOuterAlt(localctx, 12)
 		{
-			p.SetState(104)
-			p.GotoTp()
+			p.SetState(96)
+			p.IfFalse()
 		}
 
 	case 13:
 		p.EnterOuterAlt(localctx, 13)
 		{
-			p.SetState(105)
-			p.IfFalse()
+			p.SetState(97)
+			p.InitIntVar()
 		}
 
 	case 14:
 		p.EnterOuterAlt(localctx, 14)
 		{
-			p.SetState(106)
-			p.InitIntVar()
-		}
-
-	case 15:
-		p.EnterOuterAlt(localctx, 15)
-		{
-			p.SetState(107)
+			p.SetState(98)
 			p.ReturnTp()
 		}
 
@@ -1395,23 +1340,23 @@ func (p *InterLangParser) InternalArrArg() (localctx IInternalArrArgContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(110)
+		p.SetState(101)
 		p.Line()
 	}
 	{
-		p.SetState(111)
+		p.SetState(102)
 		p.InternalVar()
 	}
 	{
-		p.SetState(112)
+		p.SetState(103)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(113)
+		p.SetState(104)
 		p.Match(InterLangParserINIT_ARR)
 	}
 	{
-		p.SetState(114)
+		p.SetState(105)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<InterLangParserTRUE)|(1<<InterLangParserFALSE)|(1<<InterLangParserNUMBER)|(1<<InterLangParserSTRING_RAW))) != 0) {
@@ -1523,11 +1468,11 @@ func (p *InterLangParser) InternalVar() (localctx IInternalVarContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(116)
+		p.SetState(107)
 		p.Match(InterLangParserINNER_VAR)
 	}
 	{
-		p.SetState(117)
+		p.SetState(108)
 		p.Match(InterLangParserNUMBER)
 	}
 
@@ -1604,8 +1549,27 @@ func (s *NewVarContext) TypeTp() ITypeTpContext {
 	return t.(ITypeTpContext)
 }
 
-func (s *NewVarContext) ARRAY() antlr.TerminalNode {
-	return s.GetToken(InterLangParserARRAY, 0)
+func (s *NewVarContext) AllInternalArrArg() []IInternalArrArgContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IInternalArrArgContext)(nil)).Elem())
+	var tst = make([]IInternalArrArgContext, len(ts))
+
+	for i, t := range ts {
+		if t != nil {
+			tst[i] = t.(IInternalArrArgContext)
+		}
+	}
+
+	return tst
+}
+
+func (s *NewVarContext) InternalArrArg(i int) IInternalArrArgContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IInternalArrArgContext)(nil)).Elem(), i)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IInternalArrArgContext)
 }
 
 func (s *NewVarContext) GetRuleContext() antlr.RuleContext {
@@ -1641,164 +1605,6 @@ func (s *NewVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *InterLangParser) NewVar() (localctx INewVarContext) {
 	localctx = NewNewVarContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 14, InterLangParserRULE_newVar)
-	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(119)
-		p.Line()
-	}
-	{
-		p.SetState(120)
-		p.Match(InterLangParserITEM)
-	}
-	{
-		p.SetState(121)
-		p.Match(InterLangParserEQ)
-	}
-	{
-		p.SetState(122)
-		p.Match(InterLangParserINIT)
-	}
-	p.SetState(124)
-	p.GetErrorHandler().Sync(p)
-	_la = p.GetTokenStream().LA(1)
-
-	if _la == InterLangParserARRAY {
-		{
-			p.SetState(123)
-			p.Match(InterLangParserARRAY)
-		}
-
-	}
-	{
-		p.SetState(126)
-		p.TypeTp()
-	}
-
-	return localctx
-}
-
-// INewArrVarContext is an interface to support dynamic dispatch.
-type INewArrVarContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// IsNewArrVarContext differentiates from other interfaces.
-	IsNewArrVarContext()
-}
-
-type NewArrVarContext struct {
-	*antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptyNewArrVarContext() *NewArrVarContext {
-	var p = new(NewArrVarContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = InterLangParserRULE_newArrVar
-	return p
-}
-
-func (*NewArrVarContext) IsNewArrVarContext() {}
-
-func NewNewArrVarContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *NewArrVarContext {
-	var p = new(NewArrVarContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = InterLangParserRULE_newArrVar
-
-	return p
-}
-
-func (s *NewArrVarContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *NewArrVarContext) NewVar() INewVarContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*INewVarContext)(nil)).Elem(), 0)
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(INewVarContext)
-}
-
-func (s *NewArrVarContext) AllInternalArrArg() []IInternalArrArgContext {
-	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IInternalArrArgContext)(nil)).Elem())
-	var tst = make([]IInternalArrArgContext, len(ts))
-
-	for i, t := range ts {
-		if t != nil {
-			tst[i] = t.(IInternalArrArgContext)
-		}
-	}
-
-	return tst
-}
-
-func (s *NewArrVarContext) InternalArrArg(i int) IInternalArrArgContext {
-	var t = s.GetTypedRuleContext(reflect.TypeOf((*IInternalArrArgContext)(nil)).Elem(), i)
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IInternalArrArgContext)
-}
-
-func (s *NewArrVarContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *NewArrVarContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *NewArrVarContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InterLangListener); ok {
-		listenerT.EnterNewArrVar(s)
-	}
-}
-
-func (s *NewArrVarContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InterLangListener); ok {
-		listenerT.ExitNewArrVar(s)
-	}
-}
-
-func (s *NewArrVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case InterLangVisitor:
-		return t.VisitNewArrVar(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
-func (p *InterLangParser) NewArrVar() (localctx INewArrVarContext) {
-	localctx = NewNewArrVarContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 16, InterLangParserRULE_newArrVar)
 
 	defer func() {
 		p.ExitRule()
@@ -1819,25 +1625,41 @@ func (p *InterLangParser) NewArrVar() (localctx INewArrVarContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(131)
+	p.SetState(113)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
-				p.SetState(128)
+				p.SetState(110)
 				p.InternalArrArg()
 			}
 
 		}
-		p.SetState(133)
+		p.SetState(115)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
 	}
 	{
-		p.SetState(134)
-		p.NewVar()
+		p.SetState(116)
+		p.Line()
+	}
+	{
+		p.SetState(117)
+		p.Match(InterLangParserITEM)
+	}
+	{
+		p.SetState(118)
+		p.Match(InterLangParserEQ)
+	}
+	{
+		p.SetState(119)
+		p.Match(InterLangParserINIT)
+	}
+	{
+		p.SetState(120)
+		p.TypeTp()
 	}
 
 	return localctx
@@ -1941,7 +1763,7 @@ func (s *UpdVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) UpdVar() (localctx IUpdVarContext) {
 	localctx = NewUpdVarContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 18, InterLangParserRULE_updVar)
+	p.EnterRule(localctx, 16, InterLangParserRULE_updVar)
 
 	defer func() {
 		p.ExitRule()
@@ -1961,19 +1783,19 @@ func (p *InterLangParser) UpdVar() (localctx IUpdVarContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(136)
+		p.SetState(122)
 		p.Line()
 	}
 	{
-		p.SetState(137)
+		p.SetState(123)
 		p.Match(InterLangParserITEM)
 	}
 	{
-		p.SetState(138)
+		p.SetState(124)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(139)
+		p.SetState(125)
 		p.InternalVar()
 	}
 
@@ -2087,7 +1909,7 @@ func (s *InitIntVarContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitIntVar() (localctx IInitIntVarContext) {
 	localctx = NewInitIntVarContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 20, InterLangParserRULE_initIntVar)
+	p.EnterRule(localctx, 18, InterLangParserRULE_initIntVar)
 
 	defer func() {
 		p.ExitRule()
@@ -2107,19 +1929,19 @@ func (p *InterLangParser) InitIntVar() (localctx IInitIntVarContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(141)
+		p.SetState(127)
 		p.Line()
 	}
 	{
-		p.SetState(142)
+		p.SetState(128)
 		p.InternalVar()
 	}
 	{
-		p.SetState(143)
+		p.SetState(129)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(144)
+		p.SetState(130)
 		p.InternalVar()
 	}
 
@@ -2224,7 +2046,7 @@ func (s *InitItemContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitItem() (localctx IInitItemContext) {
 	localctx = NewInitItemContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 22, InterLangParserRULE_initItem)
+	p.EnterRule(localctx, 20, InterLangParserRULE_initItem)
 
 	defer func() {
 		p.ExitRule()
@@ -2244,19 +2066,19 @@ func (p *InterLangParser) InitItem() (localctx IInitItemContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(146)
+		p.SetState(132)
 		p.Line()
 	}
 	{
-		p.SetState(147)
+		p.SetState(133)
 		p.InternalVar()
 	}
 	{
-		p.SetState(148)
+		p.SetState(134)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(149)
+		p.SetState(135)
 		p.Match(InterLangParserITEM)
 	}
 
@@ -2373,7 +2195,7 @@ func (s *InitPrimContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitPrim() (localctx IInitPrimContext) {
 	localctx = NewInitPrimContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 24, InterLangParserRULE_initPrim)
+	p.EnterRule(localctx, 22, InterLangParserRULE_initPrim)
 	var _la int
 
 	defer func() {
@@ -2394,19 +2216,19 @@ func (p *InterLangParser) InitPrim() (localctx IInitPrimContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(151)
+		p.SetState(137)
 		p.Line()
 	}
 	{
-		p.SetState(152)
+		p.SetState(138)
 		p.InternalVar()
 	}
 	{
-		p.SetState(153)
+		p.SetState(139)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(154)
+		p.SetState(140)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<InterLangParserTRUE)|(1<<InterLangParserFALSE)|(1<<InterLangParserNUMBER)|(1<<InterLangParserSTRING_RAW))) != 0) {
@@ -2531,7 +2353,7 @@ func (s *InitParamContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitParam() (localctx IInitParamContext) {
 	localctx = NewInitParamContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 26, InterLangParserRULE_initParam)
+	p.EnterRule(localctx, 24, InterLangParserRULE_initParam)
 
 	defer func() {
 		p.ExitRule()
@@ -2551,23 +2373,23 @@ func (p *InterLangParser) InitParam() (localctx IInitParamContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(156)
+		p.SetState(142)
 		p.Line()
 	}
 	{
-		p.SetState(157)
+		p.SetState(143)
 		p.InternalVar()
 	}
 	{
-		p.SetState(158)
+		p.SetState(144)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(159)
+		p.SetState(145)
 		p.Match(InterLangParserPARAM)
 	}
 	{
-		p.SetState(160)
+		p.SetState(146)
 		p.InternalVar()
 	}
 
@@ -2684,7 +2506,7 @@ func (s *InitCallContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitCall() (localctx IInitCallContext) {
 	localctx = NewInitCallContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 28, InterLangParserRULE_initCall)
+	p.EnterRule(localctx, 26, InterLangParserRULE_initCall)
 	var _la int
 
 	defer func() {
@@ -2705,23 +2527,23 @@ func (p *InterLangParser) InitCall() (localctx IInitCallContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(162)
+		p.SetState(148)
 		p.Line()
 	}
 	{
-		p.SetState(163)
+		p.SetState(149)
 		p.InternalVar()
 	}
 	{
-		p.SetState(164)
+		p.SetState(150)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(165)
+		p.SetState(151)
 		p.Match(InterLangParserCALL)
 	}
 	{
-		p.SetState(166)
+		p.SetState(152)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(_la == InterLangParserSYS_FUNC || _la == InterLangParserITEM) {
@@ -2732,7 +2554,7 @@ func (p *InterLangParser) InitCall() (localctx IInitCallContext) {
 		}
 	}
 	{
-		p.SetState(167)
+		p.SetState(153)
 		p.Match(InterLangParserNUMBER)
 	}
 
@@ -2850,7 +2672,7 @@ func (s *InitBoolOpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitBoolOp() (localctx IInitBoolOpContext) {
 	localctx = NewInitBoolOpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 30, InterLangParserRULE_initBoolOp)
+	p.EnterRule(localctx, 28, InterLangParserRULE_initBoolOp)
 
 	defer func() {
 		p.ExitRule()
@@ -2870,27 +2692,27 @@ func (p *InterLangParser) InitBoolOp() (localctx IInitBoolOpContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(169)
+		p.SetState(155)
 		p.Line()
 	}
 	{
-		p.SetState(170)
+		p.SetState(156)
 		p.InternalVar()
 	}
 	{
-		p.SetState(171)
+		p.SetState(157)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(172)
+		p.SetState(158)
 		p.InternalVar()
 	}
 	{
-		p.SetState(173)
+		p.SetState(159)
 		p.Match(InterLangParserBOOL_SIGN)
 	}
 	{
-		p.SetState(174)
+		p.SetState(160)
 		p.InternalVar()
 	}
 
@@ -3008,7 +2830,7 @@ func (s *InitNumOpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitNumOp() (localctx IInitNumOpContext) {
 	localctx = NewInitNumOpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 32, InterLangParserRULE_initNumOp)
+	p.EnterRule(localctx, 30, InterLangParserRULE_initNumOp)
 
 	defer func() {
 		p.ExitRule()
@@ -3028,27 +2850,27 @@ func (p *InterLangParser) InitNumOp() (localctx IInitNumOpContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(176)
+		p.SetState(162)
 		p.Line()
 	}
 	{
-		p.SetState(177)
+		p.SetState(163)
 		p.InternalVar()
 	}
 	{
-		p.SetState(178)
+		p.SetState(164)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(179)
+		p.SetState(165)
 		p.InternalVar()
 	}
 	{
-		p.SetState(180)
+		p.SetState(166)
 		p.Match(InterLangParserNUM_SIGN)
 	}
 	{
-		p.SetState(181)
+		p.SetState(167)
 		p.InternalVar()
 	}
 
@@ -3170,7 +2992,7 @@ func (s *InitArrElContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) InitArrEl() (localctx IInitArrElContext) {
 	localctx = NewInitArrElContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 34, InterLangParserRULE_initArrEl)
+	p.EnterRule(localctx, 32, InterLangParserRULE_initArrEl)
 
 	defer func() {
 		p.ExitRule()
@@ -3190,31 +3012,31 @@ func (p *InterLangParser) InitArrEl() (localctx IInitArrElContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(183)
+		p.SetState(169)
 		p.Line()
 	}
 	{
-		p.SetState(184)
+		p.SetState(170)
 		p.InternalVar()
 	}
 	{
-		p.SetState(185)
+		p.SetState(171)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(186)
+		p.SetState(172)
 		p.Match(InterLangParserITEM)
 	}
 	{
-		p.SetState(187)
+		p.SetState(173)
 		p.Match(InterLangParserT__0)
 	}
 	{
-		p.SetState(188)
+		p.SetState(174)
 		p.InternalVar()
 	}
 	{
-		p.SetState(189)
+		p.SetState(175)
 		p.Match(InterLangParserARRAY)
 	}
 
@@ -3340,7 +3162,7 @@ func (s *ExtArrElContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) ExtArrEl() (localctx IExtArrElContext) {
 	localctx = NewExtArrElContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 36, InterLangParserRULE_extArrEl)
+	p.EnterRule(localctx, 34, InterLangParserRULE_extArrEl)
 
 	defer func() {
 		p.ExitRule()
@@ -3360,30 +3182,30 @@ func (p *InterLangParser) ExtArrEl() (localctx IExtArrElContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(191)
+		p.SetState(177)
 		p.Line()
 	}
 	{
-		p.SetState(192)
+		p.SetState(178)
 		p.Match(InterLangParserITEM)
 	}
 	{
-		p.SetState(193)
+		p.SetState(179)
 		p.Match(InterLangParserT__0)
 	}
-	p.SetState(196)
+	p.SetState(182)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case InterLangParserNUMBER:
 		{
-			p.SetState(194)
+			p.SetState(180)
 			p.Match(InterLangParserNUMBER)
 		}
 
 	case InterLangParserINNER_VAR:
 		{
-			p.SetState(195)
+			p.SetState(181)
 			p.InternalVar()
 		}
 
@@ -3391,15 +3213,15 @@ func (p *InterLangParser) ExtArrEl() (localctx IExtArrElContext) {
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
 	{
-		p.SetState(198)
+		p.SetState(184)
 		p.Match(InterLangParserARRAY)
 	}
 	{
-		p.SetState(199)
+		p.SetState(185)
 		p.Match(InterLangParserEQ)
 	}
 	{
-		p.SetState(200)
+		p.SetState(186)
 		p.InternalVar()
 	}
 
@@ -3500,7 +3322,7 @@ func (s *ReturnTpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) ReturnTp() (localctx IReturnTpContext) {
 	localctx = NewReturnTpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 38, InterLangParserRULE_returnTp)
+	p.EnterRule(localctx, 36, InterLangParserRULE_returnTp)
 
 	defer func() {
 		p.ExitRule()
@@ -3520,15 +3342,15 @@ func (p *InterLangParser) ReturnTp() (localctx IReturnTpContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(202)
+		p.SetState(188)
 		p.Line()
 	}
 	{
-		p.SetState(203)
+		p.SetState(189)
 		p.Match(InterLangParserRET)
 	}
 	{
-		p.SetState(204)
+		p.SetState(190)
 		p.InternalVar()
 	}
 
@@ -3613,7 +3435,7 @@ func (s *GotoInContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) GotoIn() (localctx IGotoInContext) {
 	localctx = NewGotoInContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 40, InterLangParserRULE_gotoIn)
+	p.EnterRule(localctx, 38, InterLangParserRULE_gotoIn)
 
 	defer func() {
 		p.ExitRule()
@@ -3633,11 +3455,11 @@ func (p *InterLangParser) GotoIn() (localctx IGotoInContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(206)
+		p.SetState(192)
 		p.Match(InterLangParserGOTO)
 	}
 	{
-		p.SetState(207)
+		p.SetState(193)
 		p.Match(InterLangParserNUMBER)
 	}
 
@@ -3734,7 +3556,7 @@ func (s *GotoTpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) GotoTp() (localctx IGotoTpContext) {
 	localctx = NewGotoTpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 42, InterLangParserRULE_gotoTp)
+	p.EnterRule(localctx, 40, InterLangParserRULE_gotoTp)
 
 	defer func() {
 		p.ExitRule()
@@ -3754,11 +3576,11 @@ func (p *InterLangParser) GotoTp() (localctx IGotoTpContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(209)
+		p.SetState(195)
 		p.Line()
 	}
 	{
-		p.SetState(210)
+		p.SetState(196)
 		p.GotoIn()
 	}
 
@@ -3869,7 +3691,7 @@ func (s *IfFalseContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) IfFalse() (localctx IIfFalseContext) {
 	localctx = NewIfFalseContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 44, InterLangParserRULE_ifFalse)
+	p.EnterRule(localctx, 42, InterLangParserRULE_ifFalse)
 
 	defer func() {
 		p.ExitRule()
@@ -3889,19 +3711,19 @@ func (p *InterLangParser) IfFalse() (localctx IIfFalseContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(212)
+		p.SetState(198)
 		p.Line()
 	}
 	{
-		p.SetState(213)
+		p.SetState(199)
 		p.Match(InterLangParserIFFALSE)
 	}
 	{
-		p.SetState(214)
+		p.SetState(200)
 		p.InternalVar()
 	}
 	{
-		p.SetState(215)
+		p.SetState(201)
 		p.GotoIn()
 	}
 
@@ -3958,6 +3780,10 @@ func (s *TypeTpContext) NUM() antlr.TerminalNode {
 	return s.GetToken(InterLangParserNUM, 0)
 }
 
+func (s *TypeTpContext) ARRAY() antlr.TerminalNode {
+	return s.GetToken(InterLangParserARRAY, 0)
+}
+
 func (s *TypeTpContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -3990,7 +3816,7 @@ func (s *TypeTpContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) TypeTp() (localctx ITypeTpContext) {
 	localctx = NewTypeTpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 46, InterLangParserRULE_typeTp)
+	p.EnterRule(localctx, 44, InterLangParserRULE_typeTp)
 	var _la int
 
 	defer func() {
@@ -4010,8 +3836,19 @@ func (p *InterLangParser) TypeTp() (localctx ITypeTpContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
+	p.SetState(204)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == InterLangParserARRAY {
+		{
+			p.SetState(203)
+			p.Match(InterLangParserARRAY)
+		}
+
+	}
 	{
-		p.SetState(217)
+		p.SetState(206)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<InterLangParserSTR)|(1<<InterLangParserBOOL)|(1<<InterLangParserNUM))) != 0) {
@@ -4099,7 +3936,7 @@ func (s *LineContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *InterLangParser) Line() (localctx ILineContext) {
 	localctx = NewLineContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 48, InterLangParserRULE_line)
+	p.EnterRule(localctx, 46, InterLangParserRULE_line)
 
 	defer func() {
 		p.ExitRule()
@@ -4119,11 +3956,11 @@ func (p *InterLangParser) Line() (localctx ILineContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(219)
+		p.SetState(208)
 		p.Match(InterLangParserNUMBER)
 	}
 	{
-		p.SetState(220)
+		p.SetState(209)
 		p.Match(InterLangParserT__1)
 	}
 

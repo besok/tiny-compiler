@@ -31,12 +31,11 @@ ITEM : [a-z][a-zA-Z0-9]* ;
 file: function* EOF;
 
 function: line FUN ITEM arg* retTp statement*;
-arg: line ARG ITEM EQ ARRAY? typeTp;
-retTp: line RET_TP EQ (ARRAY? typeTp | VOID);
+arg: line ARG ITEM EQ typeTp;
+retTp: line RET_TP EQ (typeTp | VOID);
 statement:
       newVar
     | updVar
-    | newArrVar
     | initItem
     | initPrim
     | initParam
@@ -55,8 +54,7 @@ statement:
 internalArrArg: line internalVar EQ INIT_ARR (NUMBER | STRING_RAW | TRUE | FALSE);
 internalVar:INNER_VAR NUMBER;
 
-newVar:line ITEM EQ INIT ARRAY? typeTp;
-newArrVar: internalArrArg* newVar;
+newVar:internalArrArg* line ITEM EQ INIT typeTp;
 updVar: line ITEM EQ internalVar;
 initIntVar: line internalVar EQ internalVar;
 initItem: line internalVar EQ ITEM;
@@ -75,5 +73,5 @@ gotoTp: line gotoIn;
 
 ifFalse: line IFFALSE internalVar gotoIn;
 
-typeTp: STR | BOOL | NUM;
+typeTp: ARRAY? (STR | BOOL | NUM);
 line: NUMBER ':';

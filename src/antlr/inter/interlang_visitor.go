@@ -32,9 +32,6 @@ type InterLangVisitor interface {
 	// Visit a parse tree produced by InterLangParser#newVar.
 	VisitNewVar(ctx *NewVarContext) interface{}
 
-	// Visit a parse tree produced by InterLangParser#newArrVar.
-	VisitNewArrVar(ctx *NewArrVarContext) interface{}
-
 	// Visit a parse tree produced by InterLangParser#updVar.
 	VisitUpdVar(ctx *UpdVarContext) interface{}
 

@@ -7,10 +7,10 @@ import (
 	"tiny-compiler/src/antlr/inter"
 )
 
-func Parse(path string) Functions {
+func ParseIR(path string) Functions {
 	open, e := os.Open(path)
-	if e!= nil {
-		log.Fatalf(" error to open a file :%s, error: %s",path,e)
+	if e != nil {
+		log.Fatalf(" error to open a file :%s, error: %s", path, e)
 	}
 
 	e = open.Close()
@@ -56,13 +56,43 @@ type InterListener struct {
 func (l *InterListener) EnterFunction(c *parser.FunctionContext) {
 	line := c.GetStart().GetLine()
 	name := c.ITEM().GetText()
-	f := Function{Name: name, Line: line}
+	f := Function{Name: name, Line: line, Args: make([]Arg, 0)}
 	Push(f)
 }
 
-//func (l *InterListener) EnterArg(c *parser.ArgContext) {
-//	panic("implement me")
-//}
+func (l *InterListener) EnterArg(c *parser.ArgContext) {
+
+	line := c.GetStart().GetLine()
+	name := c.ITEM().GetText()
+
+	tp := c.TypeTp().(*parser.TypeTpContext)
+
+	typeVal := Type{IsArray: false}
+
+	if tp.ARRAY() != nil {
+		typeVal.IsArray = true
+	}
+
+	if tp.BOOL() != nil {
+		typeVal.T = B
+	}
+	if tp.NUM() != nil {
+		typeVal.T = N
+	}
+	if tp.STR() != nil {
+		typeVal.T = S
+	}
+
+
+
+	arg := Arg{Name: name, Line: line,Type:typeVal}
+
+	function := (*Pop()).(Function)
+	function.PutArg(arg)
+	Push(function)
+
+}
+
 //
 //func (l *InterListener) EnterRetTp(c *parser.RetTpContext) {
 //	panic("implement me")
@@ -156,7 +186,7 @@ func (l *InterListener) ExitFunction(c *parser.FunctionContext) {
 	f := *Pop()
 	switch f.(type) {
 	case Function:
-		funcs.Item = append(funcs.Item,f.(Function))
+		funcs.List = append(funcs.List, f.(Function))
 	default:
 		panic("should be func")
 	}
@@ -253,10 +283,10 @@ func (l *InterListener) ExitFunction(c *parser.FunctionContext) {
 type Ctx interface{}
 
 type Functions struct {
-	Item []Function
+	List []Function
 }
 
-var funcs = Functions{Item: make([]Function, 0)}
+var funcs = Functions{List: make([]Function, 0)}
 
 type Function struct {
 	Line       int
@@ -264,6 +294,10 @@ type Function struct {
 	Args       []Arg
 	ReturnType ReturnType
 	Body       []BodyStatement
+}
+
+func(f *Function) PutArg(arg Arg) {
+	f.Args = append(f.Args,arg)
 }
 
 type Arg struct {
@@ -306,3 +340,4 @@ func Pop() *Ctx {
 	ctx = ctx[:l-1]
 	return &ret
 }
+

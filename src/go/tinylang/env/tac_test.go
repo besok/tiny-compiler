@@ -10,11 +10,11 @@ func Test_CommonTest(t *testing.T){
 	//path := `C:\projects\tiny-compiler\src\ab\single_func.ab`
 	path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
 
-	file := parsing.CompileToInterLang(path)
+	file := parsing.IR(path)
 
-	functions := Parse(file.Name())
+	functions := ParseIR(file.Name())
 
-	for _, f := range functions.Item {
+	for _, f := range functions.List {
 		log.Printf("- %+v\n",f)
 	}
 }

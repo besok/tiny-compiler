@@ -10,7 +10,7 @@ import (
 	"tiny-compiler/src/antlr/tiny"
 )
 
-func CompileToInterLang(path string) *os.File {
+func IR(path string) *os.File {
 	s := Parse(path)
 
 	for _,f := range s.Functions{

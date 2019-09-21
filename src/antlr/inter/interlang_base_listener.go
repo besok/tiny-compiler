@@ -69,12 +69,6 @@ func (s *BaseInterLangListener) EnterNewVar(ctx *NewVarContext) {}
 // ExitNewVar is called when production newVar is exited.
 func (s *BaseInterLangListener) ExitNewVar(ctx *NewVarContext) {}
 
-// EnterNewArrVar is called when production newArrVar is entered.
-func (s *BaseInterLangListener) EnterNewArrVar(ctx *NewArrVarContext) {}
-
-// ExitNewArrVar is called when production newArrVar is exited.
-func (s *BaseInterLangListener) ExitNewArrVar(ctx *NewArrVarContext) {}
-
 // EnterUpdVar is called when production updVar is entered.
 func (s *BaseInterLangListener) EnterUpdVar(ctx *UpdVarContext) {}
 
