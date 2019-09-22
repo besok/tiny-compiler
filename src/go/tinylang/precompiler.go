@@ -18,16 +18,31 @@ import (
 // return
 
 type View interface {
+	// Process returns the variable name created after this interface
 	Process() string
 }
 
 func (uv UpdVar) Process() string {
 	right := uv.Right.(View).Process()
 	left := uv.Left
+	ae := left.ArrElem
 	if left.IsArrEl {
-		addLine(fmt.Sprintf("%s[%d] = %s", left.ArrElem.Name, left.ArrElem.Pos, right))
+		if ae.HasPos {
+			addLine(fmt.Sprintf("%s[%d] = %s", ae.Name, ae.Pos, right))
+		} else {
+			switch ae.Calc.(type) {
+			case string:
+				vr := createVar(Ptr)
+				_ = addLine(fmt.Sprintf("%s = %s", vr, ae.Calc))
+				addLine(fmt.Sprintf("%s[%s] = %s", ae.Name, vr, right))
+			default:
+				p := ae.Calc.(View).Process()
+				addLine(fmt.Sprintf("%s[%s] = %s", ae.Name, p, right))
+			}
+		}
+
 	} else {
-		addLine(fmt.Sprintf("%s = %s", left.ArrElem.Name, right))
+		addLine(fmt.Sprintf("%s = %s", ae.Name, right))
 	}
 	return ""
 }
@@ -75,7 +90,7 @@ func (fs ForSt) Process() string {
 	fs.Body.Process()
 	fs.UpdVar.Process()
 	end := addLine(fmt.Sprintf("goto %s", patch))
-	addJump(end,true)
+	addJump(end, true)
 	endLine := fmt.Sprintf("%d", nextNumber())
 	releaseGotoCtx(startLine, endLine)
 	return ""

@@ -6,7 +6,7 @@ import (
 	parsing "tiny-compiler/src/go/tinylang"
 )
 
-func Test_CommonTest(t *testing.T){
+func Test_CommonTest(t *testing.T) {
 	//path := `C:\projects\tiny-compiler\src\ab\single_func.ab`
 	path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
 
@@ -15,6 +15,9 @@ func Test_CommonTest(t *testing.T){
 	functions := ParseIR(file.Name())
 
 	for _, f := range functions.List {
-		log.Printf("- %+v\n",f)
+		log.Printf("- %s %+v %+v\n", f.Name, f.ReturnType, f.Args)
+		for _, el := range f.Body {
+			log.Printf("-- %#v\n", el)
+		}
 	}
 }

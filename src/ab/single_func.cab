@@ -1,20 +1,37 @@
    1:  function numToString
    2:  argument number = num
-   3:  return_type = void
-   4:  _n1 = 0
-   5:  i = init num
-   6:  i = _n1
-   7:  _p2 = i
-   8:  _p1 = _p2
-   9:  _p6 = nums
-  10:  _p5 = param _p6
-  11:  _p7 = call Len 1
-  12:  _p4 = _p7
-  13:  _p3 = _p4
-  14:  _p8 = _p1 < _p3
-  15:  ifFalse _p8 goto 21
-  16:  _p9 = i
-  17:  _n2 = 1
-  18:  _p10 = _p9 + _n2
-  19:  i = _p10
-  20:  goto 7
+   3:  return_type = ]num
+   4:  revertArray = init ]num
+   5:  _p3 = array
+   6:  _p2 = param _p3
+   7:  _p4 = call Len 1
+   8:  _p1 = _p4
+   9:  _n1 = 1
+  10:  _p5 = _p1 - _n1
+  11:  l = init num
+  12:  l = _p5
+  13:  _n2 = 0
+  14:  i = init num
+  15:  i = _n2
+  16:  _p7 = i
+  17:  _p6 = _p7
+  18:  _p11 = array
+  19:  _p10 = param _p11
+  20:  _p12 = call Len 1
+  21:  _p9 = _p12
+  22:  _p8 = _p9
+  23:  _p13 = _p6 < _p8
+  24:  ifFalse _p13 goto 36
+  25:  _p14 = l
+  26:  _p15 = i
+  27:  _p16 = _p14 - _p15
+  28:  _p17 = array[_p16]
+  29:  _p18 = i
+  30:  revertArray[_p18] = _p17
+  31:  _p19 = i
+  32:  _n3 = 1
+  33:  _p20 = _p19 + _n3
+  34:  i = _p20
+  35:  goto 16
+  36:  _p21 = revertArray
+  37:  return _p21
