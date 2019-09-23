@@ -34,25 +34,8 @@ type InterListener struct {
 	*parser.BaseInterLangListener
 }
 
-//
-//func (l *InterListener) VisitTerminal(node antlr.TerminalNode) {
-//	panic("implement me")
-//}
-//
 //func (l *InterListener) VisitErrorNode(node antlr.ErrorNode) {
 //	panic("implement me")
-//}
-//
-//func (l *InterListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitEveryRule(ctx antlr.ParserRuleContext) {
-//	panic("implement me")
-//}
-
-//func (l *InterListener) EnterFile(c *parser.FileContext) {
-//
 //}
 
 func (l *InterListener) EnterFunction(c *parser.FunctionContext) {
@@ -125,49 +108,89 @@ func (l *InterListener) EnterRetTp(c *parser.RetTpContext) {
 
 }
 
-//
-//func (l *InterListener) EnterStatement(c *parser.StatementContext) {
-//	panic("implement me")
-//}
-//
 //func (l *InterListener) EnterInternalArrArg(c *parser.InternalArrArgContext) {
-//	panic("implement me")
-//}
 //
-//func (l *InterListener) EnterInternalVar(c *parser.InternalVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) EnterNewVar(c *parser.NewVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) EnterNewArrVar(c *parser.NewArrVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) EnterUpdVar(c *parser.UpdVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) EnterInitItem(c *parser.InitItemContext) {
-//	panic("implement me")
 //}
 
-func (l *InterListener) EnterInitIntVar(c *parser.InitIntVarContext) {
-	left := c.InternalVar(0).(*parser.InternalVarContext)
-	right := c.InternalVar(1).(*parser.InternalVarContext)
+func (l *InterListener) EnterNewVar(c *parser.NewVarContext) {
+	line := c.GetStart().GetLine()
+	name := c.ITEM().GetText()
+	tp := c.TypeTp().(*parser.TypeTpContext)
+	typeVal := Type{IsArray: false}
+	if tp.ARRAY() != nil {
+		typeVal.IsArray = true
+	}
+	if tp.BOOL() != nil {
+		typeVal.T = B
+	}
+	if tp.NUM() != nil {
+		typeVal.T = N
+	}
+	if tp.STR() != nil {
+		typeVal.T = S
+	}
 
-	leftVar := makeIVar(left)
-	rightVar := makeIVar(right)
-	st := InitInternalVarSt{Left: leftVar, Right: rightVar}
+	st := NewVarSt{Line: line, Name:name, T: typeVal, ArrArgs: make([]IntArrArgSt, 0)}
+
+	for _, el := range c.AllInternalArrArg() {
+		ctx := el.(*parser.InternalArrArgContext)
+		line := ctx.GetStart().GetLine()
+		iVar := makeIVar(ctx.InternalVar())
+
+		stV := IntArrArgSt{Var: iVar, Line: line}
+
+		if ctx.NUMBER() != nil {
+			n, _ := strconv.Atoi(ctx.NUMBER().GetText())
+			stV.Value = n
+			stV.Type = N
+		}
+
+		if ctx.TRUE() != nil {
+			stV.Value = true
+			stV.Type = B
+		}
+		if ctx.FALSE() != nil {
+			stV.Value = false
+			stV.Type = B
+		}
+		if ctx.STRING_RAW() != nil {
+			raw := ctx.STRING_RAW().GetText()
+			raw = strings.TrimPrefix(raw, "\"")
+			raw = strings.TrimSuffix(raw, "\"")
+			stV.Type = S
+			stV.Value = raw
+		}
+
+		st.ArrArgs = append(st.ArrArgs,stV)
+	}
+
 	Put(ToBody(st))
+
 }
 
-//
+func (l *InterListener) EnterUpdVar(c *parser.UpdVarContext) {
+	line := c.GetStart().GetLine()
+	text := c.ITEM().GetText()
+	iVar := makeIVar(c.InternalVar())
+	Put(ToBody(UpdVarSt{Line: line, Name: text, Var: iVar}))
+}
+
+func (l *InterListener) EnterInitItem(c *parser.InitItemContext) {
+	line := c.GetStart().GetLine()
+	text := c.ITEM().GetText()
+	iVar := makeIVar(c.InternalVar())
+
+	Put(ToBody(InitItemSt{Line: line, Item: text, Var: iVar}))
+}
+
+func (l *InterListener) EnterInitIntVar(c *parser.InitIntVarContext) {
+	c.GetStart()
+	Put(ToBody(InitInternalVarSt{Left: makeIVar(c.InternalVar(0)), Right: makeIVar(c.InternalVar(1))}))
+}
+
 func (l *InterListener) EnterInitPrim(c *parser.InitPrimContext) {
 	line := c.GetStart().GetLine()
-	v := makeIVar(c.InternalVar().(*parser.InternalVarContext))
+	v := makeIVar(c.InternalVar())
 	st := InitPrimSt{Line: line, Left: v}
 
 	if c.NUMBER() != nil {
@@ -186,8 +209,8 @@ func (l *InterListener) EnterInitPrim(c *parser.InitPrimContext) {
 	}
 	if c.STRING_RAW() != nil {
 		raw := c.STRING_RAW().GetText()
-		raw = strings.TrimPrefix(raw,"\"")
-		raw = strings.TrimSuffix(raw,"\"")
+		raw = strings.TrimPrefix(raw, "\"")
+		raw = strings.TrimSuffix(raw, "\"")
 		st.T = S
 		st.Val = raw
 
@@ -197,23 +220,36 @@ func (l *InterListener) EnterInitPrim(c *parser.InitPrimContext) {
 
 }
 
-//
-//func (l *InterListener) EnterInitParam(c *parser.InitParamContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) EnterInitCall(c *parser.InitCallContext) {
-//	panic("implement me")
-//}
-//
+func (l *InterListener) EnterInitParam(c *parser.InitParamContext) {
+	line := c.GetStart().GetLine()
+	left := makeIVar(c.InternalVar(0))
+	right := makeIVar(c.InternalVar(1))
+	Put(ToBody(ParamSt{Line: line, Left: left, Right: right}))
+}
+func (l *InterListener) EnterInitCall(c *parser.InitCallContext) {
+	line := c.GetStart().GetLine()
+	number, _ := strconv.Atoi(c.NUMBER().GetText())
+	iVar := makeIVar(c.InternalVar())
+	isSys := false
+	name := ""
+	if c.SYS_FUNC() != nil {
+		isSys = true
+		name = c.SYS_FUNC().GetText()
+	} else {
+		name = c.ITEM().GetText()
+	}
+
+	Put(ToBody(CallSt{Var: iVar, Line: line, Count: number, Func: name, IsSys: isSys}))
+
+}
+
 //func (l *InterListener) EnterInitBoolOp(c *parser.InitBoolOpContext) {
 //	panic("implement me")
 //}
-//
 func (l *InterListener) EnterInitNumOp(c *parser.InitNumOpContext) {
 	line := c.GetStart().GetLine()
-	left := makeIVar(c.InternalVar(0).(*parser.InternalVarContext))
-	right := makeIVar(c.InternalVar(1).(*parser.InternalVarContext))
+	left := makeIVar(c.InternalVar(0))
+	right := makeIVar(c.InternalVar(1))
 	text := c.NUM_SIGN().GetText()
 
 	Put(ToBody(InitNumBoolOpSt{Line: line, Left: left, Right: right, Sign: text, IsBool: false}))
@@ -222,8 +258,8 @@ func (l *InterListener) EnterInitNumOp(c *parser.InitNumOpContext) {
 func (l *InterListener) EnterInitArrEl(c *parser.InitArrElContext) {
 	line := c.GetStart().GetLine()
 	name := c.ITEM().GetText()
-	left := makeIVar(c.InternalVar(0).(*parser.InternalVarContext))
-	right := makeIVar(c.InternalVar(0).(*parser.InternalVarContext))
+	left := makeIVar(c.InternalVar(0))
+	right := makeIVar(c.InternalVar(0))
 	st := InitArrElemSt{Line: line, Name: name, Left: left, Right: right}
 	Put(ToBody(st))
 }
@@ -236,11 +272,11 @@ func (l *InterListener) EnterExtArrEl(c *parser.ExtArrElContext) {
 	if n != nil {
 		num, _ := strconv.Atoi(n.GetText())
 		st.Num = num
-		iVar := makeIVar(c.InternalVar(0).(*parser.InternalVarContext))
+		iVar := makeIVar(c.InternalVar(0))
 		st.Right = iVar
 	} else {
-		l := makeIVar(c.InternalVar(0).(*parser.InternalVarContext))
-		r := makeIVar(c.InternalVar(1).(*parser.InternalVarContext))
+		l := makeIVar(c.InternalVar(0))
+		r := makeIVar(c.InternalVar(1))
 		st.IsNum = false
 		st.Right = r
 		st.Left = l
@@ -251,14 +287,12 @@ func (l *InterListener) EnterExtArrEl(c *parser.ExtArrElContext) {
 
 func (l *InterListener) EnterReturnTp(c *parser.ReturnTpContext) {
 	line := c.GetStart().GetLine()
-	inVar := c.InternalVar().(*parser.InternalVarContext)
-	iv := makeIVar(inVar)
-
-	Put(ToBody(ReturnSt{Line: line, Var: iv}))
+	Put(ToBody(ReturnSt{Line: line, Var: makeIVar(c.InternalVar())}))
 
 }
 
-func makeIVar(inVar *parser.InternalVarContext) InternalVar {
+func makeIVar(ivCtx parser.IInternalVarContext) InternalVar {
+	inVar := ivCtx.(*parser.InternalVarContext)
 	number, _ := strconv.Atoi(inVar.NUMBER().GetText())
 	innerVar := strings.TrimPrefix(inVar.INNER_VAR().GetText(), "_")
 	iv := InternalVar{T: innerVar, N: number}
@@ -279,7 +313,7 @@ func (l *InterListener) EnterGotoIn(c *parser.GotoInContext) {
 //
 func (l *InterListener) EnterIfFalse(c *parser.IfFalseContext) {
 	line := c.GetStart().GetLine()
-	iVar := makeIVar(c.InternalVar().(*parser.InternalVarContext))
+	iVar := makeIVar(c.InternalVar())
 	gt, _ := strconv.Atoi(c.GotoIn().(*parser.GotoInContext).NUMBER().GetText())
 
 	Put(ToBody(IfFalseSt{Line: line, Var: iVar, Goto: gt}))
@@ -309,99 +343,14 @@ func (l *InterListener) ExitFunction(c *parser.FunctionContext) {
 	}
 }
 
-//func (l *InterListener) ExitArg(c *parser.ArgContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitRetTp(c *parser.RetTpContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitStatement(c *parser.StatementContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitInternalArrArg(c *parser.InternalArrArgContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitInternalVar(c *parser.InternalVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitNewVar(c *parser.NewVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitNewArrVar(c *parser.NewArrVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitUpdVar(c *parser.UpdVarContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitInitItem(c *parser.InitItemContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitInitPrim(c *parser.InitPrimContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitInitParam(c *parser.InitParamContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitInitCall(c *parser.InitCallContext) {
-//	panic("implement me")
-//}
-//
 func (l *InterListener) ExitInitBoolOp(c *parser.InitBoolOpContext) {
 	line := c.GetStart().GetLine()
-	left := makeIVar(c.InternalVar(0).(*parser.InternalVarContext))
-	right := makeIVar(c.InternalVar(1).(*parser.InternalVarContext))
+	left := makeIVar(c.InternalVar(0))
+	right := makeIVar(c.InternalVar(1))
 	text := c.BOOL_SIGN().GetText()
 
 	Put(ToBody(InitNumBoolOpSt{Line: line, Left: left, Right: right, Sign: text, IsBool: true}))
 }
-
-//
-//func (l *InterListener) ExitInitNumOp(c *parser.InitNumOpContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitInitArrEl(c *parser.InitArrElContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitExtArrEl(c *parser.ExtArrElContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitReturn(c *parser.ReturnContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitGotoIn(c *parser.GotoInContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitGoto(c *parser.GotoContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitIfFalse(c *parser.IfFalseContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitType(c *parser.TypeContext) {
-//	panic("implement me")
-//}
-//
-//func (l *InterListener) ExitLine(c *parser.LineContext) {
-//	panic("implement me")
-//}
 
 type Ctx interface{}
 
@@ -469,6 +418,7 @@ type ReturnSt struct {
 type BodyStatement interface{}
 
 type InitInternalVarSt struct {
+	Line  int
 	Left  InternalVar
 	Right InternalVar
 }
@@ -481,6 +431,25 @@ type IfFalseSt struct {
 type GotoSt struct {
 	Line int
 	Goto int
+}
+type ParamSt struct {
+	Line  int
+	Left  InternalVar
+	Right InternalVar
+}
+
+type CallSt struct {
+	Line  int
+	Count int
+	Var   InternalVar
+	Func  string
+	IsSys bool
+}
+
+type InitItemSt struct {
+	Line int
+	Var  InternalVar
+	Item string
 }
 
 type InitPrimSt struct {
@@ -515,6 +484,26 @@ type InitArrElemSt struct {
 type InternalVar struct {
 	N int
 	T string
+}
+
+type UpdVarSt struct {
+	Line int
+	Name string
+	Var  InternalVar
+}
+
+type NewVarSt struct {
+	Line    int
+	Name    string
+	T       Type
+	ArrArgs []IntArrArgSt
+}
+
+type IntArrArgSt struct {
+	Line  int
+	Var   InternalVar
+	Type  PrimitiveType
+	Value interface{}
 }
 
 var ctx = make([]Ctx, 0)

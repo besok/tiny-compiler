@@ -13,11 +13,14 @@ func Test_CommonTest(t *testing.T) {
 	file := parsing.IR(path)
 
 	functions := ParseIR(file.Name())
-
+	i := 0
 	for _, f := range functions.List {
 		log.Printf("- %s %+v %+v\n", f.Name, f.ReturnType, f.Args)
 		for _, el := range f.Body {
 			log.Printf("-- %#v\n", el)
+			i++
 		}
 	}
+
+	log.Println("total count : ",i)
 }
