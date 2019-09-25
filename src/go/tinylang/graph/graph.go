@@ -38,8 +38,8 @@ func Relation(left *Vertex, right *Vertex) error {
 }
 
 func (g *Graph) Relation(left *Vertex, right *Vertex) bool {
-	left, bL := g.FindById(left.Id)
-	right, bR := g.FindById(right.Id)
+	left, bL := g.FindById(left.Id, DFS)
+	right, bR := g.FindById(right.Id, BFS)
 
 	if !(bL && bR) {
 		return false
@@ -53,10 +53,10 @@ func (g *Graph) Relation(left *Vertex, right *Vertex) bool {
 	return true
 }
 
-func (g *Graph) FindById(id int) (*Vertex, bool) {
+func (g *Graph) FindById(id int, t TypeOfSearch) (*Vertex, bool) {
 	var returnVertex *Vertex
 
-	bfsSearch := func(v *Vertex) bool {
+	compare := func(v *Vertex) bool {
 		if v.Id == id {
 			returnVertex = v
 			return false
@@ -64,16 +64,38 @@ func (g *Graph) FindById(id int) (*Vertex, bool) {
 		return true
 	}
 
-	g.TraverseBfs(bfsSearch)
+	CommonTask(g, t, compare)
 
-	if returnVertex != nil{
+	if returnVertex != nil {
 		return returnVertex, true
 	}
 
 	return nil, false
 }
 
-func PrintGraph(g *Graph) {
+type TypeOfSearch string
+
+var (
+	BFS TypeOfSearch = "bfs"
+	DFS TypeOfSearch = "dfs"
+)
+
+func (g *Graph) pickBy(t TypeOfSearch) func(func(v *Vertex) bool) {
+	switch t {
+	case BFS:
+		return g.TraverseBfs
+	case DFS:
+		return g.TraverseDfs
+	default:
+		panic(" BFS or DFS for TypeOfSearch")
+	}
+}
+
+func CommonTask(g *Graph, t TypeOfSearch, f func(v *Vertex) bool) {
+	g.pickBy(t)(f)
+}
+
+func PrintGraph(g *Graph, t TypeOfSearch) {
 
 	printVertex := func(v *Vertex) bool {
 		ids := make([]string, len(v.Neighbours))
@@ -86,8 +108,11 @@ func PrintGraph(g *Graph) {
 		log.Printf(" vertex: id:%d, value:%#v, neighbours:[%s]", v.Id, v.Value.Get(), idsStr)
 		return true
 	}
+	CommonTask(g, t, printVertex)
+}
 
-	g.TraverseBfs(printVertex)
+func(g *Graph) ShortestPath(vStart *Vertex, vFinish *Vertex) int {
+
 }
 
 // Traverse vertexes for this graph.
@@ -96,6 +121,35 @@ func PrintGraph(g *Graph) {
 func (g *Graph) TraverseBfs(action func(v *Vertex) bool) {
 	history := make(map[int]bool, 0)
 	q := NewQueue()
+
+	root := g.root
+	history[root.Id] = true
+	q.push(root)
+
+	for ; q.len() > 0; {
+		v := q.pop()
+
+		if !action(v) {
+			return
+		}
+
+		for _, n := range v.Neighbours {
+			id := n.Id
+			_, ok := history[id]
+			if !ok {
+				history[id] = true
+				q.push(n)
+			}
+		}
+	}
+}
+
+// Traverse vertexes for this graph.
+// Action is a function taking every vertex and returning a flag indicating about further step.
+// If action return is false the traversal process is broken.
+func (g *Graph) TraverseDfs(action func(v *Vertex) bool) {
+	history := make(map[int]bool, 0)
+	q := NewStack()
 
 	q.push(g.root)
 
@@ -116,6 +170,12 @@ func (g *Graph) TraverseBfs(action func(v *Vertex) bool) {
 	}
 }
 
+type History interface {
+	push(vm *Vertex)
+	len() int
+	pop() *Vertex
+}
+
 func (q *Queue) push(vm *Vertex) {
 	*q = append(*q, *vm)
 }
@@ -123,16 +183,32 @@ func (q *Queue) len() int {
 	return len(*q)
 }
 func (q *Queue) pop() *Vertex {
+	first := (*q)[0]
+	*q = (*q)[1:]
+
+	return &first
+}
+
+func (q *Stack) push(vm *Vertex) {
+	*q = append(*q, *vm)
+}
+func (q *Stack) len() int {
+	return len(*q)
+}
+func (q *Stack) pop() *Vertex {
 	ln := len(*q)
 	last := (*q)[ln-1]
-
 	*q = (*q)[:ln-1]
-
 	return &last
 }
 
 type Queue []Vertex
+type Stack []Vertex
 
+func NewStack() *Stack {
+	stack := make(Stack, 0)
+	return &stack
+}
 func NewQueue() *Queue {
 	queues := make(Queue, 0)
 	return &queues
