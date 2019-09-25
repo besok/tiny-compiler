@@ -97,10 +97,10 @@ func (g *Graph) TraverseBfs(action func(v *Vertex) bool) {
 	history := make(map[int]bool, 0)
 	q := NewQueue()
 
-	q.Push(g.root)
+	q.push(g.root)
 
-	for ; q.Len() > 0; {
-		v := q.Pop()
+	for ; q.len() > 0; {
+		v := q.pop()
 		_, ok := history[v.Id]
 		if ok {
 			continue
@@ -111,18 +111,18 @@ func (g *Graph) TraverseBfs(action func(v *Vertex) bool) {
 			return
 		}
 		for _, n := range v.Neighbours {
-			q.Push(n)
+			q.push(n)
 		}
 	}
 }
 
-func (q *Queue) Push(vm *Vertex) {
+func (q *Queue) push(vm *Vertex) {
 	*q = append(*q, *vm)
 }
-func (q *Queue) Len() int {
+func (q *Queue) len() int {
 	return len(*q)
 }
-func (q *Queue) Pop() *Vertex {
+func (q *Queue) pop() *Vertex {
 	ln := len(*q)
 	last := (*q)[ln-1]
 

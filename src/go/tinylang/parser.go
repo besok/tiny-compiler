@@ -575,7 +575,7 @@ func (l *CommonTinyListener) ExitIfSt(c *parser.IfStContext) {
 	Release(*ctx)
 }
 func (l *CommonTinyListener) ExitElseIfSt(c *parser.ElseIfStContext) {
-	//ctx, _ := Pop()
+	//ctx, _ := pop()
 	//Release(*ctx)
 }
 func (l *CommonTinyListener) ExitElseSt(c *parser.ElseStContext) {

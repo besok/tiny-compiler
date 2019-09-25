@@ -28,16 +28,16 @@ func Test_MarkQueue(t *testing.T){
 	v3 := NewVertex(3, StringValue("Test3"))
 
 	queue := NewQueue()
-	queue.Push(v1)
-	queue.Push(v2)
-	queue.Push(v3)
+	queue.push(v1)
+	queue.push(v2)
+	queue.push(v3)
 
-	if queue.Len() < 3{
+	if queue.len() < 3{
 		t.Fatalf("error - needs at least 3")
 	}
 
-	_ = queue.Pop()
-	if queue.Len() > 2{
+	_ = queue.pop()
+	if queue.len() > 2{
 		t.Fatalf("error - needs at least 3")
 	}
 
@@ -90,6 +90,8 @@ func Test_GraphRelation(t *testing.T){
 	if !relationTrue {
 		t.Fatalf("bad dec")
 	}
+
+
 }
 
 type StringValue string
