@@ -28,9 +28,9 @@ func Test_MarkQueue(t *testing.T){
 	v3 := NewVertex(3, StringValue("Test3"))
 
 	queue := NewQueue()
-	queue.PushV(v1,false)
-	queue.PushV(v2,false)
-	queue.PushV(v3,false)
+	queue.Push(v1)
+	queue.Push(v2)
+	queue.Push(v3)
 
 	if queue.Len() < 3{
 		t.Fatalf("error - needs at least 3")
@@ -42,7 +42,8 @@ func Test_MarkQueue(t *testing.T){
 	}
 
 }
-func Test_GraphRelation(t *testing.T){
+
+func Test_PrintGraph(t *testing.T){
 	v1 := NewVertex(1, StringValue("Test1"))
 	v2 := NewVertex(2, StringValue("Test2"))
 	v3 := NewVertex(3, StringValue("Test3"))
@@ -59,7 +60,28 @@ func Test_GraphRelation(t *testing.T){
 	}
 
 	graph := NewGraph(v1)
-	relationFalse := graph.Relation(v1, v2)
+
+	PrintGraph(graph)
+
+}
+func Test_GraphRelation(t *testing.T){
+	v1 := NewVertex(1, StringValue("Test1"))
+	v2 := NewVertex(2, StringValue("Test2"))
+	v3 := NewVertex(3, StringValue("Test3"))
+	v4 := NewVertex(4, StringValue("Test4"))
+	v5 := NewVertex(5, StringValue("Test5"))
+
+	err := Relation(v1, v2)
+	err = Relation(v2, v3)
+
+
+
+	if err != nil {
+		t.Fatalf("bad dec")
+	}
+
+	graph := NewGraph(v1)
+	relationFalse := graph.Relation(v4, v5)
 	relationTrue := graph.Relation(v1, v3)
 
 	if relationFalse {

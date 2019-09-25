@@ -1,6 +1,10 @@
 package graph
 
-import "log"
+import (
+	"fmt"
+	"log"
+	"strings"
+)
 
 type Graph struct {
 	root *Vertex
@@ -50,31 +54,75 @@ func (g *Graph) Relation(left *Vertex, right *Vertex) bool {
 }
 
 func (g *Graph) FindById(id int) (*Vertex, bool) {
-	vertex := g.root
+	var returnVertex *Vertex
 
-	if vertex.Id == id{
-		return vertex,true
+	bfsSearch := func(v *Vertex) bool {
+		if v.Id == id {
+			returnVertex = v
+			return false
+		}
+		return true
 	}
-	queue := NewQueue()
 
-	for
+	g.TraverseBfs(bfsSearch)
 
+	if returnVertex != nil{
+		return returnVertex, true
+	}
 
 	return nil, false
 }
 
-func (q *Queue) PushV(vm *Vertex, mark bool) {
-	vmark := VertexMark{Marked: mark, Vertex: *vm}
-	q.Push(&vmark)
+func PrintGraph(g *Graph) {
+
+	printVertex := func(v *Vertex) bool {
+		ids := make([]string, len(v.Neighbours))
+
+		for i, el := range v.Neighbours {
+			ids[i] = fmt.Sprintf("%d", el.Id)
+		}
+
+		idsStr := strings.Join(ids, ",")
+		log.Printf(" vertex: id:%d, value:%#v, neighbours:[%s]", v.Id, v.Value.Get(), idsStr)
+		return true
+	}
+
+	g.TraverseBfs(printVertex)
 }
 
-func (q *Queue) Push(vm *VertexMark) {
+// Traverse vertexes for this graph.
+// Action is a function taking every vertex and returning a flag indicating about further step.
+// If action return is false the traversal process is broken.
+func (g *Graph) TraverseBfs(action func(v *Vertex) bool) {
+	history := make(map[int]bool, 0)
+	q := NewQueue()
+
+	q.Push(g.root)
+
+	for ; q.Len() > 0; {
+		v := q.Pop()
+		_, ok := history[v.Id]
+		if ok {
+			continue
+		}
+		history[v.Id] = true
+
+		if !action(v) {
+			return
+		}
+		for _, n := range v.Neighbours {
+			q.Push(n)
+		}
+	}
+}
+
+func (q *Queue) Push(vm *Vertex) {
 	*q = append(*q, *vm)
 }
 func (q *Queue) Len() int {
 	return len(*q)
 }
-func (q *Queue) Pop() *VertexMark {
+func (q *Queue) Pop() *Vertex {
 	ln := len(*q)
 	last := (*q)[ln-1]
 
@@ -83,18 +131,11 @@ func (q *Queue) Pop() *VertexMark {
 	return &last
 }
 
-
-type Queue []VertexMark
-
+type Queue []Vertex
 
 func NewQueue() *Queue {
 	queues := make(Queue, 0)
 	return &queues
-}
-
-type VertexMark struct {
-	Vertex Vertex
-	Marked bool
 }
 
 func (v *Vertex) checkId(id int) bool {
