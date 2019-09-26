@@ -111,7 +111,7 @@ func PrintGraph(g *Graph, t TypeOfSearch) {
 	CommonTask(g, t, printVertex)
 }
 
-func(g *Graph) ShortestPath(vStart *Vertex, vFinish *Vertex) int {
+func(g *Graph) ShortestPath(vStart *Vertex, vFinish *Vertex) []int {
 
 }
 
