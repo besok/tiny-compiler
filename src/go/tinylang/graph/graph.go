@@ -64,7 +64,7 @@ func (g *Graph) FindById(id int, t TypeOfSearch) (*Vertex, bool) {
 		return true
 	}
 
-	CommonTask(g, t, compare)
+	Task(g, t, compare)
 
 	if returnVertex != nil {
 		return returnVertex, true
@@ -91,9 +91,13 @@ func (g *Graph) pickBy(t TypeOfSearch) func(func(v *Vertex) bool) {
 	}
 }
 
-func CommonTask(g *Graph, t TypeOfSearch, f func(v *Vertex) bool) {
+func DefaultTask(g *Graph, f func(v *Vertex) bool) {
+	Task(g,BFS,f)
+}
+func Task(g *Graph, t TypeOfSearch, f func(v *Vertex) bool) {
 	g.pickBy(t)(f)
 }
+
 
 func PrintGraph(g *Graph, t TypeOfSearch) {
 
@@ -108,11 +112,18 @@ func PrintGraph(g *Graph, t TypeOfSearch) {
 		log.Printf(" vertex: id:%d, value:%#v, neighbours:[%s]", v.Id, v.Value.Get(), idsStr)
 		return true
 	}
-	CommonTask(g, t, printVertex)
+	Task(g, t, printVertex)
 }
 
-func(g *Graph) ShortestPath(vStart *Vertex, vFinish *Vertex) []int {
 
+// graph len. Takes (O) to get a value so avoid invoking this function twice
+func(g *Graph) Len() int {
+	ln := 0
+	DefaultTask(g,func(v *Vertex) bool {ln++ ; return true })
+	return ln
+}
+func(g *Graph) ShortestPath(vStart int, vFinish int) ([]int, bool) {
+	return nil, false
 }
 
 // Traverse vertexes for this graph.

@@ -115,6 +115,8 @@ func Test_BfsDfs(t *testing.T) {
 
 }
 
+
+
 func Test_GraphRelation(t *testing.T) {
 	v1 := NewVertex(1, StringValue("Test1"))
 	v2 := NewVertex(2, StringValue("Test2"))
@@ -139,6 +141,13 @@ func Test_GraphRelation(t *testing.T) {
 	if !relationTrue {
 		t.Fatalf("bad dec")
 	}
+
+	ln := graph.Len()
+	if ln != 3 {
+		t.Fatalf("bad len:%d", ln)
+	}
+	PrintGraph(graph,BFS)
+
 
 }
 
