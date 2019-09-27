@@ -115,8 +115,129 @@ func Test_BfsDfs(t *testing.T) {
 
 }
 
+func Test_PriorityQueue(t *testing.T) {
+	v1 := NewVertex(1, StringValue("Test1"))
+	v2 := NewVertex(2, StringValue("Test2"))
+	v3 := NewVertex(3, StringValue("Test3"))
+	v4 := NewVertex(4, StringValue("Test4"))
+	v5 := NewVertex(5, StringValue("Test5"))
 
+	minPrQ := NewPriorityQueue(Lowest)
+	minPrQ.pushWithPriority(v4, 4)
+	minPrQ.pushWithPriority(v3, 3)
+	minPrQ.pushWithPriority(v5, 5)
+	minPrQ.pushWithPriority(v1, 1)
+	minPrQ.pushWithPriority(v2, 2)
 
+	for i := 1; i < 6; i++ {
+		v := minPrQ.pop()
+		if v.Id != i {
+			t.Fatalf(" error : it should be %d but it is %d", i, v.Id)
+		}
+
+	}
+
+	maxPrQ := NewPriorityQueue(Highest)
+
+	maxPrQ.pushWithPriority(v4, 4)
+	maxPrQ.pushWithPriority(v3, 3)
+	maxPrQ.pushWithPriority(v5, 5)
+	maxPrQ.pushWithPriority(v1, 1)
+	maxPrQ.pushWithPriority(v2, 2)
+
+	for i := 5; i > 0; i-- {
+		v := maxPrQ.pop()
+		if v.Id != i {
+			t.Fatalf(" error : it should be %d but it is %d", i, v.Id)
+		}
+	}
+	maxPrQ.push(v4)
+	maxPrQ.push(v3)
+	maxPrQ.push(v2)
+	maxPrQ.push(v1)
+
+	v := maxPrQ.pop()
+
+	if v.Id != v4.Id {
+		t.Fatalf("error:%d", v.Id)
+	}
+
+	q := NewPriorityQueue(Highest)
+
+	q.push(v1)
+	q.push(v1)
+
+	ln := q.len()
+
+	if ln > 1 {
+		t.Fatalf("it needs to have idenpotent")
+	}
+
+}
+func Test_GraphShortestPath(t *testing.T) {
+
+	v1 := NewVertex(1, StringValue("Test1"))
+	v2 := NewVertex(2, StringValue("Test2"))
+	v3 := NewVertex(3, StringValue("Test3"))
+	v4 := NewVertex(4, StringValue("Test4"))
+	v5 := NewVertex(5, StringValue("Test5"))
+
+	graph := NewGraph(v1)
+	graph.Relation(v1, v2)
+	graph.Relation(v2, v3)
+	graph.Relation(v3, v4)
+	graph.Relation(v4, v5)
+
+	path := graph.ShortestPath(1, 5)
+	log.Println(path)
+	for i := 0; i < 3; i++ {
+		if path[i] != i + 2{
+			t.Fatalf("error ")
+		}
+	}
+}
+func Test_GraphShortestPath2(t *testing.T) {
+
+	v1 := NewVertex(1, StringValue("Test1"))
+	v2 := NewVertex(2, StringValue("Test2"))
+	v3 := NewVertex(3, StringValue("Test3"))
+	v4 := NewVertex(4, StringValue("Test4"))
+	v5 := NewVertex(5, StringValue("Test5"))
+
+	graph := NewGraph(v1)
+	graph.Relation(v1, v2)
+	graph.Relation(v1, v3)
+	graph.Relation(v1, v4)
+	graph.Relation(v1, v5)
+
+	path := graph.ShortestPath(1, 5)
+	log.Println(path)
+
+	if path[0] != 1 || path[1] !=5 {
+		t.Fatalf("error")
+	}
+}
+func Test_GraphShortestPath3(t *testing.T) {
+
+	v1 := NewVertex(1, StringValue("Test1"))
+	v2 := NewVertex(2, StringValue("Test2"))
+	v3 := NewVertex(3, StringValue("Test3"))
+	v4 := NewVertex(4, StringValue("Test4"))
+	v5 := NewVertex(5, StringValue("Test5"))
+
+	graph := NewGraph(v1)
+	graph.Relation(v1, v2)
+	graph.Relation(v1, v3)
+	graph.Relation(v2, v4)
+	graph.Relation(v3, v4)
+	graph.Relation(v4, v5)
+
+	path := graph.ShortestPath(1, 5)
+	if len(path) != 4 {
+		t.Fatalf("error")
+	}
+
+}
 func Test_GraphRelation(t *testing.T) {
 	v1 := NewVertex(1, StringValue("Test1"))
 	v2 := NewVertex(2, StringValue("Test2"))
@@ -146,8 +267,7 @@ func Test_GraphRelation(t *testing.T) {
 	if ln != 3 {
 		t.Fatalf("bad len:%d", ln)
 	}
-	PrintGraph(graph,BFS)
-
+	PrintGraph(graph, BFS)
 
 }
 
