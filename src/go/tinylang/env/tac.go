@@ -399,7 +399,6 @@ const (
 	B PrimitiveType = "B"
 	N PrimitiveType = "N"
 )
-
 type Type struct {
 	T       PrimitiveType
 	IsArray bool
