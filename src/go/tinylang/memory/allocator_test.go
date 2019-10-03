@@ -7,20 +7,20 @@ import (
 
 func Test_commonMemory(t *testing.T) {
 
-	initMemoryKb(1)
-	pB := putBool(true)
+	InitMemoryKb(1)
+	pB := PutBool(true)
 	var intBasic int64 = 1024 * 1024 * 1024 * 1024
-	pI := putInt(intBasic)
+	pI := PutInt(intBasic)
 	strBasic := "Boris, Hello World!"
-	pS := putString(strBasic)
+	pS := PutString(strBasic)
 
-	if getString(pS) != strBasic {
+	if GetString(pS) != strBasic {
 		t.Fatalf("error for string : %s", strBasic)
 	}
-	if getInt(pI) != intBasic {
+	if GetInt(pI) != intBasic {
 		t.Fatalf("error for int : %d", intBasic)
 	}
-	if !getBool(pB) {
+	if !GetBool(pB) {
 		t.Fatalf("error for bool", )
 	}
 
@@ -28,13 +28,13 @@ func Test_commonMemory(t *testing.T) {
 	aI := []int64{1, 2, 3, 4, 5, 6}
 	aS := []string{"a", "boris", "!!!"}
 
-	pAB := putArrayBool(aB)
-	pAI := putArrayInt(aI)
-	pAS := putArrayString(aS)
+	pAB := PutArrayBool(aB)
+	pAI := PutArrayInt(aI)
+	pAS := PutArrayString(aS)
 
-	zB := getArrayBool(pAB)
-	zI := getArrayInt(pAI)
-	zS := getArrayString(pAS)
+	zB := GetArrayBool(pAB)
+	zI := GetArrayInt(pAI)
+	zS := GetArrayString(pAS)
 
 	if !arrCmpB(aB, zB) || !arrCmpI(aI, zI) || !arrCmpS(aS, zS) {
 		t.Fatalf("error for array", )
@@ -70,9 +70,9 @@ func Test_addAndRemPointers(t *testing.T) {
 
 func Test_FreeArea(t *testing.T) {
 	initMemory(100)
-	p1 := putString("Boris")
-	_ = putString("Boris is going ")
-	_ = putString("Boris is going home")
+	p1 := PutString("Boris")
+	_ = PutString("Boris is going ")
+	_ = PutString("Boris is going home")
 
 	remPointer(p1)
 
@@ -82,7 +82,7 @@ func Test_FreeArea(t *testing.T) {
 		t.Fatalf("error!")
 	}
 
-	p2 := putString("Boris is going home!")
+	p2 := PutString("Boris is going home!")
 
 	if offset != 59 {
 		t.Fatalf("error, offset:%d", offset)
@@ -100,11 +100,11 @@ func Test_Defragmentation(t *testing.T) {
 	initMemory(100)
 	s := "Boris is going home"
 
-	p1 := putString("Boris")
-	p2 := putString("Boris is going ")
-	p3 := putString(s)
-	p4 := putString(s)
-	p5 := putString(s)
+	p1 := PutString("Boris")
+	p2 := PutString("Boris is going ")
+	p3 := PutString(s)
+	p4 := PutString(s)
+	p5 := PutString(s)
 
 	if offset != 77 {
 		t.Fatalf("wrong offswet:%d", offset)
@@ -118,9 +118,9 @@ func Test_Defragmentation(t *testing.T) {
 
 	defragmentation()
 
-	sRes3 := getString(p3)
-	sRes4 := getString(p4)
-	sRes5 := getString(p5)
+	sRes3 := GetString(p3)
+	sRes4 := GetString(p4)
+	sRes5 := GetString(p5)
 
 	if sRes3 != s || s != sRes4 || s != sRes5 {
 		log.Fatalf("wrong shift for offset")

@@ -16,7 +16,7 @@ const (
 	boolSize = 1
 )
 
-func initMemoryKb(sizeKb int) {
+func InitMemoryKb(sizeKb int) {
 	initMemory(sizeKb * 1024)
 }
 
@@ -32,7 +32,7 @@ func getBytes(p *Pointer) []byte {
 	return memory[st:fn]
 }
 
-func getBool(p *Pointer) bool {
+func GetBool(p *Pointer) bool {
 	bytes := getBytes(p)
 	el := bytes[0]
 	if el == 1 {
@@ -41,15 +41,15 @@ func getBool(p *Pointer) bool {
 	return false
 }
 
-func getInt(p *Pointer) int64 {
+func GetInt(p *Pointer) int64 {
 	return int64(binary.BigEndian.Uint64(getBytes(p)))
 }
 
-func getString(p *Pointer) string {
+func GetString(p *Pointer) string {
 	return string(getBytes(p))
 }
 
-func getArrayString(strArray []*Pointer) []string {
+func GetArrayString(strArray []*Pointer) []string {
 	checkTypeOfASrray(strArray, String)
 	arr := make([]string, len(strArray))
 	for i, p := range strArray {
@@ -58,7 +58,7 @@ func getArrayString(strArray []*Pointer) []string {
 	return arr
 }
 
-func getArrayBool(boolArray []*Pointer) []bool {
+func GetArrayBool(boolArray []*Pointer) []bool {
 	checkTypeOfASrray(boolArray, Bool)
 	arr := make([]bool, len(boolArray))
 	for i, p := range boolArray {
@@ -67,7 +67,7 @@ func getArrayBool(boolArray []*Pointer) []bool {
 	return arr
 }
 
-func getArrayInt(intArray []*Pointer) []int64 {
+func GetArrayInt(intArray []*Pointer) []int64 {
 	checkTypeOfASrray(intArray, Int)
 
 	arr := make([]int64, len(intArray))
@@ -88,58 +88,58 @@ func checkTypeOfASrray(arr []*Pointer, t PType) {
 func getGeneric(p *Pointer) interface{} {
 	switch p.tp {
 	case Int:
-		return getInt(p)
+		return GetInt(p)
 	case String:
-		return getString(p)
+		return GetString(p)
 	case Bool:
-		return getBool(p)
+		return GetBool(p)
 	}
 	return nil
 }
 
-func putArrayBool(arr []bool) []*Pointer {
+func PutArrayBool(arr []bool) []*Pointer {
 	ln := len(arr)
 	pointers := make([]*Pointer, ln)
 	for i, el := range arr {
-		pointers[i] = putGeneric(el)
+		pointers[i] = PutGeneric(el)
 	}
 
 	return pointers
 }
-func putArrayInt(arr []int64) []*Pointer {
+func PutArrayInt(arr []int64) []*Pointer {
 	ln := len(arr)
 	pointers := make([]*Pointer, ln)
 	for i, el := range arr {
-		pointers[i] = putGeneric(el)
+		pointers[i] = PutGeneric(el)
 	}
 
 	return pointers
 }
-func putArrayString(arr []string) []*Pointer {
+func PutArrayString(arr []string) []*Pointer {
 	ln := len(arr)
 	pointers := make([]*Pointer, ln)
 	for i, el := range arr {
-		pointers[i] = putGeneric(el)
+		pointers[i] = PutGeneric(el)
 	}
 
 	return pointers
 }
 
-func putGeneric(el interface{}) *Pointer {
+func PutGeneric(el interface{}) *Pointer {
 	switch el.(type) {
 	case string:
-		return putString(el.(string))
+		return PutString(el.(string))
 	case int64:
-		return putInt(el.(int64))
+		return PutInt(el.(int64))
 	case bool:
-		return putBool(el.(bool))
+		return PutBool(el.(bool))
 	default:
 		return &Pointer{len: 0, offset: -1}
 	}
 
 }
 
-func putInt(v int64) *Pointer {
+func PutInt(v int64) *Pointer {
 	b := make([]byte, intSize)
 
 	b[0] = byte(v >> 56)
@@ -153,11 +153,11 @@ func putInt(v int64) *Pointer {
 	return putBytes(b, Int)
 }
 
-func putString(s string) *Pointer {
+func PutString(s string) *Pointer {
 	return putBytes([]byte(s), String)
 }
 
-func putBool(el bool) *Pointer {
+func PutBool(el bool) *Pointer {
 	b := make([]byte, boolSize)
 	if el {
 		b[0] = byte(1)
