@@ -50,7 +50,7 @@ func Test_addAndRemPointers(t *testing.T) {
 		t.Fatalf("error for poitners")
 	}
 
-	ok := remPointer(&Pointer{len: 1, offset: 1, tp: Bool})
+	ok := RemovePointer(&Pointer{len: 1, offset: 1, tp: Bool})
 
 	if !ok {
 		t.Fatalf("error")
@@ -60,7 +60,7 @@ func Test_addAndRemPointers(t *testing.T) {
 		t.Fatalf("error for pointers")
 	}
 
-	ok = remPointer(&Pointer{len: 1, offset: 10, tp: Bool})
+	ok = RemovePointer(&Pointer{len: 1, offset: 10, tp: Bool})
 
 	if ok {
 		t.Fatalf("error")
@@ -74,7 +74,7 @@ func Test_FreeArea(t *testing.T) {
 	_ = PutString("Boris is going ")
 	_ = PutString("Boris is going home")
 
-	remPointer(p1)
+	RemovePointer(p1)
 
 	p := nextFreeArea()
 
@@ -88,7 +88,7 @@ func Test_FreeArea(t *testing.T) {
 		t.Fatalf("error, offset:%d", offset)
 	}
 
-	remPointer(p2)
+	RemovePointer(p2)
 
 	if offset != 39 {
 		t.Fatalf("error, offset:%d", offset)
@@ -110,13 +110,13 @@ func Test_Defragmentation(t *testing.T) {
 		t.Fatalf("wrong offswet:%d", offset)
 	}
 
-	remPointer(p2)
+	RemovePointer(p2)
 
 	if offset != 77 {
 		t.Fatalf("error, offset:%d", offset)
 	}
 
-	defragmentation()
+	Defragmentation()
 
 	sRes3 := GetString(p3)
 	sRes4 := GetString(p4)
@@ -131,7 +131,7 @@ func Test_Defragmentation(t *testing.T) {
 		log.Fatalf("wrong offset %d", offset)
 	}
 
-	remPointer(p5)
+	RemovePointer(p5)
 
 	if offset != 43 {
 		log.Fatalf("wrong offset %d", offset)
@@ -141,8 +141,8 @@ func Test_Defragmentation(t *testing.T) {
 		log.Fatalf("wrong shift for offset")
 	}
 
-	remPointer(p1)
-	defragmentation()
+	RemovePointer(p1)
+	Defragmentation()
 
 	if offset != 38 {
 		log.Fatalf("wrong offset %d", offset)

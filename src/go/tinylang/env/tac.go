@@ -414,7 +414,9 @@ type ReturnSt struct {
 	Var  InternalVar
 }
 
-type BodyStatement interface{}
+type BodyStatement interface{
+	handle(frame *RecordTable) (interface{}, bool)
+}
 
 type InitInternalVarSt struct {
 	Line  int

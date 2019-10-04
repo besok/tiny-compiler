@@ -224,7 +224,7 @@ func addPointer(p *Pointer) bool {
 	pointers = append(pointers, p)
 	return true
 }
-func remPointer(p *Pointer) bool {
+func RemovePointer(p *Pointer) bool {
 	for i, el := range pointers {
 		if el == p {
 			if i == len(pointers)-1 {
@@ -238,8 +238,8 @@ func remPointer(p *Pointer) bool {
 	return false
 }
 
-func defragmentation() {
-	log.Printf("the defragmentation is about to start: pointers:%d, offset:%d, memory:%d bytes", len(pointers),offset, len(memory))
+func Defragmentation() {
+	log.Printf("the Defragmentation is about to start: pointers:%d, offset:%d, memory:%d bytes", len(pointers),offset, len(memory))
 	for p := nextFreeArea(); p != NoPointer; p = nextFreeArea() {
 		shiftPointers(&p)
 	}
