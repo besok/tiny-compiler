@@ -1,4 +1,4 @@
-package main
+package parsing
 
 type Script struct {
 	Functions []FuncDefinition
