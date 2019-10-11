@@ -3,6 +3,7 @@ package env
 import (
 	"fmt"
 	"log"
+	"os"
 	parsing "tiny-compiler/src/go/tinylang"
 	"tiny-compiler/src/go/tinylang/memory"
 )
@@ -10,10 +11,11 @@ import (
 var functions Functions
 
 func Start(file string) {
-	functions = ParseIR(parsing.IR(file).Name())
+	irFile := parsing.IR(file).Name()
+	functions = ParseIR(irFile)
 	memory.InitMemoryKb(1024)
-	ret := CallFunc("main")
-	log.Printf(" ret :%#v ", ret)
+	_ = CallFunc("main")
+	_ = os.Remove(irFile)
 }
 
 func CallFunc(funcName string) interface{} {

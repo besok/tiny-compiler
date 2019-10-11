@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"log"
 	"tiny-compiler/src/go/tinylang/env"
 )
 
@@ -10,5 +11,11 @@ import (
 func main(){
 	p := flag.String(string("p"), "", "path to script")
 	flag.Parse()
+
+	if *p == "" {
+		log.Printf(" please define path to file using -p flag ")
+		return
+	}
+
 	env.Start(*p)
 }
