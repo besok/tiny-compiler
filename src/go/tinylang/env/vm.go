@@ -13,7 +13,7 @@ func Start(file string) {
 	functions = ParseIR(parsing.IR(file).Name())
 	memory.InitMemoryKb(1024)
 	ret := CallFunc("main")
-	log.Printf(" ret :%v ", ret)
+	log.Printf(" ret :%#v ", ret)
 }
 
 func CallFunc(funcName string) interface{} {
@@ -28,6 +28,7 @@ func CallFunc(funcName string) interface{} {
 		if ret, fin = el.handle(frame); fin {
 			break
 		}
+		log.Printf(" st : %#v",ret)
 	}
 
 	CleanTopFrame()
@@ -125,4 +126,45 @@ func (rt *RecordTable) findByRel(rel string) []*Record {
 		}
 	}
 	return records
+}
+
+
+func (st NewVarSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st UpdVarSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st InitItemSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st InitInternalVarSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st InitPrimSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st ParamSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st InitArrElemSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st ExtArrElemSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st ReturnSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st GotoSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
+}
+func (st IfFalseSt) handle(frame *RecordTable) (interface{}, bool) {
+	return st, false
 }
