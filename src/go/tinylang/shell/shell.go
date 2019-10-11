@@ -1,8 +1,14 @@
 package main
 
-import "tiny-compiler/src/go/tinylang/env"
+import (
+	"flag"
+	"tiny-compiler/src/go/tinylang/env"
+)
+
+// -p C:\projects\tiny-compiler\src\ab\calculator.ab
 
 func main(){
-	path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
-	env.Start(path)
+	p := flag.String(string("p"), "", "path to script")
+	flag.Parse()
+	env.Start(*p)
 }
