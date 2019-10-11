@@ -2,7 +2,6 @@ package env
 
 import (
 	"fmt"
-	"log"
 	"os"
 	parsing "tiny-compiler/src/go/tinylang"
 	"tiny-compiler/src/go/tinylang/memory"
@@ -30,7 +29,6 @@ func CallFunc(funcName string) interface{} {
 		if ret, fin = el.handle(frame); fin {
 			break
 		}
-		log.Printf(" st : %#v",ret)
 	}
 
 	CleanTopFrame()
