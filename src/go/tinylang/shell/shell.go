@@ -9,7 +9,8 @@ import (
 // -p C:\projects\tiny-compiler\src\ab\calculator.ab
 
 func main(){
-	p := flag.String(string("p"), "", "path to script")
+	p := flag.String("p", "", "path to script")
+	r := flag.Bool("ir", false, "keep ir files")
 	flag.Parse()
 
 	if *p == "" {
@@ -17,5 +18,6 @@ func main(){
 		return
 	}
 
-	env.Start(*p)
+
+	env.Start(*p,*r)
 }

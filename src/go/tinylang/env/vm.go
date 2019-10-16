@@ -9,30 +9,34 @@ import (
 
 var functions Functions
 
-func Start(file string) {
+func Start(file string, irRem bool) {
 	irFile := parsing.IR(file).Name()
 	functions = ParseIR(irFile)
 	memory.InitMemoryKb(1024)
 	_ = CallFunc("main")
-	_ = os.Remove(irFile)
+	if !irRem {
+		_ = os.Remove(irFile)
+	}
 }
 
 func CallFunc(funcName string) interface{} {
 
 	frame := PushFrame()
+	defer CleanTopFrame()
 
 	f := findFuncByName(funcName)
-	var ret interface{}
-	var fin bool
 
-	for _, el := range f.Body {
-		if ret, fin = el.handle(frame); fin {
-			break
+	for i := 0; i < len(f.Body); i++ {
+		st := f.Body[i]
+		if fn, ret, fin := handle(st, frame); fin {
+			return ret
+		} else {
+			i = fn(i)
 		}
 	}
 
-	CleanTopFrame()
-	return ret
+	return nil
+
 }
 
 func PushFrame() *RecordTable {
@@ -128,6 +132,21 @@ func (rt *RecordTable) findByRel(rel string) []*Record {
 	return records
 }
 
+func handle(st BodyStatement, frame *RecordTable) (func(int) int, interface{}, bool) {
+	res, fin := st.handle(frame)
+	switch st.(type) {
+	case GotoSt:
+		return gotoLine(res.(int)), res, fin
+	case IfFalseSt:
+		cg := res.(CondGoto)
+		if cg.cond {
+			return ident, res, fin
+		}
+		return gotoLine(cg.line), res, fin
+	default:
+		return ident, res, fin
+	}
+}
 
 func (st NewVarSt) handle(frame *RecordTable) (interface{}, bool) {
 	return st, false
@@ -160,11 +179,25 @@ func (st ExtArrElemSt) handle(frame *RecordTable) (interface{}, bool) {
 	return st, false
 }
 func (st ReturnSt) handle(frame *RecordTable) (interface{}, bool) {
-	return st, false
+	return st, true
 }
 func (st GotoSt) handle(frame *RecordTable) (interface{}, bool) {
-	return st, false
+	return st.Goto, false
 }
 func (st IfFalseSt) handle(frame *RecordTable) (interface{}, bool) {
-	return st, false
+	return CondGoto{1,false}, false
+}
+
+func ident(i int) int {
+	return i
+}
+func gotoLine(line int) func(int) int {
+	return func(i int) int {
+		return line
+	}
+}
+
+type CondGoto struct {
+	line int
+	cond bool
 }
