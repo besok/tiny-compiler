@@ -177,6 +177,11 @@ func (st UpdVarSt) handle(frame *RecordTable) (interface{}, bool) {
 	return st, false
 }
 func (st InitItemSt) handle(frame *RecordTable) (interface{}, bool) {
+	iv := st.Var.makeName()
+	item := st.Item
+
+	ok := frame.put(item, true, iv)
+	log.Printf("put %s=%s is %t",iv,item,ok)
 	return st, false
 }
 func (st InitInternalVarSt) handle(frame *RecordTable) (interface{}, bool) {
