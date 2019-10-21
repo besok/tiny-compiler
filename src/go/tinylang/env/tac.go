@@ -1,6 +1,7 @@
 package env
 
 import (
+	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"log"
 	"os"
@@ -184,8 +185,8 @@ func (l *InterListener) EnterInitItem(c *parser.InitItemContext) {
 }
 
 func (l *InterListener) EnterInitIntVar(c *parser.InitIntVarContext) {
-	c.GetStart()
-	Put(ToBody(InitInternalVarSt{Left: makeIVar(c.InternalVar(0)), Right: makeIVar(c.InternalVar(1))}))
+	line := c.GetStart().GetLine()
+	Put(ToBody(InitInternalVarSt{Line:line, Left: makeIVar(c.InternalVar(0)), Right: makeIVar(c.InternalVar(1))}))
 }
 
 func (l *InterListener) EnterInitPrim(c *parser.InitPrimContext) {
@@ -299,8 +300,9 @@ func makeIVar(ivCtx parser.IInternalVarContext) InternalVar {
 	return iv
 }
 
-func (l *InterListener) EnterGotoIn(c *parser.GotoInContext) {
-	gt, _ := strconv.Atoi(c.NUMBER().GetText())
+func (l *InterListener) EnterGotoTp(c *parser.GotoTpContext) {
+	in := c.GotoIn()
+	gt, _ := strconv.Atoi(in.(*parser.GotoInContext).NUMBER().GetText())
 	line := c.GetStart().GetLine()
 
 	Put(ToBody(GotoSt{Line: line, Goto: gt}))
@@ -416,6 +418,7 @@ type ReturnSt struct {
 
 type BodyStatement interface{
 	handle(frame *RecordTable) (interface{}, bool)
+	line() int
 }
 
 type InitInternalVarSt struct {
@@ -486,7 +489,9 @@ type InternalVar struct {
 	N int
 	T string
 }
-
+func(v *InternalVar) makeName() string {
+	return fmt.Sprintf("%s%d",v.T,v.N)
+}
 type UpdVarSt struct {
 	Line int
 	Name string

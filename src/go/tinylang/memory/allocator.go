@@ -2,6 +2,7 @@ package memory
 
 import (
 	"encoding/binary"
+	"fmt"
 	"log"
 )
 
@@ -32,7 +33,14 @@ func getBytes(p *Pointer) []byte {
 	return memory[st:fn]
 }
 
+func checkType(p *Pointer,pType PType){
+	if p.tp != pType{
+		panic(fmt.Sprintf("type is not correct for %#v and type %#v",p,pType))
+	}
+}
+
 func GetBool(p *Pointer) bool {
+	checkType(p,Bool)
 	bytes := getBytes(p)
 	el := bytes[0]
 	if el == 1 {
@@ -42,10 +50,12 @@ func GetBool(p *Pointer) bool {
 }
 
 func GetInt(p *Pointer) int64 {
+	checkType(p,Int)
 	return int64(binary.BigEndian.Uint64(getBytes(p)))
 }
 
 func GetString(p *Pointer) string {
+	checkType(p,String)
 	return string(getBytes(p))
 }
 
@@ -53,7 +63,7 @@ func GetArrayString(strArray []*Pointer) []string {
 	checkTypeOfASrray(strArray, String)
 	arr := make([]string, len(strArray))
 	for i, p := range strArray {
-		arr[i] = getGeneric(p).(string)
+		arr[i] = GetGeneric(p).(string)
 	}
 	return arr
 }
@@ -62,7 +72,7 @@ func GetArrayBool(boolArray []*Pointer) []bool {
 	checkTypeOfASrray(boolArray, Bool)
 	arr := make([]bool, len(boolArray))
 	for i, p := range boolArray {
-		arr[i] = getGeneric(p).(bool)
+		arr[i] = GetGeneric(p).(bool)
 	}
 	return arr
 }
@@ -72,7 +82,7 @@ func GetArrayInt(intArray []*Pointer) []int64 {
 
 	arr := make([]int64, len(intArray))
 	for i, p := range intArray {
-		arr[i] = getGeneric(p).(int64)
+		arr[i] = GetGeneric(p).(int64)
 	}
 	return arr
 
@@ -85,7 +95,7 @@ func checkTypeOfASrray(arr []*Pointer, t PType) {
 	}
 }
 
-func getGeneric(p *Pointer) interface{} {
+func GetGeneric(p *Pointer) interface{} {
 	switch p.tp {
 	case Int:
 		return GetInt(p)
