@@ -1,5 +1,8 @@
  /* the function which starts application */
  func main(args []string) void {
+
+        Output("The calculator implementation :")
+
  		var isWorking bool = true
  		while(isWorking){
  			var l num = Input("please input a number : ")

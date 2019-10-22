@@ -1,6 +1,7 @@
 package env
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -59,7 +60,14 @@ func PopFrame() *RecordTable {
 func CleanTopFrame() {
 	frame := PopFrame()
 	for _, el := range *frame {
-		memory.RemovePointer(el.pointer)
+		if !el.value.isArray {
+			memory.RemovePointer(el.value.pointer)
+		} else {
+			array := el.value.pointersArray
+			for _, p := range array {
+				memory.RemovePointer(p)
+			}
+		}
 	}
 
 	memory.Defragmentation()
@@ -76,11 +84,18 @@ func findFuncByName(name string) Function {
 	panic(fmt.Sprintf("the function %s does not exist", name))
 }
 
+type RecordPointer struct {
+	isArray       bool
+	pointersArray []*memory.Pointer
+	pointer       *memory.Pointer
+}
+
 type Record struct {
 	key       string
-	pointer   *memory.Pointer
+	value     RecordPointer
 	relations []Relation
 }
+
 type Relation struct {
 	val    string
 	isLeft bool
@@ -91,7 +106,10 @@ type Frames []RecordTable
 var frames Frames = make([]RecordTable, 0)
 
 func (rt *RecordTable) init(key string, pointer *memory.Pointer) {
-	*rt = append(*rt, &Record{relations: []Relation{}, key: key, pointer: pointer})
+	*rt = append(*rt, &Record{relations: []Relation{}, key: key, value: RecordPointer{pointer: pointer}})
+}
+func (rt *RecordTable) initArr(key string, pointers []*memory.Pointer) {
+	*rt = append(*rt, &Record{relations: []Relation{}, key: key, value: RecordPointer{pointersArray: pointers, isArray: true}})
 }
 
 func (rt *RecordTable) putByKey(key string, isLeft bool, newRel string) bool {
@@ -119,16 +137,26 @@ func (rt *RecordTable) putByRel(rel string, isLeft bool, newRel string) bool {
 	return false
 }
 
-func (rt *RecordTable) find(key string) (*memory.Pointer, bool) {
+func (rt *RecordTable) find(key string) (RecordPointer, bool) {
 	keyList := rt.findByKey(key)
 	if len(keyList) > 0 {
-		return keyList[0].pointer, true
+		p := keyList[0].value
+		if !p.isArray {
+			return p, true
+		} else {
+			return p, true
+		}
 	}
 	relList := rt.findByRel(key)
 	if len(relList) > 0 {
-		return relList[0].pointer, true
+		p := relList[0].value
+		if !p.isArray {
+			return p, true
+		} else {
+			return p, true
+		}
 	}
-	return nil, false
+	return RecordPointer{}, false
 }
 func (rt *RecordTable) findByKey(key string) []*Record {
 
@@ -171,9 +199,49 @@ func handle(st BodyStatement, frame *RecordTable) (func(int, *[]BodyStatement) i
 	}
 }
 func (st NewVarSt) handle(frame *RecordTable) (interface{}, bool) {
-	return st, false
+	args := st.ArrArgs
+	if st.T.IsArray {
+		name := st.Name
+		if _, ok := frame.find(name); ok {
+			panic(fmt.Sprintf(" the var %s can not be used before init", name))
+		}
+
+		if len(args) > 0 {
+			tp := st.T.T
+			var pointers []*memory.Pointer
+			switch tp {
+			case N:
+				vals := make([]int64, 0)
+				for _, arg := range args {
+					vals = append(vals, arg.Value.(int64))
+				}
+				pointers = memory.PutArrayInt(vals)
+			case B:
+				vals := make([]bool, 0)
+				for _, arg := range args {
+					vals = append(vals, arg.Value.(bool))
+				}
+				pointers = memory.PutArrayBool(vals)
+			case S:
+				vals := make([]string, 0)
+				for _, arg := range args {
+					vals = append(vals, arg.Value.(string))
+				}
+				pointers = memory.PutArrayString(vals)
+			}
+			log.Printf("add var %s as an array %#v", name, pointers)
+			frame.initArr(name, pointers)
+		}
+	}
+
+	return nil, false
 }
+
 func (st UpdVarSt) handle(frame *RecordTable) (interface{}, bool) {
+	vr := st.Var.makeName()
+	nm := st.Name
+	res := frame.put(vr, true, nm)
+	log.Printf("put %s=%s is %t", vr, nm, res)
 	return st, false
 }
 func (st InitItemSt) handle(frame *RecordTable) (interface{}, bool) {
@@ -181,7 +249,7 @@ func (st InitItemSt) handle(frame *RecordTable) (interface{}, bool) {
 	item := st.Item
 
 	ok := frame.put(item, true, iv)
-	log.Printf("put %s=%s is %t",iv,item,ok)
+	log.Printf("put %s=%s is %t", iv, item, ok)
 	return st, false
 }
 func (st InitInternalVarSt) handle(frame *RecordTable) (interface{}, bool) {
@@ -208,14 +276,83 @@ func (st InitPrimSt) handle(frame *RecordTable) (interface{}, bool) {
 		}
 		pointer = memory.PutBool(bValue)
 	}
-
+	log.Printf("init value %s and %#v", iv, pointer)
 	frame.init(iv, pointer)
 	return nil, false
 }
 func (st ParamSt) handle(frame *RecordTable) (interface{}, bool) {
-	return st, false
+	PushParam(st)
+	return nil, false
 }
 func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
+	nm := st.Count
+
+	if st.IsSys {
+		switch st.Func {
+		case "Output":
+			params := TakeParams(nm)
+			for _, p := range params {
+				iv := p.Right
+				ivNm := iv.makeName()
+				if pointer, ext := frame.find(ivNm); ext {
+					str := memory.GetString(pointer.pointer)
+					fmt.Printf("%s \n", str)
+				} else {
+					panic(fmt.Sprintf("should be present %s", ivNm))
+				}
+			}
+		case "Input":
+			params := TakeParams(nm)
+			if len(params) != 1 {
+				panic(fmt.Sprintf("should be 1 for len present in line %d", st.Line))
+			}
+			ivNm := params[0].Right.makeName()
+			if pointer, ext := frame.find(ivNm); ext {
+				str := memory.GetString(pointer.pointer)
+				iv := st.Var.makeName()
+				fmt.Printf("%s", str)
+				reader := bufio.NewReader(os.Stdin)
+				txt, _ := reader.ReadString('\n')
+				pointer := memory.PutString(txt)
+				frame.init(iv, pointer)
+			} else {
+				panic(fmt.Sprintf("should be present %s", ivNm))
+			}
+		case "Len":
+			params := TakeParams(nm)
+			if nm != 1 {
+				panic(fmt.Sprintf("should be 1 for len present in line %d", st.Line))
+			}
+			ivParNm := params[0].Right.makeName()
+			if pointer, ext := frame.find(ivParNm); ext {
+				var lenOfArr = int64(len(pointer.pointersArray))
+				ivNm := st.Var.makeName()
+				p := memory.PutInt(lenOfArr)
+				frame.init(ivNm, p)
+			} else {
+				panic(fmt.Sprintf("should be present %s", ivParNm))
+			}
+		case "Add":
+			params := TakeParams(nm)
+			if nm != 1 {
+				panic(fmt.Sprintf("should be 2 for add present in line %d", st.Line))
+			}
+			arr := params[0].Right.makeName()
+			arg := params[1].Right.makeName()
+
+			if pArr, ext := frame.find(arr); ext {
+				if pArg, ext := frame.find(arg); ext {
+				} else {
+					panic(fmt.Sprintf("should be present %s", st.Line))
+				}
+			} else {
+				panic(fmt.Sprintf("should be present %s", st.Line))
+			}
+
+		}
+
+	}
+
 	return st, false
 }
 func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
@@ -231,8 +368,10 @@ func (st ReturnSt) handle(frame *RecordTable) (interface{}, bool) {
 	iv := st.Var
 	vr := iv.makeName()
 	if pointer, ok := frame.find(vr); ok {
-		return memory.GetGeneric(pointer), true
+		log.Printf("return %v", pointer)
+		return memory.GetGeneric(pointer.pointer), true
 	}
+	log.Printf("nothing to return")
 	return nil, true
 }
 func (st GotoSt) handle(frame *RecordTable) (interface{}, bool) {
@@ -241,7 +380,7 @@ func (st GotoSt) handle(frame *RecordTable) (interface{}, bool) {
 func (st IfFalseSt) handle(frame *RecordTable) (interface{}, bool) {
 	name := st.Var.makeName()
 	if pointer, ok := frame.find(name); ok {
-		return CondGoto{st.Line, memory.GetBool(pointer)}, false
+		return CondGoto{st.Line, memory.GetBool(pointer.pointer)}, false
 	}
 
 	return CondGoto{st.Line, true}, false
@@ -271,6 +410,23 @@ func findIdx(bs *[]BodyStatement, idx int) int {
 type CondGoto struct {
 	line int
 	cond bool
+}
+
+var paramStack = make([]ParamSt, 0)
+
+func PushParam(param ParamSt) {
+	paramStack = append(paramStack, param)
+}
+func TakeParams(nm int) []ParamSt {
+	if len(paramStack) < nm {
+		panic("a wrong signature")
+	}
+
+	params := paramStack[len(paramStack)-nm:]
+
+	paramStack = paramStack[:len(paramStack)-nm]
+
+	return params
 }
 
 func (st NewVarSt) line() int {

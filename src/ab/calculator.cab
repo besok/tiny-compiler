@@ -1,257 +1,260 @@
    1:  function main
    2:  argument args = ]string
    3:  return_type = void
-   4:  _b1 = true
-   5:  isWorking = init bool
-   6:  isWorking = _b1
-   7:  _p1 = isWorking
-   8:  ifFalse _p1 goto 53
-   9:  _s1 = "please input a number : "
-  10:  _p2 = param _s1
-  11:  _p3 = call Input 1
-  12:  l = init num
-  13:  l = _p3
-  14:  _s2 = "please input an operator like +,-,/,*,% :"
-  15:  _p4 = param _s2
-  16:  _p5 = call Input 1
-  17:  op = init string
-  18:  op = _p5
-  19:  _s3 = "please input a number :"
-  20:  _p6 = param _s3
-  21:  _p7 = call Input 1
-  22:  r = init num
-  23:  r = _p7
-  24:  _p9 = op
-  25:  _p8 = param _p9
-  26:  _p11 = l
-  27:  _p10 = param _p11
-  28:  _p13 = r
-  29:  _p12 = param _p13
-  30:  _p14 = call operation 3
-  31:  res = init num
-  32:  res = _p14
-  33:  _p17 = res
-  34:  _p16 = param _p17
-  35:  _p18 = call makeStringResult 1
-  36:  _p15 = param _p18
-  37:  _p19 = call Output 1
-  38:  _s4 = "do you want to continue?"
-  39:  _p20 = param _s4
-  40:  _p21 = call Input 1
-  41:  cont = init string
-  42:  cont = _p21
-  43:  _p23 = cont
-  44:  _p22 = _p23
-  45:  _s5 = "y"
-  46:  _p24 = _s5
-  47:  _p25 = _p22 != _p24
-  48:  ifFalse _p25 goto 52
-  49:  _b2 = false
-  50:  isWorking = _b2
-  51:  goto 52
-  52:  goto 7
-  53:  function operation
-  54:  argument op = string
-  55:  argument l = num
-  56:  argument r = num
-  57:  return_type = num
-  58:  _n1 = 0
-  59:  result = init num
-  60:  result = _n1
-  61:  _p27 = op
-  62:  _p26 = _p27
-  63:  _s6 = "+"
-  64:  _p28 = _s6
-  65:  _p29 = _p26 == _p28
-  66:  ifFalse _p29 goto 72
-  67:  _p30 = l
-  68:  _p31 = r
-  69:  _p32 = _p30 + _p31
-  70:  result = _p32
-  71:  goto 121
-  72:  _p34 = op
-  73:  _p33 = _p34
-  74:  _s7 = "-"
-  75:  _p35 = _s7
-  76:  _p36 = _p33 == _p35
-  77:  ifFalse _p36 goto 83
-  78:  _p37 = l
-  79:  _p38 = r
-  80:  _p39 = _p37 - _p38
-  81:  result = _p39
-  82:  goto 121
-  83:  _p41 = op
-  84:  _p40 = _p41
-  85:  _s8 = "*"
-  86:  _p42 = _s8
-  87:  _p43 = _p40 == _p42
-  88:  ifFalse _p43 goto 94
-  89:  _p44 = l
-  90:  _p45 = r
-  91:  _p46 = _p44 * _p45
-  92:  result = _p46
-  93:  goto 121
-  94:  _p48 = op
-  95:  _p47 = _p48
-  96:  _s9 = "/"
-  97:  _p49 = _s9
-  98:  _p50 = _p47 == _p49
-  99:  ifFalse _p50 goto 105
- 100:  _p51 = l
- 101:  _p52 = r
- 102:  _p53 = _p51 / _p52
- 103:  result = _p53
- 104:  goto 121
- 105:  _p55 = op
- 106:  _p54 = _p55
- 107:  _s10 = "%"
- 108:  _p56 = _s10
- 109:  _p57 = _p54 == _p56
- 110:  ifFalse _p57 goto 116
- 111:  _p58 = l
- 112:  _p59 = r
- 113:  _p60 = _p58 % _p59
- 114:  result = _p60
- 115:  goto 121
- 116:  _s11 = "please to ensure you peek correct operator"
- 117:  _p61 = param _s11
- 118:  _p62 = call Output 1
- 119:  _n2 = 0
- 120:  result = _n2
- 121:  _p63 = result
- 122:  return _p63
- 123:  function makeStringResult
- 124:  argument result = num
- 125:  return_type = string
- 126:  _p66 = result
- 127:  _p65 = param _p66
- 128:  _p67 = call numToArray 1
- 129:  _p64 = param _p67
- 130:  _p68 = call revert 1
- 131:  nums = init ]num
- 132:  nums = _p68
- 133:  _s12 = ""
- 134:  strNum = init string
- 135:  strNum = _s12
- 136:  _n3 = 0
- 137:  i = init num
- 138:  i = _n3
- 139:  _p70 = i
- 140:  _p69 = _p70
- 141:  _p74 = nums
- 142:  _p73 = param _p74
- 143:  _p75 = call Len 1
- 144:  _p72 = _p75
- 145:  _p71 = _p72
- 146:  _p76 = _p69 < _p71
- 147:  ifFalse _p76 goto 161
- 148:  _p77 = strNum
- 149:  _p80 = i
- 150:  _p81 = nums[_p80]
- 151:  _p79 = param _p81
- 152:  _p82 = call numToString 1
- 153:  _p78 = _p82
- 154:  _p83 = _p77 + _p78
- 155:  strNum = _p83
- 156:  _p84 = i
- 157:  _n4 = 1
- 158:  _p85 = _p84 + _n4
- 159:  i = _p85
- 160:  goto 139
- 161:  _p87 = strNum
- 162:  _p86 = _p87
- 163:  _s13 = ""
- 164:  _p88 = _s13
- 165:  _p89 = _p86 == _p88
- 166:  ifFalse _p89 goto 170
- 167:  _s14 = "undefined"
- 168:  strNum = _s14
- 169:  goto 170
- 170:  _s15 = "result is "
- 171:  _p90 = strNum
- 172:  _p91 = _s15 + _p90
- 173:  return _p91
- 174:  function numToString
- 175:  argument number = num
- 176:  return_type = string
- 177:  _s16 = init_arr "0"
- 178:  _s17 = init_arr "1"
- 179:  _s18 = init_arr "2"
- 180:  _s19 = init_arr "3"
- 181:  _s20 = init_arr "4"
- 182:  _s21 = init_arr "5"
- 183:  _s22 = init_arr "6"
- 184:  _s23 = init_arr "7"
- 185:  _s24 = init_arr "8"
- 186:  _s25 = init_arr "9"
- 187:  numbers = init ]string
- 188:  _p92 = number
- 189:  _p93 = numbers[_p92]
- 190:  return _p93
- 191:  function numToArray
- 192:  argument number = num
- 193:  return_type = ]num
- 194:  arrayOfNum = init ]num
- 195:  _p94 = number
- 196:  tempElement = init num
- 197:  tempElement = _p94
- 198:  _p96 = tempElement
- 199:  _p95 = _p96
- 200:  _n5 = 0
- 201:  _p97 = _n5
- 202:  _p98 = _p95 > _p97
- 203:  ifFalse _p98 goto 219
- 204:  _p99 = tempElement
- 205:  _n6 = 10
- 206:  _p100 = _p99 % _n6
- 207:  nextEl = init num
- 208:  nextEl = _p100
- 209:  _p102 = arrayOfNum
- 210:  _p101 = param _p102
- 211:  _p104 = nextEl
- 212:  _p103 = param _p104
- 213:  _p105 = call Add 2
- 214:  _p106 = tempElement
- 215:  _n7 = 10
- 216:  _p107 = _p106 / _n7
- 217:  tempElement = _p107
- 218:  goto 198
- 219:  _p108 = arrayOfNum
- 220:  return _p108
- 221:  function revert
- 222:  argument array = ]num
- 223:  return_type = ]num
- 224:  revertArray = init ]num
- 225:  _p111 = array
- 226:  _p110 = param _p111
- 227:  _p112 = call Len 1
- 228:  _p109 = _p112
- 229:  _n8 = 1
- 230:  _p113 = _p109 - _n8
- 231:  l = init num
- 232:  l = _p113
- 233:  _n9 = 0
- 234:  i = init num
- 235:  i = _n9
- 236:  _p115 = i
- 237:  _p114 = _p115
- 238:  _p119 = array
- 239:  _p118 = param _p119
- 240:  _p120 = call Len 1
- 241:  _p117 = _p120
- 242:  _p116 = _p117
- 243:  _p121 = _p114 < _p116
- 244:  ifFalse _p121 goto 256
- 245:  _p122 = l
- 246:  _p123 = i
- 247:  _p124 = _p122 - _p123
- 248:  _p125 = array[_p124]
- 249:  _p126 = i
- 250:  revertArray[_p126] = _p125
- 251:  _p127 = i
- 252:  _n10 = 1
- 253:  _p128 = _p127 + _n10
- 254:  i = _p128
- 255:  goto 236
- 256:  _p129 = revertArray
- 257:  return _p129
+   4:  _s1 = "The calculator implementation :"
+   5:  _p1 = param _s1
+   6:  _p2 = call Output 1
+   7:  _b1 = true
+   8:  isWorking = init bool
+   9:  isWorking = _b1
+  10:  _p3 = isWorking
+  11:  ifFalse _p3 goto 56
+  12:  _s2 = "please input a number : "
+  13:  _p4 = param _s2
+  14:  _p5 = call Input 1
+  15:  l = init num
+  16:  l = _p5
+  17:  _s3 = "please input an operator like +,-,/,*,% :"
+  18:  _p6 = param _s3
+  19:  _p7 = call Input 1
+  20:  op = init string
+  21:  op = _p7
+  22:  _s4 = "please input a number :"
+  23:  _p8 = param _s4
+  24:  _p9 = call Input 1
+  25:  r = init num
+  26:  r = _p9
+  27:  _p11 = op
+  28:  _p10 = param _p11
+  29:  _p13 = l
+  30:  _p12 = param _p13
+  31:  _p15 = r
+  32:  _p14 = param _p15
+  33:  _p16 = call operation 3
+  34:  res = init num
+  35:  res = _p16
+  36:  _p19 = res
+  37:  _p18 = param _p19
+  38:  _p20 = call makeStringResult 1
+  39:  _p17 = param _p20
+  40:  _p21 = call Output 1
+  41:  _s5 = "do you want to continue?"
+  42:  _p22 = param _s5
+  43:  _p23 = call Input 1
+  44:  cont = init string
+  45:  cont = _p23
+  46:  _p25 = cont
+  47:  _p24 = _p25
+  48:  _s6 = "y"
+  49:  _p26 = _s6
+  50:  _p27 = _p24 != _p26
+  51:  ifFalse _p27 goto 55
+  52:  _b2 = false
+  53:  isWorking = _b2
+  54:  goto 55
+  55:  goto 10
+  56:  function operation
+  57:  argument op = string
+  58:  argument l = num
+  59:  argument r = num
+  60:  return_type = num
+  61:  _n1 = 0
+  62:  result = init num
+  63:  result = _n1
+  64:  _p29 = op
+  65:  _p28 = _p29
+  66:  _s7 = "+"
+  67:  _p30 = _s7
+  68:  _p31 = _p28 == _p30
+  69:  ifFalse _p31 goto 75
+  70:  _p32 = l
+  71:  _p33 = r
+  72:  _p34 = _p32 + _p33
+  73:  result = _p34
+  74:  goto 124
+  75:  _p36 = op
+  76:  _p35 = _p36
+  77:  _s8 = "-"
+  78:  _p37 = _s8
+  79:  _p38 = _p35 == _p37
+  80:  ifFalse _p38 goto 86
+  81:  _p39 = l
+  82:  _p40 = r
+  83:  _p41 = _p39 - _p40
+  84:  result = _p41
+  85:  goto 124
+  86:  _p43 = op
+  87:  _p42 = _p43
+  88:  _s9 = "*"
+  89:  _p44 = _s9
+  90:  _p45 = _p42 == _p44
+  91:  ifFalse _p45 goto 97
+  92:  _p46 = l
+  93:  _p47 = r
+  94:  _p48 = _p46 * _p47
+  95:  result = _p48
+  96:  goto 124
+  97:  _p50 = op
+  98:  _p49 = _p50
+  99:  _s10 = "/"
+ 100:  _p51 = _s10
+ 101:  _p52 = _p49 == _p51
+ 102:  ifFalse _p52 goto 108
+ 103:  _p53 = l
+ 104:  _p54 = r
+ 105:  _p55 = _p53 / _p54
+ 106:  result = _p55
+ 107:  goto 124
+ 108:  _p57 = op
+ 109:  _p56 = _p57
+ 110:  _s11 = "%"
+ 111:  _p58 = _s11
+ 112:  _p59 = _p56 == _p58
+ 113:  ifFalse _p59 goto 119
+ 114:  _p60 = l
+ 115:  _p61 = r
+ 116:  _p62 = _p60 % _p61
+ 117:  result = _p62
+ 118:  goto 124
+ 119:  _s12 = "please to ensure you peek correct operator"
+ 120:  _p63 = param _s12
+ 121:  _p64 = call Output 1
+ 122:  _n2 = 0
+ 123:  result = _n2
+ 124:  _p65 = result
+ 125:  return _p65
+ 126:  function makeStringResult
+ 127:  argument result = num
+ 128:  return_type = string
+ 129:  _p68 = result
+ 130:  _p67 = param _p68
+ 131:  _p69 = call numToArray 1
+ 132:  _p66 = param _p69
+ 133:  _p70 = call revert 1
+ 134:  nums = init ]num
+ 135:  nums = _p70
+ 136:  _s13 = ""
+ 137:  strNum = init string
+ 138:  strNum = _s13
+ 139:  _n3 = 0
+ 140:  i = init num
+ 141:  i = _n3
+ 142:  _p72 = i
+ 143:  _p71 = _p72
+ 144:  _p76 = nums
+ 145:  _p75 = param _p76
+ 146:  _p77 = call Len 1
+ 147:  _p74 = _p77
+ 148:  _p73 = _p74
+ 149:  _p78 = _p71 < _p73
+ 150:  ifFalse _p78 goto 164
+ 151:  _p79 = strNum
+ 152:  _p82 = i
+ 153:  _p83 = nums[_p82]
+ 154:  _p81 = param _p83
+ 155:  _p84 = call numToString 1
+ 156:  _p80 = _p84
+ 157:  _p85 = _p79 + _p80
+ 158:  strNum = _p85
+ 159:  _p86 = i
+ 160:  _n4 = 1
+ 161:  _p87 = _p86 + _n4
+ 162:  i = _p87
+ 163:  goto 142
+ 164:  _p89 = strNum
+ 165:  _p88 = _p89
+ 166:  _s14 = ""
+ 167:  _p90 = _s14
+ 168:  _p91 = _p88 == _p90
+ 169:  ifFalse _p91 goto 173
+ 170:  _s15 = "undefined"
+ 171:  strNum = _s15
+ 172:  goto 173
+ 173:  _s16 = "result is "
+ 174:  _p92 = strNum
+ 175:  _p93 = _s16 + _p92
+ 176:  return _p93
+ 177:  function numToString
+ 178:  argument number = num
+ 179:  return_type = string
+ 180:  _s17 = init_arr "0"
+ 181:  _s18 = init_arr "1"
+ 182:  _s19 = init_arr "2"
+ 183:  _s20 = init_arr "3"
+ 184:  _s21 = init_arr "4"
+ 185:  _s22 = init_arr "5"
+ 186:  _s23 = init_arr "6"
+ 187:  _s24 = init_arr "7"
+ 188:  _s25 = init_arr "8"
+ 189:  _s26 = init_arr "9"
+ 190:  numbers = init ]string
+ 191:  _p94 = number
+ 192:  _p95 = numbers[_p94]
+ 193:  return _p95
+ 194:  function numToArray
+ 195:  argument number = num
+ 196:  return_type = ]num
+ 197:  arrayOfNum = init ]num
+ 198:  _p96 = number
+ 199:  tempElement = init num
+ 200:  tempElement = _p96
+ 201:  _p98 = tempElement
+ 202:  _p97 = _p98
+ 203:  _n5 = 0
+ 204:  _p99 = _n5
+ 205:  _p100 = _p97 > _p99
+ 206:  ifFalse _p100 goto 222
+ 207:  _p101 = tempElement
+ 208:  _n6 = 10
+ 209:  _p102 = _p101 % _n6
+ 210:  nextEl = init num
+ 211:  nextEl = _p102
+ 212:  _p104 = arrayOfNum
+ 213:  _p103 = param _p104
+ 214:  _p106 = nextEl
+ 215:  _p105 = param _p106
+ 216:  _p107 = call Add 2
+ 217:  _p108 = tempElement
+ 218:  _n7 = 10
+ 219:  _p109 = _p108 / _n7
+ 220:  tempElement = _p109
+ 221:  goto 201
+ 222:  _p110 = arrayOfNum
+ 223:  return _p110
+ 224:  function revert
+ 225:  argument array = ]num
+ 226:  return_type = ]num
+ 227:  revertArray = init ]num
+ 228:  _p113 = array
+ 229:  _p112 = param _p113
+ 230:  _p114 = call Len 1
+ 231:  _p111 = _p114
+ 232:  _n8 = 1
+ 233:  _p115 = _p111 - _n8
+ 234:  l = init num
+ 235:  l = _p115
+ 236:  _n9 = 0
+ 237:  i = init num
+ 238:  i = _n9
+ 239:  _p117 = i
+ 240:  _p116 = _p117
+ 241:  _p121 = array
+ 242:  _p120 = param _p121
+ 243:  _p122 = call Len 1
+ 244:  _p119 = _p122
+ 245:  _p118 = _p119
+ 246:  _p123 = _p116 < _p118
+ 247:  ifFalse _p123 goto 259
+ 248:  _p124 = l
+ 249:  _p125 = i
+ 250:  _p126 = _p124 - _p125
+ 251:  _p127 = array[_p126]
+ 252:  _p128 = i
+ 253:  revertArray[_p128] = _p127
+ 254:  _p129 = i
+ 255:  _n10 = 1
+ 256:  _p130 = _p129 + _n10
+ 257:  i = _p130
+ 258:  goto 239
+ 259:  _p131 = revertArray
+ 260:  return _p131
