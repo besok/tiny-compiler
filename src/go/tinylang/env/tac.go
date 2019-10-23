@@ -251,16 +251,17 @@ func (l *InterListener) EnterInitNumOp(c *parser.InitNumOpContext) {
 	line := c.GetStart().GetLine()
 	left := makeIVar(c.InternalVar(0))
 	right := makeIVar(c.InternalVar(1))
+	rightSecond := makeIVar(c.InternalVar(2))
 	text := c.NUM_SIGN().GetText()
 
-	Put(ToBody(InitNumBoolOpSt{Line: line, Left: left, Right: right, Sign: text, IsBool: false}))
+	Put(ToBody(InitNumBoolOpSt{Line: line, Left: left, RightFirst: right,RightSecond:rightSecond, Sign: text, IsBool: false}))
 }
 
 func (l *InterListener) EnterInitArrEl(c *parser.InitArrElContext) {
 	line := c.GetStart().GetLine()
 	name := c.ITEM().GetText()
 	left := makeIVar(c.InternalVar(0))
-	right := makeIVar(c.InternalVar(0))
+	right := makeIVar(c.InternalVar(1))
 	st := InitArrElemSt{Line: line, Name: name, Left: left, Right: right}
 	Put(ToBody(st))
 }
@@ -349,9 +350,13 @@ func (l *InterListener) ExitInitBoolOp(c *parser.InitBoolOpContext) {
 	line := c.GetStart().GetLine()
 	left := makeIVar(c.InternalVar(0))
 	right := makeIVar(c.InternalVar(1))
-	text := c.BOOL_SIGN().GetText()
+	rightSec := makeIVar(c.InternalVar(1))
+	text := c.BOOL_SIGN()
+	if text == nil {
+		text = c.BOOL_PL()
+	}
 
-	Put(ToBody(InitNumBoolOpSt{Line: line, Left: left, Right: right, Sign: text, IsBool: true}))
+	Put(ToBody(InitNumBoolOpSt{Line: line, Left: left, RightFirst: right,RightSecond:rightSec, Sign: text.GetText(), IsBool: true}))
 }
 
 type Ctx interface{}
@@ -474,7 +479,8 @@ type ExtArrElemSt struct {
 type InitNumBoolOpSt struct {
 	Line   int
 	Left   InternalVar
-	Right  InternalVar
+	RightFirst  InternalVar
+	RightSecond  InternalVar
 	Sign   string
 	IsBool bool
 }

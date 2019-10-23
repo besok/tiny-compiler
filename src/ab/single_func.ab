@@ -1,8 +1,9 @@
-func numToString(number num) []num {
-    var revertArray []num = [..]num
-	var l num = Len(array) - 1
-	for(var i num = 0; i < Len(array); i = i+1){
-		revertArray[i] = array[l-i]
-	}
-	return revertArray
+func main(args []string) []num {
+    var arr []num = [..]num
+    Add(arr,1)
+    Add(arr,2)
+    Add(arr,3)
+    Add(arr,4)
+    var s string = " len " + Len(arr)
+    Output(s)
 }

@@ -95,6 +95,8 @@ func checkTypeOfASrray(arr []*Pointer, t PType) {
 	}
 }
 
+
+
 func GetGeneric(p *Pointer) interface{} {
 	switch p.tp {
 	case Int:
@@ -226,6 +228,11 @@ type Pointer struct {
 	len    int
 	offset int
 	tp     PType
+}
+func(p *Pointer) Replace(newP *Pointer){
+	p.tp = newP.tp
+	p.offset = newP.offset
+	p.len = newP.len
 }
 
 var NoPointer = Pointer{offset: -1, len: 0}

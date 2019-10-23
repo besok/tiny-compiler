@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	parsing "tiny-compiler/src/go/tinylang"
 	"tiny-compiler/src/go/tinylang/memory"
 )
@@ -90,6 +91,10 @@ type RecordPointer struct {
 	pointer       *memory.Pointer
 }
 
+func (rp *RecordPointer) put(p *memory.Pointer) {
+	rp.pointersArray = append(rp.pointersArray, p)
+}
+
 type Record struct {
 	key       string
 	value     RecordPointer
@@ -137,26 +142,18 @@ func (rt *RecordTable) putByRel(rel string, isLeft bool, newRel string) bool {
 	return false
 }
 
-func (rt *RecordTable) find(key string) (RecordPointer, bool) {
+func (rt *RecordTable) find(key string) (*RecordPointer, bool) {
 	keyList := rt.findByKey(key)
 	if len(keyList) > 0 {
-		p := keyList[0].value
-		if !p.isArray {
-			return p, true
-		} else {
-			return p, true
-		}
+		p := &keyList[0].value
+		return p, true
 	}
 	relList := rt.findByRel(key)
 	if len(relList) > 0 {
-		p := relList[0].value
-		if !p.isArray {
-			return p, true
-		} else {
-			return p, true
-		}
+		p := &relList[0].value
+		return p, true
 	}
-	return RecordPointer{}, false
+	return &RecordPointer{}, false
 }
 func (rt *RecordTable) findByKey(key string) []*Record {
 
@@ -231,6 +228,8 @@ func (st NewVarSt) handle(frame *RecordTable) (interface{}, bool) {
 			}
 			log.Printf("add var %s as an array %#v", name, pointers)
 			frame.initArr(name, pointers)
+		} else {
+			frame.initArr(name, []*memory.Pointer{})
 		}
 	}
 
@@ -255,7 +254,7 @@ func (st InitItemSt) handle(frame *RecordTable) (interface{}, bool) {
 func (st InitInternalVarSt) handle(frame *RecordTable) (interface{}, bool) {
 	leftVar := st.Left.makeName()
 	rightVar := st.Right.makeName()
-	res := frame.putByRel(rightVar, true, leftVar)
+	res := frame.put(rightVar, true, leftVar)
 	log.Printf(" put %s=%s is %t", leftVar, rightVar, res)
 	return st, false
 }
@@ -268,7 +267,8 @@ func (st InitPrimSt) handle(frame *RecordTable) (interface{}, bool) {
 	case S:
 		pointer = memory.PutString(vl.(string))
 	case N:
-		pointer = memory.PutInt(vl.(int64))
+		var el = int64(vl.(int))
+		pointer = memory.PutInt(el)
 	case B:
 		bValue := false
 		if vl == "true" {
@@ -334,7 +334,7 @@ func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
 			}
 		case "Add":
 			params := TakeParams(nm)
-			if nm != 1 {
+			if nm != 2 {
 				panic(fmt.Sprintf("should be 2 for add present in line %d", st.Line))
 			}
 			arr := params[0].Right.makeName()
@@ -342,26 +342,193 @@ func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
 
 			if pArr, ext := frame.find(arr); ext {
 				if pArg, ext := frame.find(arg); ext {
+					p := pArg.pointer
+					pArr.put(p)
 				} else {
-					panic(fmt.Sprintf("should be present %s", st.Line))
+					panic(fmt.Sprintf("should be present %d", st.Line))
 				}
 			} else {
-				panic(fmt.Sprintf("should be present %s", st.Line))
+				panic(fmt.Sprintf("should be present %d", st.Line))
 			}
 
 		}
 
+	} else {
 	}
 
 	return st, false
 }
 func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
+	toInit := st.Left.makeName()
+	leftOp := st.RightFirst.makeName()
+	rightOp := st.RightSecond.makeName()
+
+	leftP, okLeft := frame.find(leftOp)
+	rightP, okRight := frame.find(rightOp)
+
+	if !okLeft || !okRight {
+		panic(fmt.Sprintf("should be present %s ", toInit))
+	}
+
+	if st.IsBool {
+		sign := st.Sign
+		switch sign {
+		case "||":
+			bLeft := memory.GetBool(leftP.pointer)
+			bRight := memory.GetBool(rightP.pointer)
+			newPointer := memory.PutBool(bLeft || bRight)
+			frame.init(toInit, newPointer)
+		case "&&":
+			bLeft := memory.GetBool(leftP.pointer)
+			bRight := memory.GetBool(rightP.pointer)
+			newPointer := memory.PutBool(bLeft && bRight)
+			frame.init(toInit, newPointer)
+		case "==":
+			bLeft := memory.GetGeneric(leftP.pointer)
+			bRight := memory.GetGeneric(rightP.pointer)
+			newPointer := memory.PutBool(bLeft == bRight)
+			frame.init(toInit, newPointer)
+		case "!=":
+			bLeft := memory.GetGeneric(leftP.pointer)
+			bRight := memory.GetGeneric(rightP.pointer)
+			newPointer := memory.PutBool(bLeft != bRight)
+			frame.init(toInit, newPointer)
+		case ">", "<":
+			bLeft := memory.GetGeneric(leftP.pointer)
+			bRight := memory.GetGeneric(rightP.pointer)
+			switch bLeft.(type) {
+			case string, bool:
+				log.Printf("can not possible to compare with > or < , %s", toInit)
+				panic(fmt.Sprintf("can not possible to compare with > or < , line %d", st.Line))
+			case int64:
+				l := int64(bLeft.(int))
+				r := int64(bRight.(int))
+				if st.Sign == ">" {
+					newPointer := memory.PutBool(l > r)
+					frame.init(toInit, newPointer)
+				} else {
+					newPointer := memory.PutBool(l < r)
+					frame.init(toInit, newPointer)
+				}
+			}
+		}
+	} else {
+		bLeft := memory.GetGeneric(leftP.pointer)
+		bRight := memory.GetGeneric(rightP.pointer)
+		var p *memory.Pointer
+		switch st.Sign {
+		case "+":
+			switch bLeft.(type) {
+			case string:
+				s := ""
+				switch bRight.(type) {
+				case string:
+					s = bRight.(string)
+				case int64:
+					s = strconv.FormatInt(bRight.(int64),10)
+				case bool:
+					s = strconv.FormatBool(bRight.(bool))
+				}
+				str := fmt.Sprintf("%s%s", bLeft.(string), s)
+				p = memory.PutString(str)
+				frame.init(toInit, p)
+			case bool:
+				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
+			case int64:
+				res := int64(bLeft.(int)) + int64(bLeft.(int))
+				p = memory.PutInt(res)
+			}
+		case "-":
+			switch bLeft.(type) {
+			case string, bool:
+				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
+			case int64:
+				res := int64(bLeft.(int)) - int64(bLeft.(int))
+				p = memory.PutInt(res)
+			}
+		case "*":
+			switch bLeft.(type) {
+			case string, bool:
+				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
+			case int64:
+				res := int64(bLeft.(int)) * int64(bLeft.(int))
+				p = memory.PutInt(res)
+			}
+		case "/":
+			switch bLeft.(type) {
+			case string, bool:
+				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
+			case int64:
+				res := int64(bLeft.(int)) / int64(bLeft.(int))
+				p = memory.PutInt(res)
+			}
+		case "%":
+			switch bLeft.(type) {
+			case string, bool:
+				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
+			case int64:
+				res := int64(bLeft.(int)) % int64(bLeft.(int))
+				p = memory.PutInt(res)
+			}
+		}
+
+		frame.init(toInit, p)
+	}
 	return st, false
 }
 func (st InitArrElemSt) handle(frame *RecordTable) (interface{}, bool) {
+	toInit := st.Left.makeName()
+	toFind := st.Right.makeName()
+	arr := st.Name
+	if p, ext := frame.find(toFind); ext {
+		if pArr, extArr := frame.find(arr); extArr {
+			nm := memory.GetInt(p.pointer)
+			p := pArr.pointersArray[nm]
+			generic := memory.GetGeneric(p)
+			newPointer := memory.PutGeneric(generic)
+			frame.init(toInit, newPointer)
+		} else {
+			panic(fmt.Sprintf("should exist %s", toInit))
+		}
+
+	} else {
+		panic(fmt.Sprintf("should exist %s", toInit))
+	}
+
 	return st, false
 }
 func (st ExtArrElemSt) handle(frame *RecordTable) (interface{}, bool) {
+	arr := st.Name
+	nm := 0
+	if st.IsNum {
+		nm = st.Num
+	} else {
+		name := st.Left.makeName()
+		if pointer, ext := frame.find(name); ext {
+			nm = int(memory.GetInt(pointer.pointer))
+		} else {
+			panic(fmt.Sprintf("should exist array el %s", arr))
+		}
+	}
+
+	pointer, ext := frame.find(arr)
+	if !ext {
+		panic(fmt.Sprintf("should exist array el %s", arr))
+	}
+
+	if len(pointer.pointersArray) < nm+1 {
+		panic(fmt.Sprintf("should exist array el %s", arr))
+	}
+
+	p := pointer.pointersArray[nm]
+
+	rightP, ext := frame.find(st.Right.makeName())
+	if !ext {
+		panic(fmt.Sprintf("should exist array el %s", arr))
+	}
+
+	p.Replace(rightP.pointer)
+
 	return st, false
 }
 func (st ReturnSt) handle(frame *RecordTable) (interface{}, bool) {

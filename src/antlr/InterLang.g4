@@ -61,7 +61,7 @@ initItem: line internalVar EQ ITEM;
 initPrim: line internalVar EQ (NUMBER | TRUE | FALSE | STRING_RAW);
 initParam: line internalVar EQ PARAM internalVar;
 initCall: line internalVar EQ CALL (SYS_FUNC | ITEM) NUMBER ;
-initBoolOp: line internalVar EQ internalVar BOOL_SIGN internalVar ;
+initBoolOp: line internalVar EQ internalVar (BOOL_SIGN | BOOL_PL) internalVar ;
 initNumOp: line internalVar EQ internalVar NUM_SIGN internalVar ;
 initArrEl: line internalVar EQ ITEM'['internalVar']';
 extArrEl: line ITEM'['(NUMBER | internalVar )']' EQ internalVar;

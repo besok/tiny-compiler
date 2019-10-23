@@ -6,7 +6,7 @@ import (
 )
 
 func TestStart(t *testing.T) {
-	path := `C:\projects\tiny-compiler\src\ab\calculator.ab`
+	path := `C:\projects\tiny-compiler\src\ab\single_func.ab`
 	Start(path, true)
 }
 
