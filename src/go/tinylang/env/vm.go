@@ -148,7 +148,7 @@ func (rt *RecordTable) putByKey(key string, isLeft bool, newRel string) bool {
 }
 func (rt *RecordTable) put(relOrKey string, isLeft bool, newRel string) bool {
 	if isLeft {
-		rt.remove(newRel, relOrKey)
+		rt.remove(newRel)
 	}
 
 	if done := rt.putByKey(relOrKey, isLeft, newRel); !done {
@@ -157,12 +157,12 @@ func (rt *RecordTable) put(relOrKey string, isLeft bool, newRel string) bool {
 	return true
 }
 
-func (rt *RecordTable) remove(newRel string, relOrKey string) {
+func (rt *RecordTable) remove(newRel string) {
 	if remExt := rt.remKey(newRel); !remExt {
 		if remRel := rt.remRel(newRel); remRel {
-			log.Printf("remove rel %s before putting to %s", newRel, relOrKey)
+			log.Printf("remove rel %s ", newRel)
 		} else {
-			log.Printf("remove key %s before putting to %s", newRel, relOrKey)
+			log.Printf("remove key %s ", newRel,)
 		}
 	}
 }
@@ -176,6 +176,12 @@ func (rt *RecordTable) putByRel(rel string, isLeft bool, newRel string) bool {
 	return false
 }
 
+func (rt *RecordTable) printVal(key string){
+	if pointer, ext := rt.find(key); ext && !pointer.isArray{
+		g := memory.GetGeneric(pointer.pointer)
+		log.Printf("value for %s = %v ",key, g)
+	}
+}
 func (rt *RecordTable) find(key string) (*RecordPointer, bool) {
 	keyList := rt.findByKey(key)
 	if len(keyList) > 0 {
@@ -300,19 +306,23 @@ func (st UpdVarSt) handle(frame *RecordTable) (interface{}, bool) {
 	vr := st.Var.makeName()
 	nm := st.Name
 	res := frame.put(vr, true, nm)
+
+	frame.printVal(vr)
+	frame.printVal(nm)
+
 	log.Printf("put %s=%s is %t", nm, vr, res)
 	return st, false
 }
+
+
 func (st InitItemSt) handle(frame *RecordTable) (interface{}, bool) {
 	iv := st.Var.makeName()
 	item := st.Item
 
-	if pointer, ext := frame.find(item); ext && !pointer.isArray{
-		g := memory.GetGeneric(pointer.pointer)
-		log.Printf("item:%s  - %v ",item, g)
-	}
 
 	ok := frame.put(item, true, iv)
+	frame.printVal(iv)
+	frame.printVal(item)
 	log.Printf("put %s=%s is %t", iv, item, ok)
 	return st, false
 }
