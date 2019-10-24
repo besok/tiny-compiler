@@ -37,7 +37,7 @@
   37:  _s1 = "el="
   38:  _p25 = i
   39:  _p26 = _s1 + _p25
-  40:  s = init 
+  40:  s = init string
   41:  s = _p26
   42:  _p28 = s
   43:  _p27 = param _p28

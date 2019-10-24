@@ -350,7 +350,7 @@ func (l *InterListener) ExitInitBoolOp(c *parser.InitBoolOpContext) {
 	line := c.GetStart().GetLine()
 	left := makeIVar(c.InternalVar(0))
 	right := makeIVar(c.InternalVar(1))
-	rightSec := makeIVar(c.InternalVar(1))
+	rightSec := makeIVar(c.InternalVar(2))
 	text := c.BOOL_SIGN()
 	if text == nil {
 		text = c.BOOL_PL()

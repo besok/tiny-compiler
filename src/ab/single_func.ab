@@ -5,7 +5,7 @@ func main(args []string) []num {
     Add(arr,3)
     Add(arr,4)
    for(var i num = 0; i < Len(arr); i = i+1){
-    var s = "el=" + i
+    var s string = "el=" + i
     Output(s)
    }
 }
