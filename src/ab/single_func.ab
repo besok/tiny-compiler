@@ -4,6 +4,8 @@ func main(args []string) []num {
     Add(arr,2)
     Add(arr,3)
     Add(arr,4)
-    var s string = " len " + Len(arr)
+   for(var i num = 0; i < Len(arr); i = i+1){
+    var s = "el=" + i
     Output(s)
+   }
 }

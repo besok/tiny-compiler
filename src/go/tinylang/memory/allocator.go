@@ -33,14 +33,14 @@ func getBytes(p *Pointer) []byte {
 	return memory[st:fn]
 }
 
-func checkType(p *Pointer,pType PType){
-	if p.tp != pType{
-		panic(fmt.Sprintf("type is not correct for %#v and type %#v",p,pType))
+func checkType(p *Pointer, pType PType) {
+	if p.tp != pType {
+		panic(fmt.Sprintf("type is not correct for %#v and type %#v", p, pType))
 	}
 }
 
 func GetBool(p *Pointer) bool {
-	checkType(p,Bool)
+	checkType(p, Bool)
 	bytes := getBytes(p)
 	el := bytes[0]
 	if el == 1 {
@@ -50,12 +50,12 @@ func GetBool(p *Pointer) bool {
 }
 
 func GetInt(p *Pointer) int64 {
-	checkType(p,Int)
+	checkType(p, Int)
 	return int64(binary.BigEndian.Uint64(getBytes(p)))
 }
 
 func GetString(p *Pointer) string {
-	checkType(p,String)
+	checkType(p, String)
 	return string(getBytes(p))
 }
 
@@ -94,8 +94,6 @@ func checkTypeOfASrray(arr []*Pointer, t PType) {
 		panic("wrong type")
 	}
 }
-
-
 
 func GetGeneric(p *Pointer) interface{} {
 	switch p.tp {
@@ -229,7 +227,8 @@ type Pointer struct {
 	offset int
 	tp     PType
 }
-func(p *Pointer) Replace(newP *Pointer){
+
+func (p *Pointer) Replace(newP *Pointer) {
 	p.tp = newP.tp
 	p.offset = newP.offset
 	p.len = newP.len
@@ -241,6 +240,14 @@ func addPointer(p *Pointer) bool {
 	pointers = append(pointers, p)
 	return true
 }
+
+func RemovePointers(ps []*Pointer) bool {
+	res := false
+	for _, p := range ps {
+		res = res && RemovePointer(p)
+	}
+	return res
+}
 func RemovePointer(p *Pointer) bool {
 	for i, el := range pointers {
 		if el == p {
@@ -248,7 +255,7 @@ func RemovePointer(p *Pointer) bool {
 				offset = offset - el.len
 			}
 			pointers = append(pointers[:i], pointers[i+1:]...)
-			log.Printf("the pointer:%+v has been removed",p)
+			log.Printf("the pointer:%+v has been removed", p)
 			return true
 		}
 	}
@@ -256,7 +263,7 @@ func RemovePointer(p *Pointer) bool {
 }
 
 func Defragmentation() {
-	log.Printf("the Defragmentation is about to start: pointers:%d, offset:%d, memory:%d bytes", len(pointers),offset, len(memory))
+	log.Printf("the Defragmentation is about to start: pointers:%d, offset:%d, memory:%d bytes", len(pointers), offset, len(memory))
 	for p := nextFreeArea(); p != NoPointer; p = nextFreeArea() {
 		shiftPointers(&p)
 	}
@@ -270,7 +277,7 @@ func shiftPointers(fr *Pointer) {
 			tmp = shiftPointer(tmp, p)
 		}
 	}
-	log.Printf("the shift has been done on %d bytes",fr.len)
+	log.Printf("the shift has been done on %d bytes", fr.len)
 	offset -= fr.len
 }
 

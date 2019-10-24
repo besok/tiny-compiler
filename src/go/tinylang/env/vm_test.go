@@ -44,6 +44,17 @@ func TestFrame(t *testing.T) {
 		t.Fatalf(" should be 5")
 	}
 
+	tbl.remRel("_1")
+
+	byKey := tbl.findByKey("1")
+	if byKey[0].relations[0].val != ""{
+		t.Fatalf(" should be empty")
+	}
+
+	tbl.remKey("1")
+	if _, ext:= tbl.find("1");ext{
+		t.Fatalf(" should be empty")
+	}
 }
 
 func TestParams(t *testing.T) {

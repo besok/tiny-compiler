@@ -22,14 +22,28 @@
   22:  _n4 = 4
   23:  _p15 = param _n4
   24:  _p16 = call Add 2
-  25:  _s1 = " len "
-  26:  _p19 = arr
-  27:  _p18 = param _p19
-  28:  _p20 = call Len 1
-  29:  _p17 = _p20
-  30:  _p21 = _s1 + _p17
-  31:  s = init string
-  32:  s = _p21
-  33:  _p23 = s
-  34:  _p22 = param _p23
-  35:  _p24 = call Output 1
+  25:  _n5 = 0
+  26:  i = init num
+  27:  i = _n5
+  28:  _p18 = i
+  29:  _p17 = _p18
+  30:  _p22 = arr
+  31:  _p21 = param _p22
+  32:  _p23 = call Len 1
+  33:  _p20 = _p23
+  34:  _p19 = _p20
+  35:  _p24 = _p17 < _p19
+  36:  ifFalse _p24 goto 50
+  37:  _s1 = "el="
+  38:  _p25 = i
+  39:  _p26 = _s1 + _p25
+  40:  s = init 
+  41:  s = _p26
+  42:  _p28 = s
+  43:  _p27 = param _p28
+  44:  _p29 = call Output 1
+  45:  _p30 = i
+  46:  _n6 = 1
+  47:  _p31 = _p30 + _n6
+  48:  i = _p31
+  49:  goto 28
