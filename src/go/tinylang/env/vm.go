@@ -162,7 +162,7 @@ func (rt *RecordTable) remove(newRel string) {
 		if remRel := rt.remRel(newRel); remRel {
 			log.Printf("remove rel %s ", newRel)
 		} else {
-			log.Printf("remove key %s ", newRel,)
+			log.Printf("remove key %s ", newRel, )
 		}
 	}
 }
@@ -176,10 +176,10 @@ func (rt *RecordTable) putByRel(rel string, isLeft bool, newRel string) bool {
 	return false
 }
 
-func (rt *RecordTable) printVal(key string){
-	if pointer, ext := rt.find(key); ext && !pointer.isArray{
+func (rt *RecordTable) printVal(key string) {
+	if pointer, ext := rt.find(key); ext && !pointer.isArray {
 		g := memory.GetGeneric(pointer.pointer)
-		log.Printf("value for %s = %v ",key, g)
+		log.Printf("value for %s = %v ", key, g)
 	}
 }
 func (rt *RecordTable) find(key string) (*RecordPointer, bool) {
@@ -254,9 +254,9 @@ func handle(st BodyStatement, frame *RecordTable) (func(int, *[]BodyStatement) i
 	case IfFalseSt:
 		cg := res.(CondGoto)
 		if !cg.cond {
-			return ident, res, fin
+			return gotoLine(cg.line), res, fin
 		}
-		return gotoLine(cg.line), res, fin
+		return ident, res, fin
 	default:
 		return ident, res, fin
 	}
@@ -314,11 +314,9 @@ func (st UpdVarSt) handle(frame *RecordTable) (interface{}, bool) {
 	return st, false
 }
 
-
 func (st InitItemSt) handle(frame *RecordTable) (interface{}, bool) {
 	iv := st.Var.makeName()
 	item := st.Item
-
 
 	ok := frame.put(item, true, iv)
 	frame.printVal(iv)
@@ -510,7 +508,7 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := bLeft.(int64) + bLeft.(int64)
+				res := bLeft.(int64) + bRight.(int64)
 				p = memory.PutInt(res)
 			}
 		case "-":
@@ -546,8 +544,8 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 				p = memory.PutInt(res)
 			}
 		}
-
 		frame.init(toInit, p)
+		frame.printVal(toInit)
 	}
 	return st, false
 }
