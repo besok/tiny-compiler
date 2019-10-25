@@ -1,0 +1,4 @@
+- global refactoring
+- avoid raw types
+- docs
+- tests
