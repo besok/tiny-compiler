@@ -14,7 +14,9 @@ func main() {
 	p := flag.String("p", "", "path to script")
 	r := flag.Bool("ir", false, "keep ir files")
 	tr := flag.Bool("trace", false, "show internal logs")
+
 	flag.Parse()
+	tail := flag.Args()
 
 	if !*tr {
 		log.SetOutput(ioutil.Discard)
@@ -25,5 +27,5 @@ func main() {
 		return
 	}
 
-	env.Start(*p, *r)
+	env.Start(*p, *r,tail)
 }

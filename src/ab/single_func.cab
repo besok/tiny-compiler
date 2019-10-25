@@ -4,22 +4,22 @@
    4:  arr = init ]num
    5:  _p2 = arr
    6:  _p1 = param _p2
-   7:  _n1 = 1
+   7:  _n1 = 10
    8:  _p3 = param _n1
    9:  _p4 = call Add 2
   10:  _p6 = arr
   11:  _p5 = param _p6
-  12:  _n2 = 2
+  12:  _n2 = 20
   13:  _p7 = param _n2
   14:  _p8 = call Add 2
   15:  _p10 = arr
   16:  _p9 = param _p10
-  17:  _n3 = 3
+  17:  _n3 = 30
   18:  _p11 = param _n3
   19:  _p12 = call Add 2
   20:  _p14 = arr
   21:  _p13 = param _p14
-  22:  _n4 = 4
+  22:  _n4 = 40
   23:  _p15 = param _n4
   24:  _p16 = call Add 2
   25:  _n5 = 0
@@ -33,17 +33,25 @@
   33:  _p20 = _p23
   34:  _p19 = _p20
   35:  _p24 = _p17 < _p19
-  36:  ifFalse _p24 goto 50
+  36:  ifFalse _p24 goto 52
   37:  _s1 = "el="
-  38:  _p25 = i
-  39:  _p26 = _s1 + _p25
-  40:  s = init string
-  41:  s = _p26
-  42:  _p28 = s
-  43:  _p27 = param _p28
-  44:  _p29 = call Output 1
-  45:  _p30 = i
-  46:  _n6 = 1
-  47:  _p31 = _p30 + _n6
-  48:  i = _p31
-  49:  goto 28
+  38:  _p26 = i
+  39:  _p27 = arr[_p26]
+  40:  _p25 = _p27
+  41:  _p28 = _s1 + _p25
+  42:  s = init string
+  43:  s = _p28
+  44:  _p30 = s
+  45:  _p29 = param _p30
+  46:  _p31 = call print 1
+  47:  _p32 = i
+  48:  _n6 = 1
+  49:  _p33 = _p32 + _n6
+  50:  i = _p33
+  51:  goto 28
+  52:  function print
+  53:  argument s = string
+  54:  return_type = void
+  55:  _p35 = s
+  56:  _p34 = param _p35
+  57:  _p36 = call Output 1

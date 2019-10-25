@@ -1,16 +1,16 @@
  /* the function which starts application */
  func main(args []string) void {
 
-        Output("The calculator implementation :")
+        Output("The calculator implementation!")
 
  		var isWorking bool = true
  		while(isWorking){
  			var l num = Input("please input a number : ")
  			var op string = Input("please input an operator like +,-,/,*,% :")
- 			var r num = Input("please input a number :")
+ 			var r num = Input("please input a number : ")
  			var res num = operation(op,l,r)
  			Output(makeStringResult(res))
- 			var cont string = Input("do you want to continue?")
+ 			var cont string = Input("do you want to continue(y-yes, n-no)? ")
  			if(cont != "y"){
  				isWorking = false
  			}
@@ -32,8 +32,7 @@
  	}else if(op == "%"){
  		result =l % r
  	}else {
- 		Output("please to ensure you peek correct operator")
- 		result = 0
+ 		Output("please, ensure you peek correct operator")
  	}
 
  	return result

@@ -6,28 +6,64 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	parsing "tiny-compiler/src/go/tinylang"
 	"tiny-compiler/src/go/tinylang/memory"
 )
 
 var functions Functions
 
-func Start(file string, irRem bool) {
+func Start(file string, irRem bool, args []string) {
 	irFile := parsing.IR(file).Name()
 	functions = ParseIR(irFile)
 	memory.InitMemoryKb(1024)
-	_ = CallFunc("main")
+	argsGen := make([]interface{}, 1)
+	argsGen[0] = args
+	_ = CallFunc("main", argsGen)
 	if !irRem {
 		_ = os.Remove(irFile)
 	}
 }
 
-func CallFunc(funcName string) interface{} {
+func CallFunc(funcName string, args []interface{}) interface{} {
 	log.Printf("call func %s", funcName)
 	frame := PushFrame()
 	defer CleanTopFrame()
 
 	f := findFuncByName(funcName)
+
+	argNames := f.Args
+
+	expLn := len(f.Args)
+	gotLn := len(args)
+	if gotLn != expLn {
+		panic(fmt.Sprintf("the function %s expects to get %d args, but got %d args", funcName, expLn, gotLn))
+	}
+
+	for i, arg := range argNames {
+		vl := args[i]
+		nm := arg.Name
+		if arg.Type.IsArray {
+			pt := arg.Type.T
+			switch pt {
+			case S:
+				vlArr := vl.([]string)
+				arrPtr := memory.PutArrayString(vlArr)
+				frame.initArr(nm, arrPtr)
+			case B:
+				vlArr := vl.([]bool)
+				arrPtr := memory.PutArrayBool(vlArr)
+				frame.initArr(nm, arrPtr)
+			case N:
+				vlArr := vl.([]int64)
+				arrPtr := memory.PutArrayInt(vlArr)
+				frame.initArr(nm, arrPtr)
+			}
+		} else {
+			p := memory.PutGeneric(vl)
+			frame.init(nm, p)
+		}
+	}
 
 	sts := f.Body
 	for i := 0; i < len(sts); i++ {
@@ -54,7 +90,7 @@ func PopFrame() *RecordTable {
 		return nil
 	}
 	ret := frames[l-1]
-	ctx = ctx[:l-1]
+	frames = frames[:l-1]
 	return &ret
 }
 
@@ -72,9 +108,11 @@ func CleanTopFrame() {
 	}
 
 	memory.Defragmentation()
-
+	cleanVarTbl(frame)
 }
-
+func checkFnReturnType(name string) ReturnType {
+	return findFuncByName(name).ReturnType
+}
 func findFuncByName(name string) Function {
 	for _, f := range functions.List {
 		if f.Name == name {
@@ -93,9 +131,12 @@ type RecordPointer struct {
 
 func (rp *RecordPointer) cloneInto(p *RecordPointer) {
 	if rp.isArray {
+		memory.RemovePointers(rp.pointersArray)
 		rp.isArray = p.isArray
 		rp.pointersArray = p.pointersArray
 	} else {
+		oldPointer := rp.pointer
+		memory.RemovePointer(oldPointer)
 		rp.pointer = p.pointer
 	}
 }
@@ -117,6 +158,57 @@ type RecordTable []*Record
 type Frames []RecordTable
 
 var frames Frames = make([]RecordTable, 0)
+
+type VarType struct {
+	name  string
+	t     Type
+	frame *RecordTable
+}
+
+type VarTable []*VarType
+
+var varTbl = make(VarTable, 0)
+
+func cleanVarTbl(fr *RecordTable) bool {
+	tempArr := make(VarTable, 0)
+	for _, el := range varTbl {
+		if el.frame != fr {
+			tempArr = append(tempArr, el)
+		} else {
+			log.Printf(" the var %s will be deleted", el.name)
+		}
+	}
+	varTbl = tempArr
+	return true
+}
+func addVar(name string, t Type, fr *RecordTable) bool {
+	if _, ext := findVar(name, fr); ext {
+		removeVar(name, fr)
+	}
+	varTbl = append(varTbl, &VarType{name: name, frame: fr, t: t})
+	return true
+}
+func removeVar(name string, fr *RecordTable) bool {
+	flag := false
+	for i := range varTbl {
+		vt := varTbl[i]
+		if vt.frame == fr && vt.name == name {
+			vt.name = ""
+			flag = true
+		}
+	}
+	return flag
+}
+func findVar(name string, fr *RecordTable) (*VarType, bool) {
+	for i := range varTbl {
+		vt := varTbl[i]
+		if vt.frame == fr && vt.name == name {
+			return vt, true
+		}
+	}
+
+	return nil, false
+}
 
 func (rt *RecordTable) init(key string, pointer *memory.Pointer) {
 	if rp, ext := rt.find(key); ext {
@@ -297,6 +389,8 @@ func (st NewVarSt) handle(frame *RecordTable) (interface{}, bool) {
 		} else {
 			frame.initArr(name, []*memory.Pointer{})
 		}
+	} else {
+		addVar(st.Name, st.T, frame)
 	}
 
 	return nil, false
@@ -307,8 +401,29 @@ func (st UpdVarSt) handle(frame *RecordTable) (interface{}, bool) {
 	nm := st.Name
 	res := frame.put(vr, true, nm)
 
-	frame.printVal(vr)
-	frame.printVal(nm)
+	if vt, ok := findVar(nm, frame); ok {
+		pt := vt.t
+		if !pt.IsArray {
+			ptype := pt.T
+			p, _ := frame.find(vr)
+			pointerTp := p.pointer.Type()
+
+			switch ptype {
+			case N:
+				if pointerTp == memory.String {
+					str := memory.GetString(p.pointer)
+					if res, err := strconv.Atoi(str); err == nil {
+						pInt := memory.PutInt(int64(res))
+
+						p.cloneInto(&RecordPointer{pointer:pInt})
+					} else {
+						panic(fmt.Sprintf(" wrong type for %s", nm))
+					}
+				}
+			}
+		}
+
+	}
 
 	log.Printf("put %s=%s is %t", nm, vr, res)
 	return st, false
@@ -344,7 +459,7 @@ func (st InitPrimSt) handle(frame *RecordTable) (interface{}, bool) {
 		pointer = memory.PutInt(el)
 	case B:
 		bValue := false
-		if vl == "true" {
+		if vl == true {
 			bValue = true
 		}
 		pointer = memory.PutBool(bValue)
@@ -359,9 +474,9 @@ func (st ParamSt) handle(frame *RecordTable) (interface{}, bool) {
 }
 func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
 	nm := st.Count
-
+	funNm := st.Func
 	if st.IsSys {
-		switch st.Func {
+		switch funNm {
 		case "Output":
 			params := TakeParams(nm)
 			for _, p := range params {
@@ -386,6 +501,7 @@ func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
 				fmt.Printf("%s", str)
 				reader := bufio.NewReader(os.Stdin)
 				txt, _ := reader.ReadString('\n')
+				txt = strings.TrimSuffix(txt, "\n")
 				pointer := memory.PutString(txt)
 				frame.init(iv, pointer)
 			} else {
@@ -423,13 +539,47 @@ func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
 			} else {
 				panic(fmt.Sprintf("should be present %d", st.Line))
 			}
-
 		}
 
 	} else {
+		params := TakeParams(nm)
+		args := make([]interface{}, 0)
+		for _, pr := range params {
+			nmIv := pr.Right.makeName()
+			if p, ext := frame.find(nmIv); ext {
+				if p.isArray {
+					vals := make([]interface{}, 0)
+					pArrs := p.pointersArray
+					for _, p := range pArrs {
+						gen := memory.GetGeneric(p)
+						vals = append(vals, gen)
+					}
+					args = append(args, vals)
+				} else {
+					res := memory.GetGeneric(p.pointer)
+					args = append(args, res)
+				}
+			} else {
+				panic(fmt.Sprintf("the param %s for func %s does not exist, line: %d", nmIv, funNm, st.Line))
+			}
+		}
+
+		res := CallFunc(funNm, args)
+		iv := st.Var.makeName()
+		rt := checkFnReturnType(funNm)
+
+		if rt.IsVoid {
+			frame.init(iv, nil)
+		} else if rt.Type.IsArray {
+
+		} else {
+			genP := memory.PutGeneric(res)
+			frame.init(iv, genP)
+		}
+
 	}
 
-	return st, false
+	return nil, false
 }
 func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 	toInit := st.Left.makeName()
@@ -516,7 +666,7 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case string, bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := int64(bLeft.(int)) - int64(bLeft.(int))
+				res := bLeft.(int64) - bLeft.(int64)
 				p = memory.PutInt(res)
 			}
 		case "*":
@@ -524,7 +674,7 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case string, bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := int64(bLeft.(int)) * int64(bLeft.(int))
+				res := bLeft.(int64) * bLeft.(int64)
 				p = memory.PutInt(res)
 			}
 		case "/":
@@ -532,7 +682,7 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case string, bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := int64(bLeft.(int)) / int64(bLeft.(int))
+				res := bLeft.(int64) / bLeft.(int64)
 				p = memory.PutInt(res)
 			}
 		case "%":
@@ -540,7 +690,7 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case string, bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := int64(bLeft.(int)) % int64(bLeft.(int))
+				res := bLeft.(int64) % bLeft.(int64)
 				p = memory.PutInt(res)
 			}
 		}
@@ -608,7 +758,7 @@ func (st ReturnSt) handle(frame *RecordTable) (interface{}, bool) {
 	iv := st.Var
 	vr := iv.makeName()
 	if pointer, ok := frame.find(vr); ok {
-		log.Printf("return %v", pointer)
+		log.Printf("return %#v", pointer)
 		return memory.GetGeneric(pointer.pointer), true
 	}
 	log.Printf("nothing to return")

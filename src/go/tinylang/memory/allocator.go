@@ -228,6 +228,10 @@ type Pointer struct {
 	tp     PType
 }
 
+
+func (p *Pointer) Type() PType{
+	return p.tp
+}
 func (p *Pointer) Replace(newP *Pointer) {
 	p.tp = newP.tp
 	p.offset = newP.offset

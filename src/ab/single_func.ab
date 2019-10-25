@@ -1,11 +1,17 @@
 func main(args []string) []num {
     var arr []num = [..]num
-    Add(arr,1)
-    Add(arr,2)
-    Add(arr,3)
-    Add(arr,4)
+
+    Add(arr,10)
+    Add(arr,20)
+    Add(arr,30)
+    Add(arr,40)
+
    for(var i num = 0; i < Len(arr); i = i+1){
-    var s string = "el=" + i
-    Output(s)
+        var s string = "el=" + arr[i]
+        print(s)
    }
+}
+
+func print(s string){
+    Output(s)
 }
