@@ -1,17 +1,20 @@
 func main(args []string) []num {
-    var arr []num = [..]num
 
-    Add(arr,10)
-    Add(arr,20)
-    Add(arr,30)
-    Add(arr,40)
+    var arr []num = numToArray(123)
 
-   for(var i num = 0; i < Len(arr); i = i+1){
-        var s string = "el=" + arr[i]
-        print(s)
-   }
+    for(var i num = 0; i < Len(arr); i = i+1){
+    	var s = "el="+arr[i]
+     	Output(s)
+    }
 }
 
-func print(s string){
-    Output(s)
-}
+ func numToArray(number num) []num {
+ 	var arrayOfNum []num = [..]num
+ 	var tempElement num = number
+ 	while(tempElement > 0){
+ 		var nextEl num = tempElement % 10
+ 		Add(arrayOfNum, nextEl)
+ 		tempElement = tempElement / 10
+ 	}
+ 	return arrayOfNum
+ }

@@ -55,9 +55,25 @@ func CallFunc(funcName string, args []interface{}) interface{} {
 				arrPtr := memory.PutArrayBool(vlArr)
 				frame.initArr(nm, arrPtr)
 			case N:
-				vlArr := vl.([]int64)
-				arrPtr := memory.PutArrayInt(vlArr)
-				frame.initArr(nm, arrPtr)
+				switch vl.(type) {
+				case []int64:
+					vlArr := vl.([]int64)
+					arrPtr := memory.PutArrayInt(vlArr)
+					frame.initArr(nm, arrPtr)
+				case []interface{}:
+					arr := vl.([]interface{})
+					if len(arr) > 0 {
+						intArr := make([]int64, 0)
+						for _, el := range arr {
+							intArr = append(intArr, el.(int64))
+						}
+						arrayInt := memory.PutArrayInt(intArr)
+						frame.initArr(nm,arrayInt)
+					} else {
+						frame.initArr(nm, make([]*memory.Pointer, 0))
+					}
+				}
+
 			}
 		} else {
 			p := memory.PutGeneric(vl)
@@ -415,7 +431,7 @@ func (st UpdVarSt) handle(frame *RecordTable) (interface{}, bool) {
 					if res, err := strconv.Atoi(str); err == nil {
 						pInt := memory.PutInt(int64(res))
 
-						p.cloneInto(&RecordPointer{pointer:pInt})
+						p.cloneInto(&RecordPointer{pointer: pInt})
 					} else {
 						panic(fmt.Sprintf(" wrong type for %s", nm))
 					}
@@ -571,6 +587,32 @@ func (st CallSt) handle(frame *RecordTable) (interface{}, bool) {
 		if rt.IsVoid {
 			frame.init(iv, nil)
 		} else if rt.Type.IsArray {
+			genArr := res.([]interface{})
+			if len(genArr) > 0 {
+				el := genArr[0]
+				temp := make([]*memory.Pointer, 0)
+				switch el.(type) {
+				case int64:
+					for _, e := range genArr {
+						p := memory.PutInt(e.(int64))
+						temp = append(temp, p)
+					}
+				case string:
+					for _, e := range genArr {
+						p := memory.PutString(e.(string))
+						temp = append(temp, p)
+					}
+				case bool:
+					for _, e := range genArr {
+						p := memory.PutBool(e.(bool))
+						temp = append(temp, p)
+					}
+				}
+
+				frame.initArr(iv, temp)
+			} else {
+				frame.initArr(iv, make([]*memory.Pointer, 0))
+			}
 
 		} else {
 			genP := memory.PutGeneric(res)
@@ -666,7 +708,7 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case string, bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := bLeft.(int64) - bLeft.(int64)
+				res := bLeft.(int64) - bRight.(int64)
 				p = memory.PutInt(res)
 			}
 		case "*":
@@ -674,7 +716,7 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case string, bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := bLeft.(int64) * bLeft.(int64)
+				res := bLeft.(int64) * bRight.(int64)
 				p = memory.PutInt(res)
 			}
 		case "/":
@@ -682,15 +724,15 @@ func (st InitNumBoolOpSt) handle(frame *RecordTable) (interface{}, bool) {
 			case string, bool:
 				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
 			case int64:
-				res := bLeft.(int64) / bLeft.(int64)
+				res := bLeft.(int64) / bRight.(int64)
 				p = memory.PutInt(res)
 			}
 		case "%":
 			switch bLeft.(type) {
 			case string, bool:
-				panic(fmt.Sprintf("should be or string or int %d ", st.Line))
+				panic(fmt.Sprintf("should be  int %d ", st.Line))
 			case int64:
-				res := bLeft.(int64) % bLeft.(int64)
+				res := bLeft.(int64) % bRight.(int64)
 				p = memory.PutInt(res)
 			}
 		}
@@ -759,7 +801,16 @@ func (st ReturnSt) handle(frame *RecordTable) (interface{}, bool) {
 	vr := iv.makeName()
 	if pointer, ok := frame.find(vr); ok {
 		log.Printf("return %#v", pointer)
-		return memory.GetGeneric(pointer.pointer), true
+		if pointer.isArray {
+			res := make([]interface{}, 0)
+			for _, p := range pointer.pointersArray {
+				v := memory.GetGeneric(p)
+				res = append(res, v)
+				return res, true
+			}
+		} else {
+			return memory.GetGeneric(pointer.pointer), true
+		}
 	}
 	log.Printf("nothing to return")
 	return nil, true

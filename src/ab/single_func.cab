@@ -1,57 +1,65 @@
    1:  function main
    2:  argument args = ]string
    3:  return_type = ]num
-   4:  arr = init ]num
-   5:  _p2 = arr
-   6:  _p1 = param _p2
-   7:  _n1 = 10
-   8:  _p3 = param _n1
-   9:  _p4 = call Add 2
-  10:  _p6 = arr
-  11:  _p5 = param _p6
-  12:  _n2 = 20
-  13:  _p7 = param _n2
-  14:  _p8 = call Add 2
-  15:  _p10 = arr
-  16:  _p9 = param _p10
-  17:  _n3 = 30
-  18:  _p11 = param _n3
-  19:  _p12 = call Add 2
-  20:  _p14 = arr
-  21:  _p13 = param _p14
-  22:  _n4 = 40
-  23:  _p15 = param _n4
-  24:  _p16 = call Add 2
-  25:  _n5 = 0
-  26:  i = init num
-  27:  i = _n5
-  28:  _p18 = i
-  29:  _p17 = _p18
-  30:  _p22 = arr
-  31:  _p21 = param _p22
-  32:  _p23 = call Len 1
-  33:  _p20 = _p23
-  34:  _p19 = _p20
-  35:  _p24 = _p17 < _p19
-  36:  ifFalse _p24 goto 52
-  37:  _s1 = "el="
-  38:  _p26 = i
-  39:  _p27 = arr[_p26]
-  40:  _p25 = _p27
-  41:  _p28 = _s1 + _p25
-  42:  s = init string
-  43:  s = _p28
-  44:  _p30 = s
-  45:  _p29 = param _p30
-  46:  _p31 = call print 1
-  47:  _p32 = i
-  48:  _n6 = 1
-  49:  _p33 = _p32 + _n6
-  50:  i = _p33
-  51:  goto 28
-  52:  function print
-  53:  argument s = string
-  54:  return_type = void
-  55:  _p35 = s
-  56:  _p34 = param _p35
-  57:  _p36 = call Output 1
+   4:  _n1 = 123
+   5:  _p1 = param _n1
+   6:  _p2 = call numToArray 1
+   7:  arr = init ]num
+   8:  arr = _p2
+   9:  _n2 = 0
+  10:  i = init num
+  11:  i = _n2
+  12:  _p4 = i
+  13:  _p3 = _p4
+  14:  _p8 = arr
+  15:  _p7 = param _p8
+  16:  _p9 = call Len 1
+  17:  _p6 = _p9
+  18:  _p5 = _p6
+  19:  _p10 = _p3 < _p5
+  20:  ifFalse _p10 goto 36
+  21:  _s1 = "el="
+  22:  _p12 = i
+  23:  _p13 = arr[_p12]
+  24:  _p11 = _p13
+  25:  _p14 = _s1 + _p11
+  26:  s = init 
+  27:  s = _p14
+  28:  _p16 = s
+  29:  _p15 = param _p16
+  30:  _p17 = call Output 1
+  31:  _p18 = i
+  32:  _n3 = 1
+  33:  _p19 = _p18 + _n3
+  34:  i = _p19
+  35:  goto 12
+  36:  function numToArray
+  37:  argument number = num
+  38:  return_type = ]num
+  39:  arrayOfNum = init ]num
+  40:  _p20 = number
+  41:  tempElement = init num
+  42:  tempElement = _p20
+  43:  _p22 = tempElement
+  44:  _p21 = _p22
+  45:  _n4 = 0
+  46:  _p23 = _n4
+  47:  _p24 = _p21 > _p23
+  48:  ifFalse _p24 goto 64
+  49:  _p25 = tempElement
+  50:  _n5 = 10
+  51:  _p26 = _p25 % _n5
+  52:  nextEl = init num
+  53:  nextEl = _p26
+  54:  _p28 = arrayOfNum
+  55:  _p27 = param _p28
+  56:  _p30 = nextEl
+  57:  _p29 = param _p30
+  58:  _p31 = call Add 2
+  59:  _p32 = tempElement
+  60:  _n6 = 10
+  61:  _p33 = _p32 / _n6
+  62:  tempElement = _p33
+  63:  goto 43
+  64:  _p34 = arrayOfNum
+  65:  return _p34
